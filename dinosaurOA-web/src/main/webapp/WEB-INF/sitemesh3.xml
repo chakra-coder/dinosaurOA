@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh defaultdir="" >
+<!--  -->
+	<mime-type>text/html</mime-type>
+    <mime-type>application/vnd.wap.xhtml+xml</mime-type>
+    <mime-type>application/xhtml+xml</mime-type>
+	
+	<mapping path="/login*" decorator="/WEB-INF/layouts/loginTemplate.jsp"/>
+    
+    <mapping path="/article/mobile/*" decorator="/WEB-INF/layouts/articleTemplate.jsp"/>
+    
+    <mapping path="/design/config/" decorator="/WEB-INF/layouts/configTemplate.jsp"/>
+	
+	<mapping decorator="/WEB-INF/layouts/adminTemplate.jsp"/>
+	
+	<mapping path="/static/*" exclude="true"/>
+    <mapping path="/temp/*" exclude="true"/>
+    
+    <content-processor>
+        <tag-rule-bundle class="com.cetian.platform.base.web.CetianTagRuleBundle" />
+    </content-processor>
+</sitemesh>
