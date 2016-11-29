@@ -7,27 +7,16 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	   http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
 	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd" default-lazy-init="false">
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd" default-lazy-init="true">
 
-	<description>application configuration</description>
+	<description>application-context config</description>
 
 	<context:property-placeholder ignore-unresolvable="true" location="classpath*:/application.properties"/>
 
-	<context:component-scan base-package="com.dinosaur" >
+	<context:component-scan base-package="com.dinosaur">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
-
-	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
-		<property name="driverClassName" value="${jdbc.driver}"/>
-		<property name="url" value="${jdbc.url}"/>
-		<property name="username" value="${jdbc.username}" />
-		<property name="password" value="${jdbc.password}" />
-		<property name="maxIdle" value="10"/>
-		<property name="minIdle" value="${jdbc.pool.maxIdle}"/>
-		<property name="maxActive" value="${jdbc.pool.maxActive}"/>
-		<property name="defaultAutoCommit" value="false" />
-	</bean>
 
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
@@ -45,6 +34,7 @@
 		<property name="packagesToScan" value="com.dinosaur"/>
 	</bean>
 
+	<!-- Spring Data Jpa配置 -->
 	<jpa:repositories base-package="com.dinosaur" transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory" />
 
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
@@ -59,12 +49,23 @@
 			</bean>
 		</property>
 	</bean>
-
 	<bean id="persistenceProvider" class="org.hibernate.jpa.HibernatePersistenceProvider"/>
 	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
 
+	<!-- Jpa 事务配置 -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}"/>
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxActive" value="${jdbc.pool.maxActive}" />
+		<property name="maxIdle" value="${jdbc.pool.maxIdle}" />
+		<property name="minIdle" value="0" />
+		<property name="defaultAutoCommit" value="false" />
 	</bean>
 
 </beans>

@@ -4,19 +4,15 @@
 	<mime-type>text/html</mime-type>
     <mime-type>application/vnd.wap.xhtml+xml</mime-type>
     <mime-type>application/xhtml+xml</mime-type>
+
+	<mapping path="/login*" decorator="/themes/default/layouts/loginTemplate.jsp"/>
 	
-	<mapping path="/login*" decorator="/WEB-INF/layouts/loginTemplate.jsp"/>
-    
-    <mapping path="/article/mobile/*" decorator="/WEB-INF/layouts/articleTemplate.jsp"/>
-    
-    <mapping path="/design/config/" decorator="/WEB-INF/layouts/configTemplate.jsp"/>
-	
-	<mapping decorator="/WEB-INF/layouts/adminTemplate.jsp"/>
+	<mapping decorator="/themes/default/layouts/adminTemplate.jsp"/>
 	
 	<mapping path="/static/*" exclude="true"/>
     <mapping path="/temp/*" exclude="true"/>
     
     <content-processor>
-        <tag-rule-bundle class="com.cetian.platform.base.web.CetianTagRuleBundle" />
+        <tag-rule-bundle class="com.dinosaur.core.decorator.DecoratorTag" />
     </content-processor>
 </sitemesh>
