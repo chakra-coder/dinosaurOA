@@ -37,6 +37,8 @@ public class UserService {
      * @param user 用户对象
      */
     public <S extends T> User addUser(User user){
+        user.setCreateDate(com.dinosaur.core.util.DateUtil.getNow());
+
         return userDAO.save(user);
     }
 

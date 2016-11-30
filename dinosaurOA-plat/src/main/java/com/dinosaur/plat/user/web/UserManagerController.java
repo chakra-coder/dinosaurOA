@@ -28,8 +28,15 @@ public class UserManagerController {
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public boolean add(User user){
-        return true;
+    public String add(User user){
+        String id = null;
+        try {
+            id = userService.addUser(user).getId();
+        }catch (Exception e){
+            logger.error("用户创建失败："+e.getMessage());
+            return "error";
+        }
+        return id;
     }
 
 }

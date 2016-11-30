@@ -35,80 +35,6 @@
 	</properties>
 
 	<dependencies>
-
-		<!-- flowable begin -->
-		<dependency>
-			<groupId>org.flowable</groupId>
-			<artifactId>flowable-engine</artifactId>
-			<version>${flowable.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>slf4j-api</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-beans</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>commons-lang3</artifactId>
-					<groupId>org.apache.commons</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jcl-over-slf4j</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jackson-core</artifactId>
-					<groupId>com.fasterxml.jackson.core</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>activation</artifactId>
-					<groupId>javax.activation</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jackson-databind</artifactId>
-					<groupId>com.fasterxml.jackson.core</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.flowable</groupId>
-			<artifactId>flowable-spring</artifactId>
-			<version>${flowable.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>slf4j-api</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-orm</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>commons-lang3</artifactId>
-					<groupId>org.apache.commons</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-jdbc</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-context</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-tx</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jcl-over-slf4j</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- flowable end -->
-
 		<!-- spring begin -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -348,9 +274,15 @@
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
+				<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.uuid</groupId>
+			<artifactId>java-uuid-generator</artifactId>
+			<version>3.1.4</version>
+		</dependency>
+
 		<!-- jackson end -->
 
 		<!-- sitemesh begin -->
@@ -396,12 +328,86 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- flowable begin -->
+			<dependency>
+				<groupId>org.flowable</groupId>
+				<artifactId>flowable-engine</artifactId>
+				<version>${flowable.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>slf4j-api</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-beans</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>commons-lang3</artifactId>
+						<groupId>org.apache.commons</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jcl-over-slf4j</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jackson-core</artifactId>
+						<groupId>com.fasterxml.jackson.core</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>activation</artifactId>
+						<groupId>javax.activation</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jackson-databind</artifactId>
+						<groupId>com.fasterxml.jackson.core</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.flowable</groupId>
+				<artifactId>flowable-spring</artifactId>
+				<version>${flowable.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>slf4j-api</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-orm</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>commons-lang3</artifactId>
+						<groupId>org.apache.commons</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-jdbc</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-context</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-tx</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jcl-over-slf4j</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<!-- flowable end -->
+			<!-- junit begin -->
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.12</version>
 				<scope>test</scope>
 			</dependency>
+			<!-- junit end -->
 		</dependencies>
 	</dependencyManagement>
 
@@ -415,14 +421,6 @@
 					<webApp>
 						<contextPath>/${project.artifactId}</contextPath>
 					</webApp>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<warName>${project.artifactId}</warName>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -450,6 +448,7 @@
 				<version>2.5.2</version>
 			</plugin>
 		</plugins>
+		<finalName>${project.artifactId}</finalName>
 	</build>
 
 

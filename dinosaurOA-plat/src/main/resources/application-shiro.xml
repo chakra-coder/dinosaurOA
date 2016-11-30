@@ -21,6 +21,7 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/themes/default/static/** = anon
+				/user/manager/add = anon
 				/** = user
 			</value>
 		</property>
