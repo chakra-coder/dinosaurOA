@@ -1,19 +1,16 @@
 package com.dinosaur.plat.system.service;
 
-import com.dinosaur.core.util.Decoder;
 import com.dinosaur.core.util.Encoder;
+import com.dinosaur.core.util.EncryptUtil;
 import com.dinosaur.module.user.UserService;
 import com.dinosaur.module.user.entity.User;
 import com.dinosaur.plat.system.entity.ShiroUser;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-
-import javax.annotation.PostConstruct;
 
 /**
  * shiro 框架自定义Realm
@@ -34,7 +31,7 @@ public class ShiroDbRealm extends AuthorizingRealm{
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
-        User user = userService.getUserByUserNmae(shiroUser.name);
+        User user = userService.getUserByUserNmae(shiroUser.loginNmae);
         if (user != null){
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
             addRole(user,info);
@@ -53,10 +50,15 @@ public class ShiroDbRealm extends AuthorizingRealm{
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         User user = userService.getUserByUserNmae(token.getUsername());
-        if (null !=user){
+        if (user != null) {
+            byte[] hashPassword = Encoder.sha1(token.getPassword().toString().getBytes(),"1eaa9107340c5519".getBytes(),Encoder.HASH_INTERATIONS);
+            byte[] hashPassword2 = Encoder.sha1(token.getPassword().toString().getBytes(),user.getSalt().getBytes(),Encoder.HASH_INTERATIONS);
+            String test = Encoder.encodeHex(hashPassword);
+            String test2 = Encoder.encodeHex(hashPassword2);
             ShiroUser shiroUser = new ShiroUser(user.getName(),token.getHost(),user.getId());
-            byte[] salt = Decoder.decodeHex(user.getSalt());
-            return new SimpleAuthenticationInfo(shiroUser,user.getPassword(), ByteSource.Util.bytes(salt),getName());
+            byte[] salt = EncryptUtil.decodeHex(user.getSalt());
+            SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(shiroUser,user.getPassword(), ByteSource.Util.bytes(salt),getName());
+            return info;
         } else {
             return null;
         }
@@ -75,13 +77,4 @@ public class ShiroDbRealm extends AuthorizingRealm{
         }
     }
 
-    /**
-     * 设定Password校验的Hash算法与迭代次数.
-     */
-    @PostConstruct
-    public void initCredentialsMatcher() {
-        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher("SHA-1");
-        matcher.setHashIterations(Encoder.HASH_INTERATIONS);
-        setCredentialsMatcher(matcher);
-    }
 }

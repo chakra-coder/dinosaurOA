@@ -1,6 +1,6 @@
 package com.dinosaur.core.util;
 
-import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.Validate;
 
 import java.security.SecureRandom;
 
@@ -11,17 +11,20 @@ import java.security.SecureRandom;
  */
 public class StringUtil {
 
-    private static SecureRandom secureRandom;
-    private static final int BYTE_SIZE = 10;
+    private static SecureRandom secureRandom = new SecureRandom();
+    public static final int BYTE_SIZE = 8;
 
     /**
-     * 返回随机的字符串
-      * @return 随机字符串
+     * 生成随机的Byte[]作为salt.
+     *
+     * @param numBytes byte数组的大小
      */
-    public static  String getRandomStr(){
-        byte[] bytes = new byte[BYTE_SIZE];
+    public static byte[] generateSalt(int numBytes) {
+        Validate.isTrue(numBytes > 0, "numBytes argument must be a positive integer (1 or larger)", numBytes);
+
+        byte[] bytes = new byte[numBytes];
         secureRandom.nextBytes(bytes);
-        return Hex.encodeHexString(bytes);
+        return bytes;
     }
 
 }

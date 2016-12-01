@@ -26,8 +26,14 @@ public class User extends IdEntity {
 
     private List<Group> groups = new ArrayList<Group>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "d_user_group",joinColumns = {@JoinColumn(name = "user_id")},inverseJoinColumns = {@JoinColumn(name = "group_id")})
+    public User() {
+    }
+
+    public User(String id) {
+        this.id = id;
+    }
+
+    @ManyToMany(mappedBy = "users")
     @OrderBy("id")
     public List<Group> getGroups() {
         return groups;

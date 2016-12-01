@@ -21,8 +21,14 @@ public class LoginController {
         return "login";
     }
 
+    /**
+     * 登录实际由filter完成，此处只作为验证失败的跳转
+     * @param userName
+     * @param model
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST)
-    public String login(@RequestParam(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM) String userName, Model model){
+    public String fail(@RequestParam(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM) String userName, Model model){
         model.addAttribute(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM, userName);
         model.addAttribute("fail", "用户名或密码错误");
         return "login";

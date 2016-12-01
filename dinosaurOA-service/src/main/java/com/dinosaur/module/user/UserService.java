@@ -1,5 +1,7 @@
 package com.dinosaur.module.user;
 
+import com.dinosaur.core.util.DateUtil;
+import com.dinosaur.core.util.EncryptUtil;
 import com.dinosaur.module.user.dao.UserDAO;
 import com.dinosaur.module.user.entity.User;
 import org.apache.poi.ss.formula.functions.T;
@@ -37,8 +39,10 @@ public class UserService {
      * @param user 用户对象
      */
     public <S extends T> User addUser(User user){
-        user.setCreateDate(com.dinosaur.core.util.DateUtil.getNow());
-
+        String salt = EncryptUtil.encodeHex(EncryptUtil.salt(8));
+        user.setSalt(salt);
+        user.setPassword(EncryptUtil.hash(salt,user.getPassword(),1024));
+        user.setCreateDate(DateUtil.getCurrentTime());
         return userDAO.save(user);
     }
 

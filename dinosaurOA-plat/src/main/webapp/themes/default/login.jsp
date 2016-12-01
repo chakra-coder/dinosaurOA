@@ -22,14 +22,13 @@
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    <label>密码：</label> <input type="password" name="password"
-                                              class="form-control"> <span
-                        class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <label>密码：</label> <input type="password" name="password" class="form-control">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
                 <div class="row">
                     <div class="col-xs-8">
                         <div class="form-group checkbox">
-                            <label> <input type="checkbox" name="remember_me">
+                            <label> <input type="checkbox" name="rememberMe">
                                 记住我的登陆信息
                             </label>
                         </div>

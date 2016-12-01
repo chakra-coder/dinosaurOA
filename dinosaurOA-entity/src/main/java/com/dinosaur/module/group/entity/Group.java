@@ -20,7 +20,8 @@ public class Group extends IdEntity{
     private String englishName;
     private List<User> users = new ArrayList<User>();
 
-    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "groups",fetch = FetchType.LAZY)
+    @ManyToMany()
+    @JoinTable(name = "d_user_group",joinColumns = {@JoinColumn(name = "user_id")},inverseJoinColumns = {@JoinColumn(name = "group_id")})
     public List<User> getUsers() {
         return users;
     }

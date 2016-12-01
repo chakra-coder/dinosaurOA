@@ -17,13 +17,13 @@
     </ol>
 </section>
 <section class="content">
-    <form id="createSubmit" method="post" action="/user/manager/add">
+    <form id="createSubmit" method="post">
         <div class="row">
             <div class="col-md-1">
                 <label>用户名</label>
             </div>
             <div class="col-md-8">
-                <input type="text" name="userName" placeholder="用户名" class="box-input">
+                <input type="text" name="name" placeholder="用户名" class="box-input">
             </div>
         </div>
         <div class="row">
@@ -31,7 +31,7 @@
                 <label>电话号码</label>
             </div>
             <div class="col-md-8">
-                <input type="text" name="userName" placeholder="电话号码" class="box-input">
+                <input type="text" name="phone" placeholder="电话号码" class="box-input">
             </div>
         </div>
         <div class="row">
@@ -39,7 +39,7 @@
                 <label>密码</label>
             </div>
             <div class="col-md-8">
-                <input type="password" name="userName" placeholder="密码" class="box-input">
+                <input type="password" name="password" placeholder="密码" class="box-input">
             </div>
         </div>
         <div class="col-sm-3 vertical">

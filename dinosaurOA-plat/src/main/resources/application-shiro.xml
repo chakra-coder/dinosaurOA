@@ -12,6 +12,12 @@
 
 	<bean id="shiroDbRealm" class="com.dinosaur.plat.system.service.ShiroDbRealm">
 		<property name="userService" ref="userService"/>
+		<property name="credentialsMatcher" ref="credentialsMatcher"/>
+	</bean>
+
+	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+		<property name="hashAlgorithmName" value="SHA-1"/>
+		<property name="hashIterations" value="1024"/>
 	</bean>
 
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -20,6 +26,8 @@
 		<property name="successUrl" value="/index"/>
 		<property name="filterChainDefinitions">
 			<value>
+				/login = authc
+				/logout = logout
 				/themes/default/static/** = anon
 				/user/manager/add = anon
 				/** = user
