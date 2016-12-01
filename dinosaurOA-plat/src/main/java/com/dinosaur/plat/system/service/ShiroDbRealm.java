@@ -1,6 +1,5 @@
 package com.dinosaur.plat.system.service;
 
-import com.dinosaur.core.util.Encoder;
 import com.dinosaur.core.util.EncryptUtil;
 import com.dinosaur.module.user.UserService;
 import com.dinosaur.module.user.entity.User;
@@ -51,10 +50,6 @@ public class ShiroDbRealm extends AuthorizingRealm{
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         User user = userService.getUserByUserNmae(token.getUsername());
         if (user != null) {
-            byte[] hashPassword = Encoder.sha1(token.getPassword().toString().getBytes(),"1eaa9107340c5519".getBytes(),Encoder.HASH_INTERATIONS);
-            byte[] hashPassword2 = Encoder.sha1(token.getPassword().toString().getBytes(),user.getSalt().getBytes(),Encoder.HASH_INTERATIONS);
-            String test = Encoder.encodeHex(hashPassword);
-            String test2 = Encoder.encodeHex(hashPassword2);
             ShiroUser shiroUser = new ShiroUser(user.getName(),token.getHost(),user.getId());
             byte[] salt = EncryptUtil.decodeHex(user.getSalt());
             SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(shiroUser,user.getPassword(), ByteSource.Util.bytes(salt),getName());

@@ -1,6 +1,5 @@
 package com.dinosaur.web.system.system;
 
-import com.dinosaur.core.util.Encoder;
 import com.dinosaur.module.user.UserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -50,7 +49,7 @@ public class ShiroDbRealm extends AuthorizingRealm{
     @PostConstruct
     public void initCredentialsMatcher() {
         HashedCredentialsMatcher matcher = new HashedCredentialsMatcher("SHA-1");
-        matcher.setHashIterations(Encoder.HASH_INTERATIONS);
+        matcher.setHashIterations(1024);
         setCredentialsMatcher(matcher);
     }
 }
