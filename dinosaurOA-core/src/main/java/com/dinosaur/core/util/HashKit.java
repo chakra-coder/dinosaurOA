@@ -1,7 +1,6 @@
 package com.dinosaur.core.util;
 
 import org.apache.commons.codec.binary.Hex;
-import org.apache.shiro.crypto.hash.Sha1Hash;
 
 import java.security.MessageDigest;
 
@@ -26,7 +25,7 @@ public class HashKit {
     }
 
     public static String sha1(String salt, String srcStr){
-        return hash(salt, srcStr,1);
+        return hash(SHA1,salt, srcStr,1);
     }
 
     public static String sha256(String salt,String srcStr,int iterations){
@@ -63,18 +62,6 @@ public class HashKit {
         catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * 对字符串进行sha-1散列算法
-     * @param salt 盐
-     * @param srcStr 要加密的字符串
-     * @param hashIterations 迭代次数
-     * @return 加密后的字符串
-     */
-    public static String hash(String salt, String srcStr, int hashIterations) {
-        byte[] str=new Sha1Hash(srcStr,salt,hashIterations).getBytes();
-        return Hex.encodeHexString(str);
     }
 
 }

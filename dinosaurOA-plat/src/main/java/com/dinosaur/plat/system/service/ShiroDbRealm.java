@@ -71,14 +71,5 @@ public class ShiroDbRealm extends AuthorizingRealm{
         }
     }
 
-    /**
-     * 设定Password校验的Hash算法与迭代次数.
-     */
-/*    @PostConstruct
-    public void initCredentialsMatcher() {
-        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(HashKit.SHA1);
-        matcher.setHashIterations(1024);
-        setCredentialsMatcher(matcher);
-    }*/
 
 }
