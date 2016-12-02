@@ -3,6 +3,8 @@ package com.dinosaur.module.user;
 import com.dinosaur.core.util.DateUtil;
 import com.dinosaur.core.util.EncryptUtil;
 import com.dinosaur.core.util.HashKit;
+import com.dinosaur.module.group.dao.GroupDAO;
+import com.dinosaur.module.group.entity.Group;
 import com.dinosaur.module.user.dao.UserDAO;
 import com.dinosaur.module.user.entity.User;
 import org.apache.poi.ss.formula.functions.T;
@@ -21,6 +23,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +39,9 @@ public class UserService {
 
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private GroupDAO groupDAO;
 
     /**
      * 通过用户名获取用户
@@ -82,6 +88,20 @@ public class UserService {
             }
         };
         return null;
+    }
+
+    /**
+     * 添加一个会员关系
+     * @return
+     */
+    public boolean addRelationship(String userId,String groupId){
+        User user = userDAO.findOne(userId);
+        Group group = groupDAO.findOne(groupId);
+        List<Group> groups = new ArrayList<Group>();
+        groups.add(group);
+        user.setGroups(groups);
+        userDAO.save(user);
+        return  true;
     }
 
 }

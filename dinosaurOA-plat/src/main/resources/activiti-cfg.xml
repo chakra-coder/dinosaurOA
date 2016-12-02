@@ -31,4 +31,6 @@
 
 	<bean id="uuidGenerator" class="org.activiti.engine.impl.persistence.StrongUuidGenerator"/>
 
+	<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
+
 </beans>
