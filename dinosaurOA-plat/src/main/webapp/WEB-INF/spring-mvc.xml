@@ -34,7 +34,7 @@
 
     <bean id="ViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="suffix" value=".jsp"/>
-        <property name="prefix" value="/themes/default/"/>
+        <property name="prefix" value="/themes/default/view/"/>
 	    <property name="contentType" value="text/html;charset=UTF-8" />
     </bean>
 

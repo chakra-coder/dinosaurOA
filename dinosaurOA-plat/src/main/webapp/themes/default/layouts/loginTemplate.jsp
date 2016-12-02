@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/css/AdminLTE.min.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/">
+    <link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins">
     <sitemesh:write property='css' />
 </head>
 <body class="login-page">

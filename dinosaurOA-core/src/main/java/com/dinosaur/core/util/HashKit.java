@@ -52,6 +52,7 @@ public class HashKit {
     public static String hash(String algorithm, String salt, String srcStr,int iterations) {
         try {
             MessageDigest md = MessageDigest.getInstance(algorithm);
+            md.update(salt.getBytes());
             byte[] bytes = md.digest(srcStr.getBytes("utf-8"));
             for (int i = 0;i<iterations;i++){
                 md.reset();

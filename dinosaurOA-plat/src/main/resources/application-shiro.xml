@@ -8,11 +8,19 @@
 
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="shiroDbRealm"/>
+		<property name="sessionManager" ref="sessionManager"/>
 	</bean>
 
 	<bean id="shiroDbRealm" class="com.dinosaur.plat.system.service.ShiroDbRealm">
 		<property name="userService" ref="userService"/>
 		<property name="credentialsMatcher" ref="credentialsMatcher"/>
+	</bean>
+
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="globalSessionTimeout" value="1800000"/>
+		<property name="deleteInvalidSessions" value="true"/>
+		<property name="sessionValidationSchedulerEnabled" value="true"/>
+		<property name="sessionIdCookieEnabled" value="true"/>
 	</bean>
 
 	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
@@ -24,17 +32,13 @@
 		<property name="securityManager" ref="securityManager"/>
 		<property name="loginUrl" value="/login" />
 		<property name="successUrl" value="/index"/>
-		<property name="filterChainDefinitions">
-			<value>
-				/login = authc
-				/logout = logout
-				/themes/default/static/** = anon
-				/user/manager/add = anon
-				/** = user
-			</value>
-		</property>
+		<property name="filterChainDefinitions" ref="extensibleFilterChainDefinitions"/>
 	</bean>
 
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+	<bean id="extensibleFilterChainDefinitions" class="com.dinosaur.core.shiro.ExtensibleFilterChainDefinitions">
+		<property name="locations" value="classpath*:/filter-chain.properties"/>
+	</bean>
 
 </beans>

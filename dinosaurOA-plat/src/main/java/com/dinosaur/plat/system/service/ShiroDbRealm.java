@@ -1,6 +1,5 @@
 package com.dinosaur.plat.system.service;
 
-import com.dinosaur.core.util.EncryptUtil;
 import com.dinosaur.module.user.UserService;
 import com.dinosaur.module.user.entity.User;
 import com.dinosaur.plat.system.entity.ShiroUser;
@@ -51,7 +50,7 @@ public class ShiroDbRealm extends AuthorizingRealm{
         User user = userService.getUserByUserNmae(token.getUsername());
         if (user != null) {
             ShiroUser shiroUser = new ShiroUser(user.getName(),token.getHost(),user.getId());
-            byte[] salt = EncryptUtil.decodeHex(user.getSalt());
+            String salt = user.getSalt();
             SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(shiroUser,user.getPassword(), ByteSource.Util.bytes(salt),getName());
             return info;
         } else {
@@ -71,5 +70,15 @@ public class ShiroDbRealm extends AuthorizingRealm{
             }
         }
     }
+
+    /**
+     * 设定Password校验的Hash算法与迭代次数.
+     */
+/*    @PostConstruct
+    public void initCredentialsMatcher() {
+        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(HashKit.SHA1);
+        matcher.setHashIterations(1024);
+        setCredentialsMatcher(matcher);
+    }*/
 
 }

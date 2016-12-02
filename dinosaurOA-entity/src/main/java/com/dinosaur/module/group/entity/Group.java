@@ -2,7 +2,6 @@ package com.dinosaur.module.group.entity;
 
 import com.dinosaur.module.base.entity.IdEntity;
 import com.dinosaur.module.user.entity.User;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +29,7 @@ public class Group extends IdEntity{
         this.users = users;
     }
 
+    @Column(nullable = false,length = 15)
     public String getName() {
         return name;
     }
@@ -38,6 +38,7 @@ public class Group extends IdEntity{
         this.name = name;
     }
 
+    @Column(nullable = false,length = 50)
     public String getEnglishName() {
         return englishName;
     }
