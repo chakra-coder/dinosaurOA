@@ -14,7 +14,7 @@ import java.io.InputStream;
  * @Date 12/2/2016
  */
 @RestController
-@RequestMapping(value = "/modeler/stencilset")
+@RequestMapping(value = "/editor/stencilset")
 public class StencilsetResrController {
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json;charset=utf-8")
