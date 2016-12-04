@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemesh defaultdir="" >
-<!--  -->
+
 	<mime-type>text/html</mime-type>
     <mime-type>application/vnd.wap.xhtml+xml</mime-type>
     <mime-type>application/xhtml+xml</mime-type>
@@ -11,8 +11,8 @@
 	
 	<mapping path="/static/*" exclude="true"/>
     <mapping path="/temp/*" exclude="true"/>
-	<mapping path="/modeler/*" exclude="true"/>
-    
+	<mapping path="/themes/default/modeler/*" exclude="true"/>
+
     <content-processor>
         <tag-rule-bundle class="com.dinosaur.core.decorator.DecoratorTag" />
     </content-processor>

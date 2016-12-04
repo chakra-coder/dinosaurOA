@@ -49,13 +49,22 @@ public class ModelRestController implements ModelDataJsonConstants{
         return  "model/create";
     }
 
+    /**
+     * 创建一个新的model定义
+     * @param name model的名称
+     * @param key model的key
+     * @param description model的描述
+     * @param request
+     * @param response
+     */
+    // TODO 重复提交处理未完成，同名同key处理未完成
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public void create(@RequestParam("name") String name, @RequestParam("key") String key, @RequestParam("description") String description,
                        HttpServletRequest request, HttpServletResponse response){
         String id = modelerService.create(name,key,description);
         if (id != null){
             try {
-                response.sendRedirect(request.getContextPath() + "/modeler/modeler.html?modelId=" + id);
+                response.sendRedirect(request.getContextPath() + "/themes/default/modeler/modeler.html?modelId=" + id);
             } catch (IOException e) {
                 logger.error("资源访问错误："+e.getMessage());
             }

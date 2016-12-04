@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <section class="content-header">
     <h1>
         驾驶室
@@ -17,7 +19,7 @@
     </ol>
 </section>
 <section class="content">
-    <form id="createSubmit" method="post">
+    <form id="createSubmit" method="post" target="_blank">
         <div class="row">
             <div class="col-md-1">
                 <label>model名称</label>
