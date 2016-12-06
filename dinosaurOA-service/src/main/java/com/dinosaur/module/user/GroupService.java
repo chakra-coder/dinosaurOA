@@ -6,8 +6,17 @@ import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * 用户组service
@@ -40,6 +49,20 @@ public class GroupService {
      */
     public <S extends T> Group add(Group group){
          return groupDAO.save(group);
+    }
+
+    public Page<Group> getGroupByPage(int pageSize,int pageNo){
+        //Sort sort = new Sort(Sort.Direction.DESC);
+        Pageable page = new PageRequest(pageNo - 1,pageSize);
+
+        Specification<Group> spec = new Specification<Group>() {
+            @Override
+            public Predicate toPredicate(Root<Group> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return null;
+            }
+        };
+        Page<Group> groups = groupDAO.findAll(spec,page);
+        return groups;
     }
 
     /**

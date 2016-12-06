@@ -1,13 +1,17 @@
 package com.dinosaur.plat.group.web;
 
 import com.dinosaur.module.group.entity.Group;
+import com.dinosaur.module.system.construction.Construction;
 import com.dinosaur.module.user.GroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 用户组管理控制器
@@ -47,6 +51,13 @@ public class GroupManagerController {
             return "error";
         }
         return id;
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public Page<Group> list(@RequestParam(value = "pageSize",defaultValue = Construction.PAGE_SIZE_STR) int pageSize,
+                            @RequestParam(value = "paheNo", defaultValue = Construction.PAGE_NO_STR) int pageNo,
+                            Model model){
+        return groupService.getGroupByPage(pageSize,pageNo);
     }
 
 }

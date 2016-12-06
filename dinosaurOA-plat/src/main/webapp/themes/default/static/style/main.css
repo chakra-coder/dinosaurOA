@@ -1,0 +1,4 @@
+th {text-align: center !important;}
+.form-control{width: 50% !important;}
+select[class|="form-control"] {width: 20% !important;}
+hr {height:1px;border:none;border-top:1px dashed #0066CC;}

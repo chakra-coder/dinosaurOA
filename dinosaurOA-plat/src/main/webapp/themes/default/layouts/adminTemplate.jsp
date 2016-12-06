@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/Font-Awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/css/AdminLTE.min.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/style/main.css">
     <sitemesh:write property='css' />
 </head>
 <body class="skin-blue sidebar-mini">
@@ -19,6 +20,24 @@
         <%@ include file="header.jsp"%>
         <%@ include file="sidebar.jsp"%>
         <div class="content-wrapper">
+            <section class="content-header">
+                <h1>
+                    驾驶室
+                    <small><sitemesh:write property='title' /></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-dashboard"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li class="active">
+                        <sitemesh:write property='title' />
+                    </li>
+                </ol>
+            </section>
+            <hr />
             <sitemesh:write property='body' />
         </div>
         <%@ include file="footer.jsp"%>

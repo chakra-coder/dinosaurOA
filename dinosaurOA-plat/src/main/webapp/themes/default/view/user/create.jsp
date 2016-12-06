@@ -1,49 +1,28 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<section class="content-header">
-    <h1>
-        驾驶室
-        <small>用户创建</small>
-    </h1>
-    <ol class="breadcrumb">
-        <li>
-            <a href="#">
-                <i class="fa fa-dashboard"></i>
-                Home
-            </a>
-        </li>
-        <li class="active">
-            用户创建
-        </li>
-    </ol>
-</section>
 <section class="content">
-    <form id="createSubmit" method="post">
-        <div class="row">
-            <div class="col-md-1">
-                <label>用户名</label>
-            </div>
-            <div class="col-md-8">
-                <input type="text" name="name" placeholder="用户名" class="box-input">
+    <form id="createSubmit" method="post" class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="control-label col-sm-2 col-md-2" for="nameInput">用户名</label>
+            <div class="col-md-8 col-sm-8">
+                <input id="nameInput" type="text" name="name" placeholder="用户名" class="form-control">
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-1">
-                <label>电话号码</label>
-            </div>
-            <div class="col-md-8">
-                <input type="text" name="phone" placeholder="电话号码" class="box-input">
+        <div class="form-group">
+            <label class="control-label col-md-2 col-sm-2" for="phoneInput">电话号码</label>
+            <div class="col-md-8 col-sm-8">
+                <input id="phoneInput" type="text" name="phone" placeholder="电话号码" class="form-control">
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-1">
-                <label>密码</label>
-            </div>
-            <div class="col-md-8">
-                <input type="password" name="password" placeholder="密码" class="box-input">
+        <div class="form-group">
+            <label class="control-label col-md-2 col-sm-8" for="passwordInput">密码</label>
+            <div class="col-md-8 col-sm-8">
+                <input id="passwordInput" type="password" name="password" placeholder="密码" class="form-control">
             </div>
         </div>
-        <div class="col-sm-3 vertical">
-            <button type="submit">加入</button>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Create</button>
+            </div>
         </div>
     </form>
 </section>

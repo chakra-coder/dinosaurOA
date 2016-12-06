@@ -2,9 +2,16 @@ package com.dinosaur.module.flowable.modeler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.activiti.bpmn.converter.BpmnXMLConverter;
+import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
+import org.activiti.editor.language.json.converter.BpmnJsonConverter;
+import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
+import org.activiti.engine.repository.ModelQuery;
+import org.activiti.engine.repository.NativeModelQuery;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
@@ -16,12 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
-import static org.activiti.editor.constants.ModelDataJsonConstants.MODEL_DESCRIPTION;
-import static org.activiti.editor.constants.ModelDataJsonConstants.MODEL_NAME;
+import static org.activiti.editor.constants.ModelDataJsonConstants.*;
 
 /**
  * modeler Service
@@ -39,6 +47,26 @@ public class ModelerService {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    /**
+     * 查询一个model通过给定的唯一id
+     * @param id model的唯一id
+     * @return
+     */
+    public Model getById(String id){
+        return repositoryService.getModel(id);
+    }
+
+    /**
+     * 获取model的分页列表
+     * @param pageSize 页面尺寸
+     * @param pageNo 页码
+     * @return
+     */
+    public List<Model> getByPage(int pageSize,int pageNo){
+        List<Model> models = this.getModelQuery().orderByLastUpdateTime().desc().listPage(pageNo,pageSize);
+        return models;
+    }
 
     /**
      * 创建model
@@ -74,6 +102,41 @@ public class ModelerService {
         }
     }
 
+    /**
+     * 获取一个可供编辑的model的objectNode对象
+     * @param id model的唯一id
+     * @return
+     */
+    public ObjectNode edit(String id){
+        ObjectNode modelNode = null;
+        Model model = this.getById(id);
+        if (model != null) {
+            try {
+                if (StringUtils.isNotEmpty(model.getMetaInfo())) {
+                    modelNode = (ObjectNode) objectMapper.readTree(model.getMetaInfo());
+                } else {
+                    modelNode = objectMapper.createObjectNode();
+                    modelNode.put(MODEL_NAME, model.getName());
+                }
+                modelNode.put(MODEL_ID, model.getId());
+                ObjectNode editorJsonNode = (ObjectNode) objectMapper.readTree(
+                        new String(repositoryService.getModelEditorSource(model.getId()), "utf-8"));
+                modelNode.set("model", editorJsonNode);
+
+            } catch (Exception e) {
+                logger.error("Error creating model JSON", e);
+                throw new ActivitiException("Error creating model JSON", e);
+            }
+        }
+        return modelNode;
+    }
+
+    /**
+     * 保存一个model使用给定的流程定义数据
+     * @param modelId model 的唯一id
+     * @param values 包含model的数据的map集合
+     * @return
+     */
     public boolean save(String modelId, MultiValueMap<String,String> values){
         try {
             Model model = repositoryService.getModel(modelId);
@@ -101,4 +164,44 @@ public class ModelerService {
         }
         return true;
     }
+
+    /**
+     * 通过model的唯一id部署流程
+     * @param modelId model的唯一id
+     * @return
+     */
+    public boolean deploy(String modelId){
+        try {
+            Model modelData = repositoryService.getModel(modelId);
+            ObjectNode modelNode = (ObjectNode) new ObjectMapper().readTree(repositoryService.getModelEditorSource(modelData.getId()));
+            byte[] bpmnBytes = null;
+
+            BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
+            bpmnBytes = new BpmnXMLConverter().convertToXML(model);
+
+            String processName = modelData.getName() + ".bpmn20.xml";
+            Deployment deployment = repositoryService.createDeployment().name(modelData.getName()).addString(processName, new String(bpmnBytes)).deploy();
+        } catch (Exception e) {
+            logger.error("根据模型部署流程失败：modelId={}", modelId, e);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 获取model的本地查询实例
+     * @return NativeModelQuery
+     */
+    private NativeModelQuery getNativeModelQuery(){
+        return  repositoryService.createNativeModelQuery();
+    }
+
+    /**
+     * 获取model的查询实例
+     * @return ModelQuery
+     */
+    private ModelQuery getModelQuery(){
+        return repositoryService.createModelQuery();
+    }
+
 }

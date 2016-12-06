@@ -15,7 +15,7 @@ import java.io.InputStream;
  */
 @RestController
 @RequestMapping(value = "/editor/stencilset")
-public class StencilsetResrController {
+public class StencilsetController {
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     public String getStencilset(){
