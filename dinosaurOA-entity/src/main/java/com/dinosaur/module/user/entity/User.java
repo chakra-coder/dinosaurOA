@@ -4,8 +4,8 @@ import com.dinosaur.module.base.entity.IdEntity;
 import com.dinosaur.module.group.entity.Group;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 系统自定义用户实体，继承自IdEntity。
@@ -24,7 +24,7 @@ public class User extends IdEntity {
     private String pic;
     private String createDate;
 
-    private List<Group> groups = new ArrayList<Group>();
+    private Set<Group> groups = new HashSet<Group>();
 
     public User() {
     }
@@ -33,13 +33,16 @@ public class User extends IdEntity {
         this.id = id;
     }
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="d_user_group",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="group_id"))
     @OrderBy("id")
-    public List<Group> getGroups() {
+    public Set<Group> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<Group> groups) {
+    public void setGroups(Set<Group> groups) {
         this.groups = groups;
     }
 

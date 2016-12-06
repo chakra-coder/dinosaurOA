@@ -51,39 +51,36 @@
             <div class="modal-body">
                 <form id="relationshipForm" method="post" class="form-horizontal" role="form" action="${ctx}/user/manager/relationship">
                     <input type="hidden" name="userId" id="userIdAttr">
-                    <select class="form-control">
+                    <select class="form-control" name="groupId">
                         <c:choose>
                             <c:when test="${empty groups.content}">
                                 <option>---</option>
                             </c:when>
                             <c:otherwise>
+                                <option>---</option>
                                 <c:forEach var="group" items="${groups.content}">
                                     <option value="${group.id}">${group.name}</option>
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>
-                        <option value=""></option>
                     </select>
+                    <button id="relationshipSubmit" type="button" class="btn btn-primary" onclick="submit()">Save changes</button>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button id="relationshipSubmit" type="button" class="btn btn-primary">Save changes</button>
+                <%--<button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>--%>
+
             </div>
         </div>
     </div>
 </div>
 <js>
     <script>
-        $("#relationshipSubmit").click(function () {
-            // TODO 提交生成用户关系
-            $("#relationshipForm").submit({
-                type:"post",
-                success : function(data) {
-                    alert("test");
-                }
-            })
-        })
+        function submit() {
+            $("#relationshipForm").submit(function () {
+                alert(data);
+            });
+        }
 
         function formClick(obj) {
             $("#userIdAttr").val(obj);

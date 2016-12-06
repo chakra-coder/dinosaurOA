@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户实体管理
@@ -47,7 +48,7 @@ public class UserEntityManager extends org.activiti.engine.impl.persistence.enti
     @Override
     public List<Group> findGroupsByUser(String userId) {
         com.dinosaur.module.user.entity.User user = userDAO.findOne(userId);
-        List<com.dinosaur.module.group.entity.Group> groups = user.getGroups();
+        Set<com.dinosaur.module.group.entity.Group> groups = user.getGroups();
         // maybe have a batter way.
         List<Group> activitiGroups = new ArrayList<Group>();
         Group activitiGroup = null;

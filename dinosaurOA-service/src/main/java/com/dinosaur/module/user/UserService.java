@@ -23,8 +23,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 用户service
@@ -98,10 +98,11 @@ public class UserService {
     public boolean addRelationship(String userId,String groupId){
         User user = userDAO.findOne(userId);
         Group group = groupDAO.findOne(groupId);
-        List<Group> groups = new ArrayList<Group>();
+        Set<Group> groups = new HashSet<>();
         groups.add(group);
         user.setGroups(groups);
         userDAO.save(user);
+        groupDAO.save(group);
         return true;
     }
 
