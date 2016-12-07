@@ -42,30 +42,32 @@
             </form>
         </div>
     </div>
-<script>
-    $(function() {
-        $(document).ajaxStart(function() {
-            Pace.restart();
-        });
+    <js>
+        <script>
+            $(function() {
+                $(document).ajaxStart(function() {
+                    Pace.restart();
+                });
 
-        $("#loginform").submit(function() {
-            $(this).ajaxSubmit({
-                type : "post",
-                dataType : "json",
-                success : function(data) {
-                    if(data.errorCode == 0){
-                        window.location.href="/admin/index";
-                    }else{
-                        alert(data.message);
-                    }
-                },
-                error : function() {
-                    alert("信息提交错误");
-                }
+                $("#loginform").submit(function() {
+                    $(this).ajaxSubmit({
+                        type : "post",
+                        dataType : "json",
+                        success : function(data) {
+                            if(data.errorCode == 0){
+                                window.location.href="/admin/index";
+                            }else{
+                                alert(data.message);
+                            }
+                        },
+                        error : function() {
+                            alert("信息提交错误");
+                        }
+                    });
+                    return false; //不刷新页面
+                });
             });
-            return false; //不刷新页面
-        });
-    });
-</script>
+        </script>
+    </js>
 </body>
 </html>
