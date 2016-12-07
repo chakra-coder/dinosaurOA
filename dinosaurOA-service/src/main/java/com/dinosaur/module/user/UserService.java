@@ -88,7 +88,6 @@ public class UserService {
             }
         };
         Page<User> users = userDAO.findAll(spec,page);
-        User uuu = userDAO.findByName("liuzidong");
         return users;
     }
 
