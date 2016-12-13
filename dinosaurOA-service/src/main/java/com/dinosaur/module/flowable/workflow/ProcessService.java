@@ -57,7 +57,7 @@ public class ProcessService {
      */
     public List<ProcessDefinition> getProcessDefinition(int pageSize, int pageNo){
         List<ProcessDefinition> processDefinitions = repositoryService.createProcessDefinitionQuery().active().
-                orderByProcessDefinitionName().desc().listPage(pageNo,pageSize);
+                orderByProcessDefinitionName().desc().listPage(pageNo-1,pageSize);
         return processDefinitions;
     }
 

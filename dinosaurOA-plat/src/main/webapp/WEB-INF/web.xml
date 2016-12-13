@@ -10,7 +10,8 @@
     <param-value>
       classpath*:/application.xml,
       classpath*:/application-shiro.xml,
-      classpath*:/activiti-cfg.xml
+      classpath*:/activiti-cfg.xml,
+      classpath*:/application-base.xml
     </param-value>
   </context-param>
   <listener>

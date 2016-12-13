@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <footer class="main-footer">
     <div class="pull-right hidden-xs">
         <b>version</b>

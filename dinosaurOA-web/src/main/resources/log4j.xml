@@ -17,7 +17,7 @@
 
 	<appender name="DEBUG"
 		class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${webapp.root}/logs/debug.log" />
+		<param name="File" value="${webapp.root}/logs/web/debug.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value=".yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -32,7 +32,7 @@
 
 	<appender name="INFO"
 		class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${webapp.root}/logs/info.log" />
+		<param name="File" value="${webapp.root}/logs/web/info.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value=".yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -47,7 +47,7 @@
 
 	<appender name="WARN"
 		class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${webapp.root}/logs/warn.log" />
+		<param name="File" value="${webapp.root}/logs/web/warn.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value=".yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -62,7 +62,7 @@
 
 	<appender name="ERROR"
 		class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${webapp.root}/logs/error.log" />
+		<param name="File" value="${webapp.root}/logs/web/error.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value=".yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -77,7 +77,7 @@
 
 	<appender name="FATAL"
 		class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${webapp.root}/logs/fatal.log" />
+		<param name="File" value="${webapp.root}/logs/web/fatal.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value=".yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">

@@ -29,7 +29,6 @@
 				<!-- 命名规则 My_NAME->MyName -->
 				<prop key="hibernate.implicit_naming_strategy">org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
-				<prop key="hibernate.show_sql">true</prop>
 			</props>
 		</property>
 		<property name="packagesToScan" value="com.dinosaur"/>

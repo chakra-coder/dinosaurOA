@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <title>model列表</title>
@@ -47,10 +48,10 @@
 <js>
     <script>
         $(".deploy").click(function () {
-            var id = $(this).parent().parent().find("th").eq(0).innerHTML();
+            var id = $(this).parent().parent().find("th").eq(0).html();
             $.get("${ctx}/modeler/deploy",{modelId:id},
                     function (data) {
-                        alert(data);
+                        alert(data.message);
                     }
             )
         })

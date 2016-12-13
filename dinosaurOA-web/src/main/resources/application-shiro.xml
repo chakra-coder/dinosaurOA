@@ -11,7 +11,7 @@
 		<property name="sessionManager" ref="sessionManager"/>
 	</bean>
 
-	<bean id="shiroDbRealm" class="com.dinosaur.web.system.system.ShiroDbRealm">
+	<bean id="shiroDbRealm" class="com.dinosaur.web.system.service.ShiroDbRealm">
 		<property name="userService" ref="userService"/>
 		<property name="credentialsMatcher" ref="credentialsMatcher"/>
 	</bean>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--<bean id="repositoryService" class="org.activiti.engine.impl.RepositoryServiceImpl"/>
+	<bean id="runtimeService" class="org.activiti.engine.impl.RuntimeServiceImpl"/>
+	<bean id="formService" class="org.activiti.engine.impl.FormServiceImpl"/>
+	<bean id="identityService" class="org.activiti.engine.impl.IdentityServiceImpl"/>
+	<bean id="taskService" class="org.activiti.engine.impl.TaskServiceImpl"/>
+	<bean id="historyService" class="org.activiti.engine.impl.HistoryServiceImpl"/>
+	<bean id="managementService" class="org.activiti.engine.impl.ManagementServiceImpl"/>
+
+	<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />-->
+
+</beans>

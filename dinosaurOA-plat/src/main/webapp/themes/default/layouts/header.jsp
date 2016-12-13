@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <header class="main-header">
     <a class="logo" href="/index">
         <span class="logo-mini">

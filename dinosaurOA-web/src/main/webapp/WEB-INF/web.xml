@@ -9,7 +9,9 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>
       classpath*:/application.xml,
-      classpath*:/application-shiro.xml
+      classpath*:/application-shiro.xml,
+      classpath*:/application-base.xml,
+	    classpath*:/activiti-cfg.xml
     </param-value>
   </context-param>
   <listener>
