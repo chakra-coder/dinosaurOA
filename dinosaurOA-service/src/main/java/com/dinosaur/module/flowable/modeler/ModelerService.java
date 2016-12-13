@@ -64,7 +64,7 @@ public class ModelerService {
      * @return
      */
     public List<Model> getByPage(int pageSize,int pageNo){
-        List<Model> models = this.getModelQuery().orderByLastUpdateTime().desc().listPage(pageNo,pageSize);
+        List<Model> models = this.getModelQuery().orderByCreateTime().desc().listPage(pageNo-1,pageSize);
         return models;
     }
 

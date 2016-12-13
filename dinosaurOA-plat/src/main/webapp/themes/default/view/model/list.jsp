@@ -7,10 +7,10 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
+                    <th>id</th>
                     <th>name</th>
                     <th>key</th>
                     <th>description</th>
-                    <th>类别</th>
                     <th>创建时间</th>
                     <th>版本</th>
                     <th>操作</th>
@@ -18,21 +18,24 @@
             </thead>
             <tbody>
                 <c:choose>
-                    <c:when test="${empty model}">
+                    <c:when test="${empty models}">
                         <tr>
                             <th colspan="7"><label>没有查询到model<a href="${ctx}/modeler/create">去创建model</a> </label></th>
                         </tr>
                     </c:when>
                     <c:otherwise>
-                        <c:forEach var="model" items="models">
+                        <c:forEach var="model" items="${models}">
                             <tr>
                                 <th>${model.id}</th>
-                                <th>${model.nmae}</th>
+                                <th>${model.name}</th>
                                 <th>${model.key}</th>
                                 <th>${model.category}</th>
                                 <th>${model.createTime}</th>
                                 <th>${model.version}</th>
-                                <th><a href="#" >部署</a> </th>
+                                <th>
+                                    <a class="deploy" >部署</a>
+                                    <a href="${ctx}/themes/default/modeler/modeler.html?modelId=${model.id}" target="_blank">编辑</a>
+                                </th>
                             </tr>
                         </c:forEach>
                     </c:otherwise>
@@ -41,3 +44,15 @@
         </table>
     </div>
 </section>
+<js>
+    <script>
+        $(".deploy").click(function () {
+            var id = $(this).parent().parent().find("th").eq(0).innerHTML();
+            $.get("${ctx}/modeler/deploy",{modelId:id},
+                    function (data) {
+                        alert(data);
+                    }
+            )
+        })
+    </script>
+</js>
