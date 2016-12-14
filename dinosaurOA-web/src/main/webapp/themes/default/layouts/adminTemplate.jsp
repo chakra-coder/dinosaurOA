@@ -1,11 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Alcott Hawk
-  Date: 11/28/2016
-  Time: 1:43 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Title</title>

@@ -5,17 +5,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * IndexController
- * @author Alcott Hawk
- * @date 2016/11/15
+ * @Author Alcott Hawk
+ * @Date 12/13/2016
  */
 @Controller
-@RequestMapping(value = "/index")
-public class IndexController {
+@RequestMapping(value = "/login")
+public class LoginController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String index(){
-        return "index";
+    public String login(){
+        return "login";
     }
 
 }

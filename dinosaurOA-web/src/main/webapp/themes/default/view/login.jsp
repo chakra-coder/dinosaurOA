@@ -1,16 +1,25 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Alcott Hawk
-  Date: 12/8/2016
-  Time: 12:53 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <html>
 <head>
-    <title>Title</title>
+    <title>login</title>
+    <css>
+        <link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/css/login.css">
+    </css>
 </head>
 <body>
+<div>
+    <div>
+        测试
+    </div>
+</div>
+<js>
+    <script>
 
+    </script>
+</js>
 </body>
 </html>
