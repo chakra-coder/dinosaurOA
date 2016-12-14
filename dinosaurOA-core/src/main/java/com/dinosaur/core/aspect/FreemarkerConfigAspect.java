@@ -1,6 +1,7 @@
 package com.dinosaur.core.aspect;
 
 import com.dinosaur.core.context.ApplicationContextHolder;
+import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -40,7 +41,10 @@ public class FreemarkerConfigAspect {
         try {
             rootMap.put("ctx", ApplicationContextHolder.getServletContext().getContextPath());
             rootMap.put("theme","default");
-            freeMarkerConfigurer.getConfiguration().setSharedVaribles(rootMap);
+            Configuration configuration = freeMarkerConfigurer.getConfiguration();
+            configuration.setSharedVaribles(rootMap);
+            configuration.setServletContextForTemplateLoading(ApplicationContextHolder.getServletContext(), "/themes/default/view/");
+            freeMarkerConfigurer.setConfiguration(configuration);
         } catch (TemplateModelException e) {
             logger.error("freemarker 配置错误"+e.getMessage());
         }

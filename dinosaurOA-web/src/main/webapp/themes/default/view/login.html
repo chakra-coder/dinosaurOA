@@ -1,16 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>login</title>
-	<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/bootstrap-3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/bootstrap-3.3.7/css/bootstrap-theme.min.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>dinosaurOA</title>
+	<meta name=”renderer” content=”webkit”>
+	<meta http-equiv=”X-UA-Compatible” content=”IE=Edge,chrome=1″ >
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" >
+	<link rel="stylesheet" href="${ctx}/themes/default/static/bootstrap-3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="${ctx}/themes/default/static/Font-Awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="${ctx}/themes/default/static/css/login.css">
+	<link rel="stylesheet" href="${ctx}/themes/default/static/css/AdminLTE.min.css">
 </head>
-<body>
-<div>
-	login
+<body class="hold-transition login-page">
+<div class="login-box">
+	<div class="login-logo">
+		<a href="#"><label>dinosaurOA</label></a>
+	</div>
+	<div class="login-box-body">
+		<p class="login-box-msg">用户登陆</p>
+		<form method="post" id="loginform">
+			<div class="form-group has-feedback">
+				<label>用户名：</label> <input class="form-control" name="username">
+				<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			</div>
+			<div class="form-group has-feedback">
+				<label>密码：</label> <input type="password" name="password" class="form-control">
+				<span class="glyphicon glyphicon-lock form-control-feedback">
+				</span>
+			</div>
+			<div class="row">
+				<div class="col-xs-8">
+					<div class="form-group checkbox">
+						<label> <input type="checkbox" name="remember_me">
+							记住我的登陆信息
+						</label>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<button type="submit" class="btn btn-primary btn-block btn-flat">登陆</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-8">
+					<label>
+						忘记密码，点<a href="#">这里</a>
+					</label>
+				</div>
+			</div>
+		</form>
+
+	</div>
 </div>
+<script src="${ctx}/themes/default/static/jquery-3.1.0/jquery.min.js"></script>
+<script src="${ctx}/themes/default/static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script>
+	$(function() {
+		$(document).ajaxStart(function() {
+			Pace.restart();
+		});
+
+		$("#loginform").submit(function() {
+			$(this).ajaxSubmit({
+				type : "post",
+				dataType : "json",
+				success : function(data) {
+					if(data.errorCode == 0){
+						window.location.href="/login";
+					}else{
+						alert(data.message);
+					}
+				},
+				error : function() {
+					alert("信息提交错误");
+				}
+			});
+			return false;
+		});
+	});
+</script>
 </body>
-<script type="application/javascript" rel="script" src="${ctx}/themes/default/static/jquery-3.1.0/jquery.min.js"></script>
-<script type="application/javascript" rel="script" src="${ctx}/themes/default/static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 </html>
