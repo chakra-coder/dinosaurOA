@@ -5,13 +5,14 @@
     <mime-type>application/vnd.wap.xhtml+xml</mime-type>
     <mime-type>application/xhtml+xml</mime-type>
 
-	<mapping path="/login*" decorator="/themes/default/layouts/loginTemplate.jsp"/>
+<!--	<mapping path="/login*" decorator="/themes/default/layouts/loginTemplate.html"/>-->
 	
-	<mapping decorator="/themes/default/layouts/adminTemplate.jsp"/>
+	<mapping decorator="/themes/default/layouts/adminTemplate.html"/>
 	
 	<mapping path="/static/*" exclude="true"/>
     <mapping path="/temp/*" exclude="true"/>
-    
+    <mapping path="/login*" exclude="true"/>
+
     <content-processor>
         <tag-rule-bundle class="com.dinosaur.core.decorator.DecoratorTag" />
     </content-processor>
