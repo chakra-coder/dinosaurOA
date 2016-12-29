@@ -5,7 +5,7 @@
     <mime-type>application/vnd.wap.xhtml+xml</mime-type>
     <mime-type>application/xhtml+xml</mime-type>
 
-	<mapping decorator="/themes/default/layouts/adminTemplate.html"/>
+	<mapping decorator="/layouts/adminTemplate.html"/>
 
 	<mapping path="/static/*" exclude="true"/>
     <mapping path="/temp/*" exclude="true"/>

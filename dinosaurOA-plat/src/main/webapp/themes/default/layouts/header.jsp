@@ -260,4 +260,5 @@
             </ul>
         </div>
 
-    </nav></header>
+    </nav>
+</header>
