@@ -51,7 +51,7 @@ public class UserManagerController {
      */
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String add(){
-        return  "user/create";
+        return  "view/user/create";
     }
 
     /**

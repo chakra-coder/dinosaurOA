@@ -7,7 +7,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-	   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd" default-autowire="byName">
 
     <description>dinosaourOA-plat springMVC configuration</description>
 
@@ -32,10 +32,28 @@
 
     <mvc:view-controller path="/" view-name="/index"/>
 
-    <bean id="ViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="suffix" value=".jsp"/>
-        <property name="prefix" value="/themes/default/view/"/>
+    <bean id="ViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+	    <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
+        <property name="suffix" value=".html"/>
+	    <property name="cache" value="true"/>
 	    <property name="contentType" value="text/html;charset=UTF-8" />
+        <property name="allowRequestOverride" value="true"/>
+        <property name="allowSessionOverride" value="true" />
+        <property name="exposeSpringMacroHelpers" value="false"/>
+    </bean>
+
+    <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/themes/default/" />
+        <property name="defaultEncoding" value="utf-8" />
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">10</prop>
+                <prop key="locale">zh_CN</prop>
+                <prop key="datetime_format">yyyy-MM-dd</prop>
+                <prop key="date_format">yyyy-MM-dd</prop>
+                <prop key="number_format">#.##</prop>
+            </props>
+        </property>
     </bean>
 
     <bean id="multipartResolver"
@@ -46,8 +64,12 @@
     </bean>
 
     <aop:config proxy-target-class="true"/>
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+
 	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager"/>
 	</bean>
+
+	<bean id="applicationContextHolder" class="com.dinosaur.core.context.ApplicationContextHolder"/>
 
 </beans>

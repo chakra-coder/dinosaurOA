@@ -18,7 +18,7 @@ public class LoginController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String login(){
-        return "login";
+        return "view/login";
     }
 
     /**
