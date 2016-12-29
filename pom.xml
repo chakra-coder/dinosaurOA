@@ -16,6 +16,13 @@
 		<module>dinosaurOA-service</module>
 	</modules>
 
+	<repositories>
+		<repository>
+			<id>atlassian</id>
+			<url>https://maven.atlassian.com/3rdparty/</url>
+		</repository>
+	</repositories>
+
 	<properties>
 		<jdk.version>1.8</jdk.version>
 		<flowable.version>5.22.0</flowable.version>
