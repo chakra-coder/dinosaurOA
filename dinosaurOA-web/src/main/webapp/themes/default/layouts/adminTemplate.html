@@ -9,16 +9,16 @@
 </head>
 <body>
 <div class="container-fluid">
-	<#include "/header.html" />
+	<#include "/themes/default/layouts/header.html" />
 	<div class="row">
 		<div class="col-md-4 col-xs-4">
-			<#include "/aside.html" />
+			<#include "/themes/default/layouts/aside.html" />
 		</div>
 		<div class="col-md-8 col-xs-8">
 			<sitemesh:write property='body' />
 		</div>
 	</div>
-	<#include "/footer.html" />
+	<#include "/themes/default/layouts/footer.html" />
 </div>
 </body>
 <script rel="script" type="application/javascript" href="${ctx}/themes/default/static/bootstrap-3.3.7/js/bootstrap.min.js"></script>

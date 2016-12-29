@@ -33,15 +33,18 @@
 	<mvc:view-controller path="/" view-name="redirect:/login"/>
 
 	<bean id="ViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
 		<property name="suffix" value=".html"/>
+		<property name="cache" value="false"/>
 		<property name="contentType" value="text/html;charset=UTF-8" />
 		<property name="exposeRequestAttributes" value="true" />
 		<property name="exposeSessionAttributes" value="true" />
-		<property name="exposeSpringMacroHelpers" value="true" />
+		<!-- 启用spring的宏支持，默认开启，都是在此处使用html和sitemesh 3，因此不是用spring的宏 -->
+		<property name="exposeSpringMacroHelpers" value="false" />
 	</bean>
 
 	<bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-		<property name="templateLoaderPath" value="/themes/default/view/" />
+		<property name="templateLoaderPath" value="/" />
 		<property name="defaultEncoding" value="utf-8" />
 		<property name="freemarkerSettings">
 			<props>

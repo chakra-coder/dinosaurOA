@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import javax.servlet.*;
@@ -49,8 +48,11 @@ public class FreemarkerSitemeshFilter implements Filter{
             name = name.substring(content.length(),name.lastIndexOf(".html"));
             ApplicationContext applicationContext = ApplicationContextHolder.getApplicationContext();
             FreeMarkerViewResolver freeMarkerViewResolver = (FreeMarkerViewResolver) applicationContext.getBean("ViewResolver");
-            FreeMarkerConfigurer freeMarkerConfigurer = (FreeMarkerConfigurer) applicationContext.getBean("freeMarkerConfigurer");
-            name = name.substring("/themes/default/view/".length());
+            /*FreeMarkerConfigurer freeMarkerConfigurer = (FreeMarkerConfigurer) applicationContext.getBean("freeMarkerConfigurer");
+            name = name.substring("/themes/default/".length());
+            freeMarkerConfigurer.setTemplateLoaderPath("/themes/default/");
+            freeMarkerViewResolver.setSuffix("");
+            freeMarkerConfigurer.setTemplateLoaderPath("/");*/
             View view = freeMarkerViewResolver.resolveViewName(name, locale);
             view.render(null, req, res);
         } catch (Exception e) {
