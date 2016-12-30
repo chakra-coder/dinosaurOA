@@ -11,7 +11,7 @@
 	
 	<mapping path="/static/*" exclude="true"/>
     <mapping path="/temp/*" exclude="true"/>
-	<mapping path="/modeler/*" exclude="true"/>
+	<mapping path="/modeler/modeler.html" exclude="true"/>
 
     <content-processor>
         <tag-rule-bundle class="com.dinosaur.core.decorator.DecoratorTag" />

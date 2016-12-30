@@ -42,7 +42,7 @@ public class UserManagerController {
                        Model model){
         model.addAttribute("users",userService.getUserByPage(pageSize,pageNo));
         model.addAttribute("groups",groupService.getGroupByPage(pageSize,pageNo));
-        return "user/list";
+        return "view/user/list";
     }
 
     /**
@@ -79,7 +79,7 @@ public class UserManagerController {
     public String addRelationship(Model model){
         model.addAttribute("users",userService.getUserByPage(Construction.PAGE_SIZE,Construction.PAGE_NO));
         model.addAttribute("groups",groupService.getGroupByPage(Construction.PAGE_SIZE,Construction.PAGE_NO));
-        return "user/relationship";
+        return "view/user/relationship";
     }
 
     /**
@@ -95,7 +95,7 @@ public class UserManagerController {
             return "index";
         } else {
             redirectAttributes.addFlashAttribute("message","关系添加失败");
-            return "user/relationship";
+            return "view/user/relationship";
         }
     }
 

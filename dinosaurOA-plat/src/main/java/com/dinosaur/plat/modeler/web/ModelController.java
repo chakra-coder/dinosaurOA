@@ -49,7 +49,7 @@ public class ModelController implements ModelDataJsonConstants{
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public String list(Model model){
         model.addAttribute("models",modelerService.getByPage(Construction.PAGE_SIZE,Construction.PAGE_NO));
-        return "model/list";
+        return "view/model/list";
     }
 
     /**
@@ -58,7 +58,7 @@ public class ModelController implements ModelDataJsonConstants{
      */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(){
-        return  "model/create";
+        return  "view/model/create";
     }
 
     /**

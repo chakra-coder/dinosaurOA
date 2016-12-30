@@ -33,7 +33,7 @@ public class GroupManagerController {
      */
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String add(){
-        return "group/create";
+        return "view/group/create";
     }
 
     /**

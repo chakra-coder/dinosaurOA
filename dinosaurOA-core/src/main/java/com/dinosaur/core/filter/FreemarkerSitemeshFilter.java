@@ -45,14 +45,13 @@ public class FreemarkerSitemeshFilter implements Filter{
         try {
             String name = req.getRequestURI();
             String content = ApplicationContextHolder.getServletContext().getContextPath();
-            name = name.substring(content.length(),name.lastIndexOf(".html"));
+            if (name.contains("/themes/default/modeler")){
+                name = name.substring(content.length()+"/themes/default".length(),name.lastIndexOf(".html"));
+            } else {
+                name = name.substring(content.length(),name.lastIndexOf(".html"));
+            }
             ApplicationContext applicationContext = ApplicationContextHolder.getApplicationContext();
             FreeMarkerViewResolver freeMarkerViewResolver = (FreeMarkerViewResolver) applicationContext.getBean("ViewResolver");
-            /*FreeMarkerConfigurer freeMarkerConfigurer = (FreeMarkerConfigurer) applicationContext.getBean("freeMarkerConfigurer");
-            name = name.substring("/themes/default/".length());
-            freeMarkerConfigurer.setTemplateLoaderPath("/themes/default/");
-            freeMarkerViewResolver.setSuffix("");
-            freeMarkerConfigurer.setTemplateLoaderPath("/");*/
             View view = freeMarkerViewResolver.resolveViewName(name, locale);
             view.render(null, req, res);
         } catch (Exception e) {
