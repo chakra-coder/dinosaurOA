@@ -1,8 +1,8 @@
 package com.dinosaur.web.system.service;
 
+import com.dinosaur.core.shiro.ShiroUser;
 import com.dinosaur.module.user.UserService;
 import com.dinosaur.module.user.entity.User;
-import com.dinosaur.web.system.entity.ShiroUser;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;

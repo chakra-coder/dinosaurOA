@@ -43,7 +43,7 @@ public class WorkflowController {
                              Model model){
         List<ProcessDefinition> processDefinitions = processService.getProcessDefinition(pageSize,pageNo);
         model.addAttribute("processDefinitions",processDefinitions);
-        return "workflow/list";
+        return "view/workflow/list";
     }
 
     /**

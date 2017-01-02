@@ -40,8 +40,8 @@ public class UserManagerController {
     public String list(@RequestParam(value = "pageSize",defaultValue = Construction.PAGE_SIZE_STR) int pageSize,
                        @RequestParam(value = "paheNo", defaultValue = Construction.PAGE_NO_STR) int pageNo,
                        Model model){
-        model.addAttribute("users",userService.getUserByPage(pageSize,pageNo));
-        model.addAttribute("groups",groupService.getGroupByPage(pageSize,pageNo));
+        model.addAttribute("users",userService.getUserByPage(pageSize,pageNo).getContent());
+        model.addAttribute("groups",groupService.getGroupByPage(pageSize,pageNo).getContent());
         return "view/user/list";
     }
 

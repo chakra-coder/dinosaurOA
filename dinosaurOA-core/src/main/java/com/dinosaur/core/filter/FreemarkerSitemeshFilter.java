@@ -27,7 +27,7 @@ public class FreemarkerSitemeshFilter implements Filter{
         String localeStr = filterConfig.getInitParameter("locale");
         if(StringUtils.isNotBlank(localeStr)){
             locale = new Locale(localeStr);
-        }else {
+        } else {
             locale = Locale.CHINA;
         }
     }

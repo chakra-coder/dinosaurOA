@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.engine.RepositoryService;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * modeler Controller
@@ -80,6 +83,31 @@ public class ModelController implements ModelDataJsonConstants{
             } catch (IOException e) {
                 logger.error("资源访问错误："+e.getMessage());
             }
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/upload",method = RequestMethod.POST)
+    public JsonObject upload(String name, String description, MultipartFile file){
+        if (!file.isEmpty()&&file != null){
+            if (FilenameUtils.getExtension(file.getOriginalFilename()).equals(".zip")){
+                InputStream in = null;
+                try {
+                    in = file.getInputStream();
+                } catch (IOException e) {
+                    logger.error("deploy error:"+e.getMessage());
+                    return JsonResultUtil.getErrorJson("流程部署失败！");
+                }
+                if (modelerService.deploy(name,description,in)){
+                    return JsonResultUtil.getSuccessJson("外部流程部署成功");
+                } else {
+                    return JsonResultUtil.getErrorJson("流程部署失败！");
+                }
+            } else {
+                return JsonResultUtil.getErrorJson("文件类型不正确，请上传zip格式文件");
+            }
+        } else {
+            return JsonResultUtil.getErrorJson("请选取文件！");
         }
     }
 

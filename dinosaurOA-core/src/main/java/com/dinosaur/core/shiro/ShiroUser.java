@@ -1,11 +1,10 @@
-package com.dinosaur.web.system.entity;
+package com.dinosaur.core.shiro;
 
 import java.io.Serializable;
 
 /**
- * shiro 用户实体类
  * @Author Alcott Hawk
- * @Date 11/21/2016
+ * @Date 1/2/2017
  */
 public class ShiroUser implements Serializable{
 
@@ -27,4 +26,5 @@ public class ShiroUser implements Serializable{
     public String toString() {
         return loginNmae;
     }
+
 }

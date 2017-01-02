@@ -1,6 +1,7 @@
 package com.dinosaur.module.user.entity;
 
 import com.dinosaur.module.base.entity.IdEntity;
+import com.dinosaur.module.classroom.entity.Classroom;
 import com.dinosaur.module.group.entity.Group;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class User extends IdEntity {
     private String createDate;
 
     private Set<Group> groups = new HashSet<Group>();
+    private Set<Classroom> classrooms = new HashSet<Classroom>();
 
     public User() {
     }
@@ -44,6 +46,19 @@ public class User extends IdEntity {
 
     public void setGroups(Set<Group> groups) {
         this.groups = groups;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "d_class_student",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "class_id"))
+    @OrderBy("id")
+    public Set<Classroom> getClassrooms() {
+        return classrooms;
+    }
+
+    public void setClassrooms(Set<Classroom> classrooms) {
+        this.classrooms = classrooms;
     }
 
     public String getName() {

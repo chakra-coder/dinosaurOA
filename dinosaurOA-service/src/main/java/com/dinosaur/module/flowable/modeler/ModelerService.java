@@ -28,6 +28,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.zip.ZipInputStream;
 
 import static org.activiti.editor.constants.ModelDataJsonConstants.*;
 
@@ -186,6 +187,25 @@ public class ModelerService {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 部署流程通过外部文件
+     * @param name 流程名称
+     * @param description 流程描述
+     * @param in 输入流
+     * @return <p>部署消息，如果成功则返回true，负责返回false</p>
+     */
+    public boolean deploy(String name,String description,InputStream in){
+        try {
+            ZipInputStream zipInputStream = new ZipInputStream(in);
+            repositoryService.createDeployment().name(name).addZipInputStream(zipInputStream).deploy();
+            return true;
+        } catch (Exception e){
+            logger.error("deploy error"+e.getMessage());
+            return false;
+        }
+
     }
 
     /**
