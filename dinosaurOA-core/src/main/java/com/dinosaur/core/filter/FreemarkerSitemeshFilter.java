@@ -1,7 +1,10 @@
 package com.dinosaur.core.filter;
 
 import com.dinosaur.core.context.ApplicationContextHolder;
+import com.dinosaur.core.exception.UrlNotFoundException;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.View;
@@ -18,6 +21,8 @@ import java.util.Locale;
  * @Date 12/16/2016
  */
 public class FreemarkerSitemeshFilter implements Filter{
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     private Locale locale;
     private ApplicationContext ctx;
@@ -53,9 +58,18 @@ public class FreemarkerSitemeshFilter implements Filter{
             ApplicationContext applicationContext = ApplicationContextHolder.getApplicationContext();
             FreeMarkerViewResolver freeMarkerViewResolver = (FreeMarkerViewResolver) applicationContext.getBean("ViewResolver");
             View view = freeMarkerViewResolver.resolveViewName(name, locale);
+            if (view == null){
+                throw new UrlNotFoundException();
+            }
             view.render(null, req, res);
         } catch (Exception e) {
-            throw new ServletException(e);
+            if (e instanceof UrlNotFoundException){
+                logger.error("模板文件不存在："+e.getMessage());
+                request.getRequestDispatcher("/error?name=404").forward(request,response);
+            } else {
+                logger.error("装饰页解析错误："+e.getMessage());
+                request.getRequestDispatcher("/error?name=500").forward(request,response);
+            }
         }
     }
 

@@ -6,7 +6,6 @@ import com.dinosaur.module.user.GroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,10 +53,11 @@ public class GroupManagerController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Page<Group> list(@RequestParam(value = "pageSize",defaultValue = Construction.PAGE_SIZE_STR) int pageSize,
+    public String list(@RequestParam(value = "pageSize",defaultValue = Construction.PAGE_SIZE_STR) int pageSize,
                             @RequestParam(value = "paheNo", defaultValue = Construction.PAGE_NO_STR) int pageNo,
                             Model model){
-        return groupService.getGroupByPage(pageSize,pageNo);
+        model.addAttribute("groups",groupService.getGroupByPage(pageSize,pageNo).getContent());
+        return "view/group/list";
     }
 
 }

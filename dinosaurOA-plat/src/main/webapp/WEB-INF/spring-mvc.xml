@@ -72,4 +72,8 @@
 
 	<bean id="applicationContextHolder" class="com.dinosaur.core.context.ApplicationContextHolder"/>
 
+	<bean class="com.dinosaur.core.exception.DinosaurOAExceptionHandler">
+		<property name="order" value="1"/>
+	</bean>
+
 </beans>

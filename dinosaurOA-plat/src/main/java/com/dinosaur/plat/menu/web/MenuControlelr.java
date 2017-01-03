@@ -1,6 +1,7 @@
 package com.dinosaur.plat.menu.web;
 
 import com.dinosaur.module.menu.MenuService;
+import com.dinosaur.module.menu.entity.Menu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ public class MenuControlelr {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public String list(){
         return "view/menu/list";
+    }
+
+    @RequestMapping(value = "/create",method = RequestMethod.POST)
+    public boolean create(Menu menu){
+        //TODO 添加菜单逻辑
+        return  true;
     }
 
 }

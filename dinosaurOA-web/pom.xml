@@ -31,6 +31,11 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
+				<configuration>
+					<httpConnector>
+						<port>7080</port>
+					</httpConnector>
+				</configuration>
 			</plugin>
 		</plugins>
 		<finalName>dinosaurOA-web</finalName>
