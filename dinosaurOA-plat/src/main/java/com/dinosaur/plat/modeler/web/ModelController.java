@@ -90,7 +90,7 @@ public class ModelController implements ModelDataJsonConstants{
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public JsonObject upload(String name, String description, MultipartFile file){
         if (!file.isEmpty()&&file != null){
-            if (FilenameUtils.getExtension(file.getOriginalFilename()).equals(".zip")){
+            if (FilenameUtils.getExtension(file.getOriginalFilename()).equals("zip")){
                 InputStream in = null;
                 try {
                     in = file.getInputStream();

@@ -31,7 +31,7 @@
 	</form>
 </section>
 <section tagId="1" class="content" id="upload" style="display:none">
-	<form id="uploadSubmit" method="post" target="_self" class="form-horizontal" role="form">
+	<form action="${ctx}/modeler/upload" id="uploadSubmit" method="post" target="_self" class="form-horizontal" role="form" enctype="multipart/form-data">
 		<div class="form-group">
 			<label class="control-label col-sm-2 col-md-2" for="processNameInput">model名称</label>
 			<div class="col-md-8 col-sm-8">
