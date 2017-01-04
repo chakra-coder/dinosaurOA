@@ -17,7 +17,7 @@ public class LoginController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String login(){
-        return "login";
+        return "view/login";
     }
 
     /**
@@ -30,7 +30,7 @@ public class LoginController {
     public String fail(@RequestParam(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM) String userName, Model model){
         model.addAttribute(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM, userName);
         model.addAttribute("fail", "用户名或密码错误");
-        return "login";
+        return "view/login";
     }
 
 }

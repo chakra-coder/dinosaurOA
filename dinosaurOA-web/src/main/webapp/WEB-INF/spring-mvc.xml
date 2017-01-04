@@ -30,7 +30,7 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
-	<mvc:view-controller path="/" view-name="redirect:/login"/>
+	<mvc:view-controller path="/" view-name="redirect:/index"/>
 
 	<bean id="ViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
@@ -72,5 +72,9 @@
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 
 	<bean id="applicationContextHolder" class="com.dinosaur.core.context.ApplicationContextHolder"/>
+
+	<bean class="com.dinosaur.core.exception.DinosaurOAExceptionHandler">
+		<property name="order" value="1"/>
+	</bean>
 
 </beans>

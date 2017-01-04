@@ -30,7 +30,7 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <mvc:view-controller path="/" view-name="/index"/>
+    <mvc:view-controller path="/" view-name="redirect:/index"/>
 
     <bean id="ViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 	    <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>

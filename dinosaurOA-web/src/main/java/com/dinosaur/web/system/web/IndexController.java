@@ -15,7 +15,6 @@ public class IndexController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(){
-        System.out.println("没来呢吧！");
         return "view/index";
     }
 
