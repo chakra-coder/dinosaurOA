@@ -3,51 +3,57 @@
 	<div class="row content">
 		<#if form??>
 			<from method="post" class="form-horizontal" role="form">
-				<#list form.form.formProperties as formProperties>
-					<#if formProperties.type.name == "string">
-						<div>
-							<label for="${formProperties.id}">${formProperties.name}</label>
-							<div>
-								<input type="text" class="${formProperties.id}" name="${formProperties.id}" placeholder="${formProperties.name}">
-							</div>
-						</div>
-						<#elseif formProperties.type.name == "date">
-							<css>
-								<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/datatimepicker/jquery.datetimepicker.min.css">
-							</css>
-							<js>
-								<script type="application/javascript" rel="script" src="${ctx}/themes/default/static/datatimepicker/jquery.datetimepicker.full.min.js"></script>
-								<script>
-									$.datetimepicker.setLocale('en');
-									$('.datetimepicker').datetimepicker({
-										format: 'Y-m-d H:i:s'
-									});
-									$.datetimepicker.setLocale('zh');
-								</script>
-							</js>
+				<#if form.isFormKey == "false">
+					<#list form.form.formProperties as formProperties>
+						<#if formProperties.type.name == "string">
 							<div>
 								<label for="${formProperties.id}">${formProperties.name}</label>
-								<input type="text" name="${formProperties.id}" value="${formProperties.value!''}" class="datetimepicker">
+								<div>
+									<input type="text" class="${formProperties.id}" name="${formProperties.id}" placeholder="${formProperties.name}">
+								</div>
 							</div>
-							<#elseif formProperties.type.name == "enum">
+							<#elseif formProperties.type.name == "date">
+								<css>
+									<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/datatimepicker/jquery.datetimepicker.min.css">
+								</css>
+								<js>
+									<script type="application/javascript" rel="script" src="${ctx}/themes/default/static/datatimepicker/jquery.datetimepicker.full.min.js"></script>
+									<script>
+										$.datetimepicker.setLocale('en');
+										$('.datetimepicker').datetimepicker({
+											format: 'Y-m-d H:i:s'
+										});
+										$.datetimepicker.setLocale('zh');
+									</script>
+								</js>
 								<div>
 									<label for="${formProperties.id}">${formProperties.name}</label>
-									<div>
-										<select name="${formProperties.name}">
-											<option value="${formProperties.id}">${formProperties.name}</option>
-											<option value="${formProperties.id}">${formProperties.name}</option>
-										</select>
-									</div>
+									<input type="text" name="${formProperties.id}" value="${formProperties.value!''}" class="datetimepicker">
 								</div>
-								<#else>
+								<#elseif formProperties.type.name == "enum">
 									<div>
 										<label for="${formProperties.id}">${formProperties.name}</label>
 										<div>
-											<input type="text" class="${formProperties.id}" name="${formProperties.id}" placeholder="${formProperties.name}">
+											<select name="${formProperties.name}">
+												<option value="${formProperties.id}">${formProperties.name}</option>
+												<option value="${formProperties.id}">${formProperties.name}</option>
+											</select>
 										</div>
 									</div>
-					</#if>
-				</#list>
+									<#else>
+										<div>
+											<label for="${formProperties.id}">${formProperties.name}</label>
+											<div>
+												<input type="text" class="${formProperties.id}" name="${formProperties.id}" placeholder="${formProperties.name}">
+											</div>
+										</div>
+						</#if>
+					</#list>
+					<#else/>
+					<div>
+						${form.form}
+					</div>
+				</#if>
 				<input type="submit" value="申请">
 			</from>
 			<#else/>

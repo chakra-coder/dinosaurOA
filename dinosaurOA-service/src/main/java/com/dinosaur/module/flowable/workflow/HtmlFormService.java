@@ -1,9 +1,14 @@
 package com.dinosaur.module.flowable.workflow;
 
 import org.activiti.engine.FormService;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.impl.form.StartFormDataImpl;
 import org.activiti.engine.impl.form.TaskFormDataImpl;
+import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +35,18 @@ public class HtmlFormService {
     @Autowired
     private FormService formService;
 
+    @Autowired
+    private RepositoryService repositoryService;
+
+    @Autowired
+    private TaskService taskService;
+
+    @Autowired
+    private RuntimeService runtimeService;
+
     /**
-     * 获取流程启动表单数据
+     * 获取流程启动表单数据<br/>
+     * 启动表单支持获取引擎表单及外置表单
      * @param processDefinitionId <br/>流程定义id
      * @return 存有启动表单值的Map对象
      */
@@ -39,14 +54,25 @@ public class HtmlFormService {
         if (StringUtils.isBlank(processDefinitionId)){
             throw new IllegalArgumentException("参数为空");
         }
-        Map<String, Object> result = new HashMap<String, Object>();
-        StartFormDataImpl formData = (StartFormDataImpl) formService.getStartFormData(processDefinitionId);
-        // 返回json需要设置ProcessDefinition为null，否则会报内容不可读异常
-        formData.setProcessDefinition(null);
-        List<FormProperty> properties = formData.getFormProperties();
-        result= putData(properties);
-        result.put("form", formData);
-        return result;
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
+                .processDefinitionId(processDefinitionId).singleResult();
+        boolean isFormkey = false;
+        Map<String,Object> result = new HashMap<String, Object>();
+        if (null != processDefinition){
+            isFormkey = processDefinition.hasStartFormKey();
+            if (isFormkey){
+                Object form = formService.getRenderedStartForm(processDefinitionId);
+                result.put("form",form);
+                result.put("isFormKey",isFormkey);
+                return result;
+            } else {
+                StartFormDataImpl formData = (StartFormDataImpl) formService.getStartFormData(processDefinitionId);
+                result.put("form",formData);
+                result.put("isFormKey",isFormkey);
+                return result;
+            }
+        }
+        return null;
     }
 
     /**
@@ -56,13 +82,28 @@ public class HtmlFormService {
 
      */
     public Map<String, Object> getTaskForm(String taskId) {
-        Map<String, Object> result = new HashMap<String, Object>();
-        TaskFormDataImpl taskFormData = (TaskFormDataImpl) formService.getTaskFormData(taskId);
-        taskFormData.setTask(null);
-        List<FormProperty> formProperties = taskFormData.getFormProperties();
-        result= putData(formProperties);
-        result.put("form", taskFormData);
-        return result;
+        if (StringUtils.isBlank(taskId)){
+            throw new IllegalArgumentException("参数为空");
+        }
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        if (null != task){
+            TaskFormDataImpl taskFormData = (TaskFormDataImpl) formService.getTaskFormData(taskId);
+            Map<String, Object> result = new HashMap<String, Object>();
+            boolean isFormkey = false;
+            if (null != taskFormData){
+                result.put("isFormkey",isFormkey);
+                result.put("form",taskFormData);
+                return result;
+            } else {
+                isFormkey = true;
+                Object taskForm = formService.getRenderedTaskForm(taskId);
+                result.put("isFormkey",isFormkey);
+                result.put("form",taskForm);
+                return result;
+            }
+        } else {
+            return null;
+        }
     }
 
     /**
