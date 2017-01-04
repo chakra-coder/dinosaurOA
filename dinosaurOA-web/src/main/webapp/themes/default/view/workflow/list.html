@@ -14,10 +14,10 @@
 			<#if processDefinitions??&&processDefinitions?size gt 0>
 				<#list processDefinitions as processDefinition>
 					<tr>
-						<th>${model.nmae!''}</th>
-						<th>${model.key!''}</th>
-						<th>${model.version!''}</th>
-						<th><a class="startup-process">启动</a> </th>
+						<th>${processDefinition.nmae!''}</th>
+						<th>${processDefinition.key!''}</th>
+						<th>${processDefinition.version!''}</th>
+						<th><a class="startup-process" href="${ctx}/workflow/start/${processDefinition.id}">申请</a> </th>
 					</tr>
 				</#list>
 				<#else/>

@@ -39,8 +39,11 @@
 		<property name="contentType" value="text/html;charset=UTF-8" />
 		<property name="exposeRequestAttributes" value="true" />
 		<property name="exposeSessionAttributes" value="true" />
+		<property name="allowRequestOverride" value="true"/>
+		<property name="exposePathVariables" value="true"/>
 		<!-- 启用spring的宏支持，默认开启，都是在此处使用html和sitemesh 3，因此不是用spring的宏 -->
 		<property name="exposeSpringMacroHelpers" value="false" />
+		<property name="allowSessionOverride" value="true"/>
 	</bean>
 
 	<bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">

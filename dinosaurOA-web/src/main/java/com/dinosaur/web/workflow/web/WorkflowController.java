@@ -1,5 +1,6 @@
 package com.dinosaur.web.workflow.web;
 
+import com.dinosaur.module.flowable.workflow.HtmlFormService;
 import com.dinosaur.module.flowable.workflow.ProcessService;
 import com.dinosaur.module.system.construction.Construction;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -30,6 +31,9 @@ public class WorkflowController {
     @Autowired
     private ProcessService processService;
 
+    @Autowired
+    private HtmlFormService htmlFormService;
+
     /**
      * 获取系统激活可用的流程定义
      * @param pageSize 页面展示数量
@@ -49,17 +53,20 @@ public class WorkflowController {
     /**
      * 启动有个特定的流程
      * @param processDefinitionId 流程定义id
-     * @param processType 流程类型
      * @param request
-     * @param modle
+     * @param model
      * @return
      */
-    @RequestMapping(value = "/start{processDefinitionId}",method = RequestMethod.POST)
+    @RequestMapping(value = "/start/{processDefinitionId}",method = RequestMethod.GET)
     public String startProcess(@PathVariable(value = "processDefinitionId") String processDefinitionId,
-                               @RequestParam(value = "processType") String processType,
-                               HttpServletRequest request,Model modle){
-        // TODO 提交表单启动流程
-        return "";
+                               HttpServletRequest request,Model model){
+        try {
+            model.addAttribute("form",htmlFormService.getStartForm(processDefinitionId));
+        } catch (Exception e){
+            logger.error("表单数据加载失败");
+            model.addAttribute("message","表单加载失败！");
+        }
+        return "view/workflow/start";
     }
 
 }
