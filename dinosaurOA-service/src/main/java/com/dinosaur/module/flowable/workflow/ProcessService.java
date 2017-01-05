@@ -1,5 +1,6 @@
 package com.dinosaur.module.flowable.workflow;
 
+import com.dinosaur.core.shiro.ShiroUser;
 import org.activiti.engine.*;
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.impl.form.StartFormDataImpl;
@@ -7,11 +8,13 @@ import org.activiti.engine.impl.form.TaskFormDataImpl;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
@@ -88,17 +91,20 @@ public class ProcessService {
     /**
      * 签收指定的任务
      * @param taskId 任务id
-     * @param userId 用户id
      * @return
      */
-    public boolean claim(String taskId,String userId){
+    public boolean claim(String taskId){
         try {
-            taskService.claim(taskId,userId);
+            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+            if (null == shiroUser){
+                return false;
+            }
+            taskService.claim(taskId,shiroUser.id);
+            return true;
         } catch (Exception e){
             logger.error("任务签收失败："+e.getMessage());
             return false;
         }
-        return true;
     }
 
     /**
