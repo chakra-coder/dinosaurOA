@@ -3,6 +3,8 @@ package com.dinosaur.module.user.entity;
 import com.dinosaur.module.base.entity.IdEntity;
 import com.dinosaur.module.classroom.entity.Classroom;
 import com.dinosaur.module.group.entity.Group;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -24,6 +26,7 @@ public class User extends IdEntity {
     private String phone;
     private String pic;
     private String createDate;
+    private UserExtend userExtend;
 
     private Set<Group> groups = new HashSet<Group>();
     private Set<Classroom> classrooms = new HashSet<Classroom>();
@@ -33,6 +36,18 @@ public class User extends IdEntity {
 
     public User(String id) {
         this.id = id;
+    }
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "userExtend_id")
+    @Fetch(FetchMode.JOIN)
+    public UserExtend getUserExtend() {
+        return userExtend;
+    }
+
+    public void setUserExtend(UserExtend userExtend) {
+        this.userExtend = userExtend;
+
     }
 
     @ManyToMany(cascade = CascadeType.ALL)
