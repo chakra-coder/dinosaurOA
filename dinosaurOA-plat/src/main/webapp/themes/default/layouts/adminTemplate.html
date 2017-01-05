@@ -12,6 +12,8 @@
 <sitemesh:write property='css' />
 </head>
 <body class="skin-blue sidebar-mini">
+<#assign userTag = create("userDirective") />
+<#assign user=userTag()>
 	<div class="wrapper">
 		<#include "/layouts/header.html" />
 		<#include "/layouts/aside.html" />

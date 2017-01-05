@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @Date 1/3/2017
  */
 @Controller
-@RequestMapping(value = "error")
+@RequestMapping(value = "/error")
 public class ErrorController {
 
     @RequestMapping(method = RequestMethod.GET)

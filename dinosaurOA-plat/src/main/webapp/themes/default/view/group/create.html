@@ -1,4 +1,15 @@
 <section class="content">
+	<#if message??>
+		<div id="message" class="alert alert-success">${message}</div>
+		<js>
+			<script>
+				setTimeout(function() {
+					$('#message').hide('slow');
+				}, 5000);
+			</script>
+		</js>
+		<#else/>
+	</#if>
 	<form id="createSubmit" method="post" class="form-horizontal" role="form">
 		<div class="form-group">
 			<label class="control-label col-sm-2 col-md-2" for="nameInput">组名称</label>

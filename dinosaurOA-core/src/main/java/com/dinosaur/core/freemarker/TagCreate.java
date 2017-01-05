@@ -1,6 +1,7 @@
 package com.dinosaur.core.freemarker;
 
 import com.dinosaur.core.context.ApplicationContextHolder;
+import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
 import org.apache.commons.lang3.StringUtils;
@@ -16,10 +17,10 @@ import java.util.List;
 public class TagCreate implements TemplateMethodModelEx{
     @Override
     public Object exec(List arguments) throws TemplateModelException {
-        String beanid =(String)arguments.get(0);
-        if(StringUtils.isBlank(beanid)){
+        SimpleScalar beanid = (SimpleScalar) arguments.get(0);
+        if(StringUtils.isBlank(beanid.toString())){
             throw new TemplateModelException("beanid is null");
         }
-        return ApplicationContextHolder.getBean(beanid);
+        return ApplicationContextHolder.getBean(beanid.toString());
     }
 }

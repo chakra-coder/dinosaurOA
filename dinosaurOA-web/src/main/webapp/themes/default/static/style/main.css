@@ -1,2 +1,5 @@
 div.content{margin: 0 auto;border:1px solid #c5bebe}
-
+.dinosaurOA-lable{color: rgba(57, 155, 228, 0.71) !important;font-family: "Segoe UI," !important;font-weight: 500 !important;}
+.info{text-align: center}
+.row{padding: 5px 0 5px 0}
+.form{display: block}

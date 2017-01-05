@@ -2,6 +2,7 @@ package com.dinosaur.core.filter;
 
 import com.dinosaur.core.context.ApplicationContextHolder;
 import com.dinosaur.core.exception.UrlNotFoundException;
+import com.dinosaur.core.freemarker.TagCreate;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,9 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * @Author Alcott Hawk
@@ -61,7 +64,9 @@ public class FreemarkerSitemeshFilter implements Filter{
             if (view == null){
                 throw new UrlNotFoundException();
             }
-            view.render(null, req, res);
+            Map<String,Object> rootMap = new HashMap<String, Object>();
+            rootMap.put("create",new TagCreate());
+            view.render(rootMap, req, res);
         } catch (Exception e) {
             if (e instanceof UrlNotFoundException){
                 logger.error("模板文件不存在："+e.getMessage());

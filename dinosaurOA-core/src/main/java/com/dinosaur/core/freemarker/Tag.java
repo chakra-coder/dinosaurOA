@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public abstract class Tag implements TemplateMethodModelEx{
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public Object exec(List arguments) throws TemplateModelException {

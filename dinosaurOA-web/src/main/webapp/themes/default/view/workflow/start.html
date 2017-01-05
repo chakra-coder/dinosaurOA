@@ -3,58 +3,74 @@
 	<div class="row content">
 		<#if form??>
 			<from method="post" class="form-horizontal" role="form">
-				<#if form.isFormKey == "false">
-					<#list form.form.formProperties as formProperties>
-						<#if formProperties.type.name == "string">
-							<div>
-								<label for="${formProperties.id}">${formProperties.name}</label>
-								<div>
-									<input type="text" class="${formProperties.id}" name="${formProperties.id}" placeholder="${formProperties.name}">
-								</div>
+				<#if form.isFormKey == false>
+					<div class="container-fluid">
+						<div class="row">
+							<div style="float: right">
+								<input type="submit" value="申请">
 							</div>
-							<#elseif formProperties.type.name == "date">
-								<css>
-									<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/datatimepicker/jquery.datetimepicker.min.css">
-								</css>
-								<js>
-									<script type="application/javascript" rel="script" src="${ctx}/themes/default/static/datatimepicker/jquery.datetimepicker.full.min.js"></script>
-									<script>
-										$.datetimepicker.setLocale('en');
-										$('.datetimepicker').datetimepicker({
-											format: 'Y-m-d H:i:s'
-										});
-										$.datetimepicker.setLocale('zh');
-									</script>
-								</js>
-								<div>
-									<label for="${formProperties.id}">${formProperties.name}</label>
-									<input type="text" name="${formProperties.id}" value="${formProperties.value!''}" class="datetimepicker">
+						</div>
+						<#list form.form.formProperties as formProperties>
+							<#if formProperties.type.name == "string">
+								<div class="row form">
+									<div class="col-md-2 info">
+										<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
+									</div>
+									<div class="col-md-2">
+										<input type="text" class="${formProperties.id}" name="${formProperties.id}" placeholder="${formProperties.name}">
+									</div>
 								</div>
-								<#elseif formProperties.type.name == "enum">
-									<div>
-										<label for="${formProperties.id}">${formProperties.name}</label>
-										<div>
-											<select name="${formProperties.name}">
-												<option value="${formProperties.id}">${formProperties.name}</option>
-												<option value="${formProperties.id}">${formProperties.name}</option>
-											</select>
+								<#elseif formProperties.type.name == "date">
+									<css>
+										<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.min.css">
+									</css>
+									<js>
+										<script type="application/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.full.min.js"></script>
+										<script>
+											$.datetimepicker.setLocale('en');
+											$('.datetimepicker').datetimepicker({
+												format: 'Y-m-d H:i:s'
+											});
+											$.datetimepicker.setLocale('zh');
+										</script>
+									</js>
+									<div class="row form">
+										<div class="col-md-2 info">
+											<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
+										</div>
+										<div class="col-md-2">
+											<input type="text" name="${formProperties.id}" value="${formProperties.value!''}" class="datetimepicker">
 										</div>
 									</div>
-									<#else>
-										<div>
-											<label for="${formProperties.id}">${formProperties.name}</label>
-											<div>
-												<input type="text" class="${formProperties.id}" name="${formProperties.id}" placeholder="${formProperties.name}">
+									<#elseif formProperties.type.name == "enum">
+										<div class="row form">
+											<div class="col-md-2 info">
+												<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
+											</div>
+											<div class="col-md-2">
+												<select name="${formProperties.name}">
+													<option value="${formProperties.id}">${formProperties.name}</option>
+													<option value="${formProperties.id}">${formProperties.name}</option>
+												</select>
 											</div>
 										</div>
-						</#if>
-					</#list>
+										<#else>
+											<div class="row from">
+												<div class="col-md-2 info">
+													<label for="${formProperties.id}">${formProperties.name}</label>
+												</div>
+												<div class="col-md-2">
+													<input type="text" class="${formProperties.id}" name="${formProperties.id}" placeholder="${formProperties.name}">
+												</div>
+											</div>
+							</#if>
+						</#list>
+					</div>
 					<#else/>
 					<div>
 						${form.form}
 					</div>
 				</#if>
-				<input type="submit" value="申请">
 			</from>
 			<#else/>
 			<h2>${message!'请求表单数据加载失败'}</h2>

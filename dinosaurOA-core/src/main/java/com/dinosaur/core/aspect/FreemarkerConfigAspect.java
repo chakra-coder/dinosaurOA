@@ -1,6 +1,7 @@
 package com.dinosaur.core.aspect;
 
 import com.dinosaur.core.context.ApplicationContextHolder;
+import com.dinosaur.core.freemarker.TagCreate;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,7 +25,7 @@ public class FreemarkerConfigAspect {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private static Map rootMap = new HashMap();
+    private static Map<String,Object> rootMap = new HashMap<String,Object>();
 
     public static Map getRootMap() {
         return rootMap;
@@ -41,6 +42,7 @@ public class FreemarkerConfigAspect {
         try {
             rootMap.put("ctx", ApplicationContextHolder.getServletContext().getContextPath());
             rootMap.put("theme","default");
+            rootMap.put("create",new TagCreate());
             Configuration configuration = freeMarkerConfigurer.getConfiguration();
             configuration.setSharedVaribles(rootMap);
             //configuration.setServletContextForTemplateLoading(ApplicationContextHolder.getServletContext(), "/themes/default/view/");
