@@ -1,6 +1,7 @@
 package com.dinosaur.module.classroom.entity;
 
 import com.dinosaur.module.base.entity.IdEntity;
+import com.dinosaur.module.task.entity.Task;
 import com.dinosaur.module.user.entity.User;
 
 import javax.persistence.*;
@@ -21,6 +22,16 @@ public class Classroom extends IdEntity{
     private Set<User> users = new HashSet<User>();    //学生
     private String classTeacher;                      //班主任
     private String instructor;                        //辅导员
+    private Set<Task> tasks;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
 
     @Column(nullable = false,length = 20)
     public String getName() {
