@@ -55,6 +55,7 @@ public class User extends IdEntity {
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="group_id"))
     @OrderBy("id")
+    @Fetch(FetchMode.JOIN)
     public Set<Group> getGroups() {
         return groups;
     }
@@ -68,6 +69,7 @@ public class User extends IdEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "class_id"))
     @OrderBy("id")
+    @Fetch(FetchMode.JOIN)
     public Set<Classroom> getClassrooms() {
         return classrooms;
     }

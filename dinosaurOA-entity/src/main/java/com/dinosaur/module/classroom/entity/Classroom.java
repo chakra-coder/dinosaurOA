@@ -39,7 +39,7 @@ public class Classroom extends IdEntity{
         this.createTime = createTime;
     }
 
-    @ManyToMany(mappedBy = "classrooms")
+    @ManyToMany(mappedBy = "classrooms",fetch = FetchType.EAGER)
     public Set<User> getUsers() {
         return users;
     }

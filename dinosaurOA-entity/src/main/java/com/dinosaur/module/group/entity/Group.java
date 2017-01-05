@@ -20,7 +20,7 @@ public class Group extends IdEntity{
     private String englishName;
     private Set<User> users = new HashSet<User>();
 
-    @ManyToMany(mappedBy = "groups")
+    @ManyToMany(mappedBy = "groups",fetch = FetchType.EAGER)
     public Set<User> getUsers() {
         return users;
     }
