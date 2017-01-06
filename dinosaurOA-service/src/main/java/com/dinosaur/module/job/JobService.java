@@ -1,4 +1,4 @@
-package com.dinosaur.module;
+package com.dinosaur.module.job;
 
 import com.dinosaur.module.job.dao.JobDao;
 import org.slf4j.Logger;
