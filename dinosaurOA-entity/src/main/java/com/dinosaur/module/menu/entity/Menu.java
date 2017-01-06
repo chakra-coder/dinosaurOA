@@ -1,9 +1,11 @@
 package com.dinosaur.module.menu.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.dinosaur.module.group.entity.Group;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * 菜单实体
@@ -15,10 +17,10 @@ import javax.persistence.Table;
 public class Menu {
 
     private int id;
-    private String nmae;
-    private int parnetId;
+    private String name;
+    private int parentId;
     private String url;
-    private String group;
+    private Set<Group> groups;
 
     @Id
     public int getId() {
@@ -30,21 +32,21 @@ public class Menu {
     }
 
     @Column(nullable = false, length = 15)
-    public String getNmae() {
-        return nmae;
+    public String getName() {
+        return name;
     }
 
-    public void setNmae(String nmae) {
-        this.nmae = nmae;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Column(nullable = false)
-    public int getParnetId() {
-        return parnetId;
+    public int getParentId() {
+        return parentId;
     }
 
-    public void setParnetId(int parnetId) {
-        this.parnetId = parnetId;
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 
     @Column(nullable = false)
@@ -56,11 +58,17 @@ public class Menu {
         this.url = url;
     }
 
-    public String getGroup() {
-        return group;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="d_menu_group",
+            joinColumns = @JoinColumn(name="menu_id"),
+            inverseJoinColumns = @JoinColumn(name="group_id"))
+    @OrderBy("id")
+    @Fetch(FetchMode.JOIN)
+    public Set<Group> getGroups() {
+        return groups;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
     }
 }

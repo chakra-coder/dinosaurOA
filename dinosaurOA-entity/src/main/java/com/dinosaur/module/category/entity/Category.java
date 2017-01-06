@@ -1,9 +1,6 @@
 package com.dinosaur.module.category.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 流程分类实体
@@ -14,12 +11,13 @@ import javax.persistence.Table;
 @Entity
 public class Category {
 
-    @Id
+
     private int id;
     private String name;
     private String categoryPath;
     private int parentId;
 
+    @Id
     public int getId() {
         return id;
     }

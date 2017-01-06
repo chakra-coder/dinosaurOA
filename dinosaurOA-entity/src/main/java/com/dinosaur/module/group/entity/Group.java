@@ -1,6 +1,7 @@
 package com.dinosaur.module.group.entity;
 
 import com.dinosaur.module.base.entity.IdEntity;
+import com.dinosaur.module.menu.entity.Menu;
 import com.dinosaur.module.user.entity.User;
 
 import javax.persistence.*;
@@ -19,6 +20,16 @@ public class Group extends IdEntity{
     private String name;
     private String englishName;
     private Set<User> users = new HashSet<User>();
+    private Set<Menu> menus;
+
+    @ManyToMany(mappedBy = "groups",fetch = FetchType.EAGER)
+    public Set<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(Set<Menu> menus) {
+        this.menus = menus;
+    }
 
     @ManyToMany(mappedBy = "groups",fetch = FetchType.EAGER)
     public Set<User> getUsers() {
