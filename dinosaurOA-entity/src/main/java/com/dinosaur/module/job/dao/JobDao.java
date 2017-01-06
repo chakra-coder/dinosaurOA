@@ -1,6 +1,6 @@
-package com.dinosaur.module.task.dao;
+package com.dinosaur.module.job.dao;
 
-import com.dinosaur.module.task.entity.Task;
+import com.dinosaur.module.job.entity.Job;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -11,5 +11,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * @Date 1/2/2017
  * @version 1.0
  */
-public interface TaskDao extends JpaSpecificationExecutor<Task>, PagingAndSortingRepository<Task,String>{
+public interface JobDao extends JpaSpecificationExecutor<Job>, PagingAndSortingRepository<Job,String>{
 }

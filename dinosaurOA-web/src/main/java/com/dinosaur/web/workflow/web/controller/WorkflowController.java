@@ -9,7 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -64,21 +67,6 @@ public class WorkflowController {
             model.addAttribute("message","表单加载失败！");
         }
         return "view/workflow/start";
-    }
-
-    @RequestMapping(value="/claim/{taskId}", method = RequestMethod.POST)
-    @ResponseBody
-    public String claimTask(@PathVariable("taskId") String taskId){
-        if (processService.claim(taskId)){
-            return "任务已签收！";
-        } else {
-            return "任务签收失败，可能已经被签收！";
-        }
-    }
-
-    @RequestMapping(value = "/doTask",method = RequestMethod.POST)
-    public String doTask(String task){
-        return "view/workflow/doTask";
     }
 
 }

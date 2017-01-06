@@ -1,4 +1,4 @@
-package com.dinosaur.module.task.entity;
+package com.dinosaur.module.job.entity;
 
 import com.dinosaur.module.base.entity.IdEntity;
 import com.dinosaur.module.user.entity.User;
@@ -12,8 +12,8 @@ import javax.persistence.*;
  * @version 1.0
  */
 @Entity
-@Table(name = "d_task")
-public class Task extends IdEntity{
+@Table(name = "d_job")
+public class Job extends IdEntity{
 
     private String name;              //名称
     private String description;       //说明
