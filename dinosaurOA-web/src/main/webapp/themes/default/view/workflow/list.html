@@ -14,7 +14,7 @@
 			<#if processDefinitions??&&processDefinitions?size gt 0>
 				<#list processDefinitions as processDefinition>
 					<tr>
-						<th>${processDefinition.nmae!''}</th>
+						<th>${processDefinition.name!''}</th>
 						<th>${processDefinition.key!''}</th>
 						<th>${processDefinition.version!''}</th>
 						<th><a class="startup-process" href="${ctx}/workflow/start/${processDefinition.id}">申请</a> </th>

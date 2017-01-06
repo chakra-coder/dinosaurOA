@@ -58,7 +58,7 @@ public class WorkflowController {
      * @return
      */
     @RequestMapping(value = "/start/{processDefinitionId}",method = RequestMethod.GET)
-    public String startProcess(@PathVariable(value = "processDefinitionId") String processDefinitionId,
+    public String startup(@PathVariable(value = "processDefinitionId") String processDefinitionId,
                                HttpServletRequest request,Model model){
         try {
             model.addAttribute("form",htmlFormService.getStartForm(processDefinitionId));
@@ -67,6 +67,11 @@ public class WorkflowController {
             model.addAttribute("message","表单加载失败！");
         }
         return "view/workflow/start";
+    }
+
+    public boolean startup(@PathVariable(value = "processDefinitionId") String processDefinitionId, HttpServletRequest request){
+
+        return false;
     }
 
 }

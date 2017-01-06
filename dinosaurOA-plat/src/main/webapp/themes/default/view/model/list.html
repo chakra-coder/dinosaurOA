@@ -1,4 +1,3 @@
-<title>model列表</title>
 <section class="content">
 	<div class="row">
 		<table class="table table-striped table-hover">
@@ -21,7 +20,7 @@
 						<th>${model.name!''}</th>
 						<th>${model.key!''}</th>
 						<th>${model.category!''}</th>
-						<th>${model.createTime?string('yyyy.MM.dd: HH:mm:ss')!''}</th>
+						<th>${model.createTime?string('yyyy-MM-dd HH:mm:ss')!''}</th>
 						<th>${model.version!''}</th>
 						<th>
 							<a class="deploy" >部署</a>
@@ -40,7 +39,7 @@
 </section>
 <js>
 	<script>
-		$(".deploy").click(function () {
+		$(".deploy").click(function (obj) {
 			var id = $(this).parent().parent().find("th").eq(0).html();
 			$.get("${ctx}/modeler/deploy",{modelId:id},
 					function (data) {

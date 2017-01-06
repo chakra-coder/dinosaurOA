@@ -2,7 +2,7 @@
 <section class="content">
 	<div class="row content">
 		<#if form??>
-			<from method="post" class="form-horizontal" role="form">
+			<form method="post" class="form-horizontal" role="form">
 				<#if form.isFormKey == false>
 					<div class="container-fluid">
 						<div class="row">
@@ -71,7 +71,7 @@
 						${form.form}
 					</div>
 				</#if>
-			</from>
+			</form>
 			<#else/>
 			<h2>${message!'请求表单数据加载失败'}</h2>
 		</#if>

@@ -115,12 +115,7 @@ public class ProcessService {
      * @return
      */
     public boolean doTask(String taskId, Map<String,String[]> param){
-        Map<String, String> formProperties = new HashMap<String, String>();
-        Set<Entry<String, String[]>> entrySet = param.entrySet();
-        entrySet.forEach(obj->{
-            formProperties.put(obj.getKey(),obj.getValue()[0]);
-        });
-        logger.debug("start form parameters: {}", formProperties);
+        Map<String, String> formProperties = putdata(param);
         try {
             ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
             identityService.setAuthenticatedUserId(shiroUser.id);
@@ -132,6 +127,35 @@ public class ProcessService {
             identityService.setAuthenticatedUserId(null);
         }
         return true;
+    }
+
+    public boolean startup(String processDefinitionId, Map<String,String[]> param){
+        Map<String, String> formProperties = putdata(param);
+        try {
+            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+            identityService.setAuthenticatedUserId(shiroUser.id);
+            formService.submitStartFormData(processDefinitionId, formProperties);
+        } catch (Exception e){
+            logger.error("任务办理失败："+e.getMessage());
+            return false;
+        } finally {
+            identityService.setAuthenticatedUserId(null);
+        }
+        return true;
+    }
+
+    /**
+     * 装入数据到map
+     * @param param
+     * @return
+     */
+    private Map<String,String> putdata(Map<String, String[]> param){
+        Map<String, String> formProperties = new HashMap<String, String>();
+        Set<Entry<String, String[]>> entrySet = param.entrySet();
+        entrySet.forEach(obj->{
+            formProperties.put(obj.getKey(),obj.getValue()[0]);
+        });
+        return formProperties;
     }
 
 }
