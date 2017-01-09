@@ -180,6 +180,13 @@
 			</exclusions>
 		</dependency>
 		<!-- shiro end -->
+		<!-- ecache begin -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>2.10.3</version>
+		</dependency>
+		<!-- ecache end -->
 
 		<!-- shiro apo begin -->
 		<dependency>
@@ -390,15 +397,6 @@
 			</exclusions>
 		</dependency>
 
-		<!-- junit begin -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- junit end -->
-
 		<dependency>
 			<groupId>xml-apis</groupId>
 			<artifactId>xml-apis</artifactId>
@@ -513,6 +511,12 @@
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.12</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>4.3.0.RELEASE</version>
 				<scope>test</scope>
 			</dependency>
 			<!-- junit end -->

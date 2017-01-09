@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 /**
  * 用户组service
@@ -73,6 +74,15 @@ public class GroupService {
     public boolean delete(String id){
         groupDAO.delete(id);
         return true;
+    }
+
+    /**
+     * 通过用户id获取用户所在的组
+     * @param userId 用户id
+     * @return
+     */
+    public List<Group> getGroupByUser(String userId){
+        return groupDAO.getGroupByUser(userId);
     }
 
 }

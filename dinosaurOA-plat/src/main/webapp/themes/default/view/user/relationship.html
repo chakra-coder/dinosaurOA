@@ -5,10 +5,13 @@
 			<label class="col-md-offset-1 col-md-1 col-sm-offset-1 col-sm-1">用户名</label>
 			<div class="col-md-8 col-sm-8">
 				<select class="form-control">
-					<option value="8b0c19df6764">test</option>
-					<option value="8b0c19df6764">test</option>
-					<option value="8b0c19df6764">test</option>
-					<option value="8b0c19df6764">test</option>
+					<#if users??>
+						<#list users as user>
+							<option value="${user.id}">${user.name}</option>
+						</#list>
+						<#else/>
+						<option >--</option>
+					</#if>
 				</select>
 			</div>
 		</div>
@@ -16,12 +19,13 @@
 			<label class="col-md-offset-1 col-md-1 col-sm-offset-1 col-sm-1">组名称</label>
 			<div class="col-md-8 col-sm-8">
 				<select class="form-control">
-					<option value="9e3f58e8cfe6">test</option>
-					<option value="9e3f58e8cfe6">test</option>
-					<option value="9e3f58e8cfe6">test</option>
-					<option value="9e3f58e8cfe6">test</option>
-					<option value="9e3f58e8cfe6">test</option>
-					<option value="9e3f58e8cfe6">test</option>
+					<#if groups??>
+						<#list groups as group>
+							<option value="${group.id}">${group.englishName}</option>
+						</#list>
+						<#else/>
+						<option >--</option>
+					</#if>
 				</select>
 			</div>
 		</div>

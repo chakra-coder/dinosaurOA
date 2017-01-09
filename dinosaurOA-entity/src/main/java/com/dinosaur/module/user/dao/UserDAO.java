@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.List;
+
 /**
  * 用户访问接口
  * @Author Alcott Hawk
@@ -14,7 +16,7 @@ public interface UserDAO extends JpaSpecificationExecutor<User>,PagingAndSorting
 
     User findByNickName(String nickname);
 
-    @Query("select u from User u inner join u.groups where u.name = ?1")
-    User findByName(String nickname);
+    @Query("FROM User u WHERE u.name = ?1")
+    List<User> findByName(String name);
 
 }

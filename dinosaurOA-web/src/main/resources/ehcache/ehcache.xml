@@ -1,0 +1,13 @@
+<ehcache updateCheck="false" name="Cache">
+	<diskStore path="c:/temp" />
+   <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="0"
+            timeToLiveSeconds="0"
+            overflowToDisk="true"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="130"
+            memoryStoreEvictionPolicy="LFU"
+            />
+</ehcache>

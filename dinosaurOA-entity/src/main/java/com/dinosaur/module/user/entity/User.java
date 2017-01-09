@@ -94,6 +94,7 @@ public class User extends IdEntity {
         this.createDate = createDate;
     }
 
+    @Column(unique = true)
     public String getNickName() {
         return nickName;
     }

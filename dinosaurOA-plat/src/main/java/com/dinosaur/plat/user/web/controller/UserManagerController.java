@@ -38,7 +38,7 @@ public class UserManagerController {
      */
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public String list(@RequestParam(value = "pageSize",defaultValue = Construction.PAGE_SIZE_STR) int pageSize,
-                       @RequestParam(value = "paheNo", defaultValue = Construction.PAGE_NO_STR) int pageNo,
+                       @RequestParam(value = "pageNo", defaultValue = Construction.PAGE_NO_STR) int pageNo,
                        Model model){
         model.addAttribute("users",userService.getUserByPage(pageSize,pageNo).getContent());
         model.addAttribute("groups",groupService.getGroupByPage(pageSize,pageNo).getContent());
@@ -60,15 +60,17 @@ public class UserManagerController {
      * @return
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String add(User user){
+    public String add(User user,RedirectAttributes attributes){
         String id = null;
         try {
             id = userService.addUser(user).getId();
         }catch (Exception e){
             logger.error("用户创建失败："+e.getMessage());
+            attributes.addAttribute("message","用户创建失败"+e.getMessage());
             return "error";
         }
-        return id;
+        attributes.addAttribute("message","用户添加成功！");
+        return "redirect:/user/manager/list";
     }
 
     /**
@@ -77,8 +79,8 @@ public class UserManagerController {
      */
     @RequestMapping(value = "/relationship",method = RequestMethod.GET)
     public String addRelationship(Model model){
-        model.addAttribute("users",userService.getUserByPage(Construction.PAGE_SIZE,Construction.PAGE_NO));
-        model.addAttribute("groups",groupService.getGroupByPage(Construction.PAGE_SIZE,Construction.PAGE_NO));
+        model.addAttribute("users",userService.getUserByPage(Construction.PAGE_SIZE,Construction.PAGE_NO).getContent());
+        model.addAttribute("groups",groupService.getGroupByPage(Construction.PAGE_SIZE,Construction.PAGE_NO).getContent());
         return "view/user/relationship";
     }
 

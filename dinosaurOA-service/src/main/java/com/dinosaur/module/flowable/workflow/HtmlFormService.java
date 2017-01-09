@@ -1,15 +1,14 @@
 package com.dinosaur.module.flowable.workflow;
 
-import org.activiti.engine.FormService;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
+import com.dinosaur.core.shiro.ShiroUser;
+import org.activiti.engine.*;
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.impl.form.StartFormDataImpl;
 import org.activiti.engine.impl.form.TaskFormDataImpl;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 流程表单业务
@@ -43,6 +43,9 @@ public class HtmlFormService {
 
     @Autowired
     private RuntimeService runtimeService;
+
+    @Autowired
+    private IdentityService identityService;
 
     /**
      * 获取流程启动表单数据<br/>
@@ -73,6 +76,25 @@ public class HtmlFormService {
             }
         }
         return null;
+    }
+
+    public boolean submitForm(String processDefinitionId,Map<String,String[]> params){
+        Set<Map.Entry<String,String[]>> entrySet = params.entrySet();
+        Map<String,  String> formData=new HashMap<String,String>();
+        for (Map.Entry<String, String[]> entry : entrySet) {
+            String key= entry.getKey();
+            String value[]= entry.getValue();
+            formData.put(key, value[0]);
+        }
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        identityService.setAuthenticatedUserId(shiroUser.id);
+        formService.submitStartFormData(processDefinitionId, formData);
+        try {
+            return true;
+        } catch (Exception e){
+            logger.error("流程启动失败："+e.getMessage());
+            return false;
+        }
     }
 
     /**
