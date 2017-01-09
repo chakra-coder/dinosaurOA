@@ -84,7 +84,7 @@ public class ProcessService {
      */
     public List<Task> getTask(int pageSize,int pageNo,String assignee){
         List<Task> tasks = taskService.createTaskQuery().orderByTaskCreateTime().
-                desc().active().taskAssignee(assignee).listPage(pageNo,pageSize);
+                desc().taskAssignee(assignee).listPage(pageNo,pageSize);
         return  tasks;
     }
 

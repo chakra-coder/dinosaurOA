@@ -1,11 +1,15 @@
 package com.dinosaur.web.workflow.web.controller;
 
+import com.dinosaur.core.shiro.ShiroUser;
 import com.dinosaur.module.flowable.workflow.ProcessService;
+import com.dinosaur.module.system.construction.Construction;
 import org.activiti.engine.task.Task;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,9 +35,11 @@ public class TaskController {
     private ProcessService processService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List<Task> list(){
-        // TODO 任务查询
-        return null;
+    public String list(Model model){
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        List<Task> tasks = processService.getTask(Construction.PAGE_SIZE,Construction.PAGE_NO,shiroUser.id);
+        model.addAttribute("tasks",tasks);
+        return "view/workflow/taskList";
     }
 
     @RequestMapping(value="/claim/{taskId}", method = RequestMethod.POST)

@@ -60,16 +60,16 @@ public class UserManagerController {
      * @return
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String add(User user,RedirectAttributes attributes){
+    public String add(User user,Model model){
         String id = null;
         try {
             id = userService.addUser(user).getId();
         }catch (Exception e){
             logger.error("用户创建失败："+e.getMessage());
-            attributes.addAttribute("message","用户创建失败"+e.getMessage());
+            model.addAttribute("message","用户创建失败"+e.getMessage());
             return "error";
         }
-        attributes.addAttribute("message","用户添加成功！");
+        model.addAttribute("message","用户添加成功！");
         return "redirect:/user/manager/list";
     }
 
@@ -94,7 +94,7 @@ public class UserManagerController {
     @RequestMapping(value = "/relationship",method = RequestMethod.POST)
     public String addRelationship(String userId, String groupId, RedirectAttributes redirectAttributes){
         if (userService.addRelationship(userId,groupId)){
-            return "index";
+            return "view/index";
         } else {
             redirectAttributes.addFlashAttribute("message","关系添加失败");
             return "view/user/relationship";

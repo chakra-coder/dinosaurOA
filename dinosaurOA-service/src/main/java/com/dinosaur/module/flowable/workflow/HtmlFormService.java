@@ -30,6 +30,9 @@ import java.util.Set;
 @Transactional
 public class HtmlFormService {
 
+    public static final String TASK = "task";
+    public static final String START = "start";
+
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -61,6 +64,7 @@ public class HtmlFormService {
                 .processDefinitionId(processDefinitionId).singleResult();
         boolean isFormkey = false;
         Map<String,Object> result = new HashMap<String, Object>();
+        result.put("objId",processDefinitionId);
         if (null != processDefinition){
             isFormkey = processDefinition.hasStartFormKey();
             if (isFormkey){
@@ -78,7 +82,16 @@ public class HtmlFormService {
         return null;
     }
 
-    public boolean submitForm(String processDefinitionId,Map<String,String[]> params){
+    /**
+     * 提交表单数据到流程引擎
+     * @param type <br/>
+     *             <p>提交表单类型，为start或者task</p>
+     * @param objId <br/>
+     *              <p>id为流程定义id或者任务id，在type为start时为流程定义id，type为task时为任务id</p>
+     * @param params
+     * @return
+     */
+    public boolean submitForm(String type,String objId,Map<String,String[]> params){
         Set<Map.Entry<String,String[]>> entrySet = params.entrySet();
         Map<String,  String> formData=new HashMap<String,String>();
         for (Map.Entry<String, String[]> entry : entrySet) {
@@ -88,7 +101,13 @@ public class HtmlFormService {
         }
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         identityService.setAuthenticatedUserId(shiroUser.id);
-        formService.submitStartFormData(processDefinitionId, formData);
+        if (type.equals(TASK)){
+            formService.submitTaskFormData(objId,formData);
+        } else if (type.equals(START)){
+            formService.submitStartFormData(objId, formData);
+        } else {
+            return false;
+        }
         try {
             return true;
         } catch (Exception e){
