@@ -62,8 +62,7 @@ public class WorkflowController {
      * @return
      */
     @RequestMapping(value = "/start/{processDefinitionId}",method = RequestMethod.GET)
-    public String startup(@PathVariable(value = "processDefinitionId") String processDefinitionId,
-                               HttpServletRequest request,Model model){
+    public String startup(@PathVariable(value = "processDefinitionId") String processDefinitionId, Model model){
         try {
             model.addAttribute("form",htmlFormService.getStartForm(processDefinitionId));
         } catch (Exception e){

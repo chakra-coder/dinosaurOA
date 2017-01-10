@@ -1,8 +1,10 @@
 package com.dinosaur.module.flowable.workflow;
 
 import com.dinosaur.core.shiro.ShiroUser;
+import com.dinosaur.core.util.StringUtil;
 import org.activiti.engine.*;
 import org.activiti.engine.form.FormProperty;
+import org.activiti.engine.impl.form.FormDataImpl;
 import org.activiti.engine.impl.form.StartFormDataImpl;
 import org.activiti.engine.impl.form.TaskFormDataImpl;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +77,7 @@ public class HtmlFormService {
                 return result;
             } else {
                 StartFormDataImpl formData = (StartFormDataImpl) formService.getStartFormData(processDefinitionId);
+                result = this.load(formData.getFormProperties());
                 result.put("form",formData);
                 result.put("isFormKey",isFormkey);
                 return result;
@@ -132,12 +136,14 @@ public class HtmlFormService {
             Map<String, Object> result = new HashMap<String, Object>();
             boolean isFormkey = false;
             if (null != taskFormData){
+                result = this.load(taskFormData.getFormProperties());
                 result.put("isFormkey",isFormkey);
                 result.put("form",taskFormData);
                 return result;
             } else {
                 isFormkey = true;
                 Object taskForm = formService.getRenderedTaskForm(taskId);
+                result = this.load(taskFormData.getFormProperties());
                 result.put("isFormkey",isFormkey);
                 result.put("form",taskForm);
                 return result;
@@ -148,22 +154,32 @@ public class HtmlFormService {
     }
 
     /**
-     * 装入表单属性值到Map中
-     * @param formProperties <br/>具有表单属性值的集合
-     * @return 存有表单属性值的Map对象
+     * 表单属性值装入
+     * @param formProperty
+     * @return
      */
-    private Map<String, Object> putData(List<FormProperty> formProperties){
+    private Map<String, Object> load(List<FormProperty> formProperty){
         Map<String, Object> result = new HashMap<String, Object>();
-        for (FormProperty formProperty : formProperties) {
-            Map<String, String> values = (Map<String, String>) formProperty.getType().getInformation("values");
+        formProperty.forEach(v->{
+            Map<String, String> values = (Map<String, String>) v.getType().getInformation("values");
             if (values != null) {
-                for (Map.Entry<String,String> enumEntry : values.entrySet()) {
+                for (Map.Entry<String, String> enumEntry : values.entrySet()) {
                     logger.debug("enum, key: {}, value: {}", enumEntry.getKey(), enumEntry.getValue());
                 }
-                result.put(formProperty.getId(), values);
+                result.put(v.getId(), values);
             }
-        }
+        });
         return result;
+
+    }
+
+    private <T extends FormDataImpl> Object load(T t) throws IOException {
+        Map<String, Object> result = new HashMap<String, Object>();
+        List<FormProperty> formProperties = t.getFormProperties();
+        String str = StringUtil.convertObjectToString(formProperties);
+        Map<String,Object> value = StringUtil.convertStrinToMap(str);
+        t.setFormProperties(formProperties);
+        return t;
     }
 
 }

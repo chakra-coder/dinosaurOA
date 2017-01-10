@@ -1,9 +1,9 @@
-<title>事物办理</title>
+<title>流程办理</title>
 <section class="content">
 	<div class="row content">
 		<#if form??>
 			<from method="post" class="form-horizontal" role="form">
-				<#if form.isFormKey == false>
+				<#if form.isFormkey == false>
 					<div class="container-fluid">
 						<div class="row">
 							<div style="float: right">
@@ -48,9 +48,10 @@
 												<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
 											</div>
 											<div class="col-md-2">
-												<select name="${formProperties.name}">
-													<option value="${formProperties.id}">${formProperties.name}</option>
-													<option value="${formProperties.id}">${formProperties.name}</option>
+												<select name="${formProperties.id}">
+													<#list formProperties.type.value as enum>
+														<option value="${enum.key}">${enum.value}</option>
+													</#list>
 												</select>
 											</div>
 										</div>

@@ -3,8 +3,16 @@ package com.dinosaur.core.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.Validate;
+
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -39,7 +47,7 @@ public class StringUtil {
      * @return
      * @throws IOException
      */
-    public static <T> Map<String,T> convertStrinToMap(String arg,Class<T> t) throws IOException {
+    public static <T> Map<String,T> convertStrinToMap(String arg) throws IOException {
         Map<String,T> result = mapper.readValue(arg,Map.class);
         return result;
     }
@@ -63,8 +71,35 @@ public class StringUtil {
      * @return
      * @throws JsonProcessingException
      */
-    public static <T> String convertObjectToString(Class<T> obj) throws JsonProcessingException {
+    public static <T> String convertObjectToString(T obj) throws JsonProcessingException {
         return mapper.writeValueAsString(obj);
     }
 
+    /**
+     * java bean转map对象
+     * @param obj
+     * @return
+     * @throws IntrospectionException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
+    public static Map<String,Object> beanToMap(Object obj) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+        if(obj == null){
+            return null;
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
+        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+        for (PropertyDescriptor property : propertyDescriptors) {
+            String key = property.getName();
+            // 过滤class属性
+            if (!key.equals("class")) {
+                Method getter = property.getReadMethod();
+                Object value = getter.invoke(obj);
+                map.put(key, value);
+            }
+        }
+        return map;
+
+    }
 }
