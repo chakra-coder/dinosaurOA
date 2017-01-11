@@ -2,7 +2,7 @@
 <section class="content">
 	<div class="row content">
 		<#if form??>
-			<form class="submit" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			<form class="submit" method="post" action="${ctx}/task/submit/${form.objId}" class="form-horizontal" role="form" enctype="multipart/form-data">
 				<#if form.isFormkey == false>
 					<div class="container-fluid">
 						<div class="row">
@@ -36,30 +36,6 @@
 												format: 'Y-m-d H:i:s'
 											});
 											$.datetimepicker.setLocale('zh');
-
-											$("form").submit(function () {
-												var url = "${ctx}/task/submit/${form.objId}";
-												$.ajax({
-													type:"POST",
-													dataType:"json",
-													url: url,
-													data:$("form.submit").serialize(),
-													success:function (data) {
-														if (data.state == 1){
-															alert("任务成功");
-															window.history.go(-1);
-															window.location.reload();
-														} else {
-															alert("任务失败");
-														}
-													},
-													error:function () {
-														alert("服务器错误，请稍后重试！");
-														window.history.go(-1);
-														window.location.reload();
-													}
-												})
-											})
 										</script>
 									</js>
 									<div class="row form">

@@ -2,7 +2,7 @@
 <section class="content">
 	<div class="row content">
 		<#if form??>
-			<form class="submit" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			<form class="submit" method="post" action="${ctx}/workflow/submit/${form.objId}" class="form-horizontal" role="form" enctype="multipart/form-data">
 				<#if form.isFormKey == false>
 					<div class="container-fluid">
 						<div class="row">
@@ -11,7 +11,7 @@
 							</div>
 						</div>
 						<#list form.form.formProperties as formProperties>
-							<#if formProperties.type.name == "string">
+							<#if formProperties.type == "string">
 								<div class="row form">
 									<div class="col-md-2 info">
 										<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
@@ -20,7 +20,7 @@
 										<input type="text" class="${formProperties.id}" name="${formProperties.id}" placeholder="${formProperties.name}">
 									</div>
 								</div>
-								<#elseif formProperties.type.name == "date">
+								<#elseif formProperties.type == "date">
 									<css>
 										<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.min.css">
 									</css>
@@ -32,29 +32,6 @@
 												format: 'Y-m-d H:i:s'
 											});
 											$.datetimepicker.setLocale('zh');
-											$("form").submit(function () {
-												var url = "${ctx}/workflow/submit/${form.objId}";
-												$.ajax({
-													type:"POST",
-													dataType:"json",
-													url: url,
-													data:$("form.submit").serialize(),
-													success:function (data) {
-														if (data.state == 1){
-															alert("流程启动成功");
-															window.history.go(-1);
-															window.location.reload();
-														} else {
-															alert("流程启动失败");
-														}
-													},
-													error:function () {
-														alert("服务器错误，请稍后重试！");
-														window.history.go(-1);
-														window.location.reload();
-													}
-												})
-											})
 										</script>
 									</js>
 									<div class="row form">
@@ -65,7 +42,7 @@
 											<input type="text" name="${formProperties.id}" value="${formProperties.value!''}" class="datetimepicker">
 										</div>
 									</div>
-									<#elseif formProperties.type.name == "enum">
+									<#elseif formProperties.type == "enum">
 										<div class="row form">
 											<div class="col-md-2 info">
 												<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>

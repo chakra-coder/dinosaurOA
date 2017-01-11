@@ -1,7 +1,5 @@
 package com.dinosaur.web.workflow.web.controller;
 
-import com.dinosaur.core.util.JsonResultUtil;
-import com.dinosaur.core.util.entity.JsonObject;
 import com.dinosaur.module.flowable.workflow.HtmlFormService;
 import com.dinosaur.module.flowable.workflow.ProcessService;
 import com.dinosaur.module.system.construction.Construction;
@@ -12,7 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -57,7 +58,6 @@ public class WorkflowController {
     /**
      * 启动有个特定的流程
      * @param processDefinitionId 流程定义id
-     * @param request
      * @param model
      * @return
      */
@@ -76,19 +76,19 @@ public class WorkflowController {
      * 提交启动流程表单数据
      * @param objId 流程定义id
      * @param request
+     * @param model
      * @return
      */
     @RequestMapping(value = "/submit/{objId}",method = RequestMethod.POST)
-    @ResponseBody
-    public JsonObject startup(@PathVariable(value = "objId") String objId, HttpServletRequest request){
+    public String startup(@PathVariable(value = "objId") String objId, HttpServletRequest request,Model model){
         Map<String,String[]> params = request.getParameterMap();
         if (params.isEmpty()){
-            return JsonResultUtil.getErrorJson("参数为空");
+            return "view/workflow/error";
         }
         if (htmlFormService.submitForm(HtmlFormService.START,objId,params)){
-            return  JsonResultUtil.getSuccessJson("流程启动成功");
+            return "view/workflow/success";
         } else {
-            return JsonResultUtil.getErrorJson("流程启动失败");
+            return "view/workflow/error";
         }
     }
 

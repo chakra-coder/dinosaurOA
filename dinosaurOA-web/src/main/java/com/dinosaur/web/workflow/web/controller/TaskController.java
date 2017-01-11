@@ -100,22 +100,22 @@ public class TaskController {
     }
 
     /**
-     *
+     * 添加任务办理
      * @param taskId
      * @param request
+     * @param model
      * @return
      */
     @RequestMapping(value = "/submit/{taskId}",method = RequestMethod.POST)
-    @ResponseBody
-    public JsonObject doTask(@PathVariable(value = "taskId") String taskId, HttpServletRequest request){
+    public String doTask(@PathVariable(value = "taskId") String taskId, HttpServletRequest request, Model model){
         Map<String,String[]> parameterMap = request.getParameterMap();
         if (parameterMap.isEmpty()){
-            return JsonResultUtil.getErrorJson("参数为空");
+            return "view/workflow/error";
         }
         if (processService.doTask(taskId,parameterMap)) {
-            return JsonResultUtil.getSuccessJson("任务办理完成！");
+            return "view/workflow/success";
         } else {
-            return JsonResultUtil.getErrorJson("任务办理失败！");
+            return "view/workflow/error";
         }
     }
 
