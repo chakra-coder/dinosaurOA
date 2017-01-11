@@ -130,6 +130,7 @@ public class HtmlFormService {
         if (null != task){
             TaskFormDataImpl taskFormData = (TaskFormDataImpl) formService.getTaskFormData(taskId);
             Map<String, Object> result = new HashMap<String, Object>();
+            result.put("objId",taskId);
             boolean isFormkey = false;
             if (null != taskFormData){
                 result.put("isFormkey",isFormkey);

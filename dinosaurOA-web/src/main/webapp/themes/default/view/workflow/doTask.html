@@ -2,7 +2,7 @@
 <section class="content">
 	<div class="row content">
 		<#if form??>
-			<from method="post" class="form-horizontal" role="form">
+			<form class="submit" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 				<#if form.isFormkey == false>
 					<div class="container-fluid">
 						<div class="row">
@@ -17,7 +17,11 @@
 										<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
 									</div>
 									<div class="col-md-2">
-										<input type="text" class="${formProperties.id}" value="${formProperties.value!''}" name="${formProperties.id}" placeholder="${formProperties.name}">
+										<#if formProperties.writable == false>
+											<lable>${formProperties.value!''}</lable>
+											<#else/>
+											<input type="text" value="${formProperties.value!''}" name="${formProperties.id}" placeholder="${formProperties.name}">
+										</#if>
 									</div>
 								</div>
 								<#elseif formProperties.type == "date">
@@ -32,6 +36,30 @@
 												format: 'Y-m-d H:i:s'
 											});
 											$.datetimepicker.setLocale('zh');
+
+											$("form").submit(function () {
+												var url = "${ctx}/task/submit/${form.objId}";
+												$.ajax({
+													type:"POST",
+													dataType:"json",
+													url: url,
+													data:$("form.submit").serialize(),
+													success:function (data) {
+														if (data.state == 1){
+															alert("任务成功");
+															window.history.go(-1);
+															window.location.reload();
+														} else {
+															alert("任务失败");
+														}
+													},
+													error:function () {
+														alert("服务器错误，请稍后重试！");
+														window.history.go(-1);
+														window.location.reload();
+													}
+												})
+											})
 										</script>
 									</js>
 									<div class="row form">
@@ -39,7 +67,11 @@
 											<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
 										</div>
 										<div class="col-md-2">
-											<input type="text" name="${formProperties.id}" value="${formProperties.value!''}" class="datetimepicker">
+											<#if formProperties.writable == false>
+												<lable>${formProperties.value!''}</lable>
+												<#else/>
+												<input type="text" name="${formProperties.id}" value="${formProperties.value!''}" class="datetimepicker">
+											</#if>
 										</div>
 									</div>
 									<#elseif formProperties.type == "enum">
@@ -48,11 +80,15 @@
 												<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
 											</div>
 											<div class="col-md-2">
-												<select name="${formProperties.id}">
-													<#list formProperties.value as val>
-														<option value="${val.key}">${val.value}</option>
-													</#list>
-												</select>
+												<#if formProperties.writable == false>
+													<lable>${formProperties.value!''}</lable>
+													<#else/>
+													<select name="${formProperties.id}">
+														<#list formProperties.value as val>
+															<option value="${val.key}">${val.value}</option>
+														</#list>
+													</select>
+												</#if>
 											</div>
 										</div>
 										<#else>
@@ -72,7 +108,7 @@
 						${form.form}
 					</div>
 				</#if>
-			</from>
+			</form>
 			<#else/>
 			<h2>${message!'请求表单数据加载失败'}</h2>
 		</#if>

@@ -7,7 +7,7 @@
 					<div class="container-fluid">
 						<div class="row">
 							<div style="float: right">
-								<input class="applyBtn" type="submit" value="申请" onclick="submitForm()">
+								<input class="applyBtn" type="submit" value="申请">
 							</div>
 						</div>
 						<#list form.form.formProperties as formProperties>
@@ -42,11 +42,16 @@
 													success:function (data) {
 														if (data.state == 1){
 															alert("流程启动成功");
-															window.history.back();
+															window.history.go(-1);
 															window.location.reload();
 														} else {
 															alert("流程启动失败");
 														}
+													},
+													error:function () {
+														alert("服务器错误，请稍后重试！");
+														window.history.go(-1);
+														window.location.reload();
 													}
 												})
 											})

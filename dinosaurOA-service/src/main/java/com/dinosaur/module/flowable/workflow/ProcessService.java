@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,7 @@ import static org.apache.batik.svggen.SVGStylingAttributes.set;
  * @Date 12/2/2016
  */
 @Service
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 public class ProcessService {
 
     public static final String ASSIGN = "assign";
@@ -130,15 +131,13 @@ public class ProcessService {
      */
     public boolean doTask(String taskId, Map<String,String[]> param){
         Map<String, String> formProperties = putdata(param);
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        identityService.setAuthenticatedUserId(shiroUser.id);
         try {
-            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-            identityService.setAuthenticatedUserId(shiroUser.id);
             formService.submitTaskFormData(taskId, formProperties);
         } catch (Exception e){
             logger.error("任务办理失败："+e.getMessage());
             return false;
-        } finally {
-            identityService.setAuthenticatedUserId(null);
         }
         return true;
     }

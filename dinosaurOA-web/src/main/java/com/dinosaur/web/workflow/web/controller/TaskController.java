@@ -103,19 +103,19 @@ public class TaskController {
      *
      * @param taskId
      * @param request
-     * @param model
      * @return
      */
     @RequestMapping(value = "/submit/{taskId}",method = RequestMethod.POST)
     @ResponseBody
-    public boolean doTask(@PathVariable(value = "taskId") String taskId, HttpServletRequest request, Model model){
+    public JsonObject doTask(@PathVariable(value = "taskId") String taskId, HttpServletRequest request){
         Map<String,String[]> parameterMap = request.getParameterMap();
+        if (parameterMap.isEmpty()){
+            return JsonResultUtil.getErrorJson("参数为空");
+        }
         if (processService.doTask(taskId,parameterMap)) {
-            model.addAttribute("message","任务办理完成！");
-            return true;
+            return JsonResultUtil.getSuccessJson("任务办理完成！");
         } else {
-            model.addAttribute("message","任务办理失败！");
-            return false;
+            return JsonResultUtil.getErrorJson("任务办理失败！");
         }
     }
 
