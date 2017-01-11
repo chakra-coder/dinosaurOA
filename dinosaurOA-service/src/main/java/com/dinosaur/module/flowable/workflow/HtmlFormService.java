@@ -1,9 +1,9 @@
 package com.dinosaur.module.flowable.workflow;
 
 import com.dinosaur.core.shiro.ShiroUser;
-import com.dinosaur.core.util.StringUtil;
 import org.activiti.engine.*;
 import org.activiti.engine.form.FormProperty;
+import org.activiti.engine.form.StartFormData;
 import org.activiti.engine.impl.form.FormDataImpl;
 import org.activiti.engine.impl.form.StartFormDataImpl;
 import org.activiti.engine.impl.form.TaskFormDataImpl;
@@ -18,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 流程表单业务
@@ -77,8 +74,7 @@ public class HtmlFormService {
                 return result;
             } else {
                 StartFormDataImpl formData = (StartFormDataImpl) formService.getStartFormData(processDefinitionId);
-                result = this.load(formData.getFormProperties());
-                result.put("form",formData);
+                result.put("form",this.load(formData));
                 result.put("isFormKey",isFormkey);
                 return result;
             }
@@ -136,14 +132,12 @@ public class HtmlFormService {
             Map<String, Object> result = new HashMap<String, Object>();
             boolean isFormkey = false;
             if (null != taskFormData){
-                result = this.load(taskFormData.getFormProperties());
                 result.put("isFormkey",isFormkey);
-                result.put("form",taskFormData);
+                result.put("form",this.load(taskFormData));
                 return result;
             } else {
                 isFormkey = true;
                 Object taskForm = formService.getRenderedTaskForm(taskId);
-                result = this.load(taskFormData.getFormProperties());
                 result.put("isFormkey",isFormkey);
                 result.put("form",taskForm);
                 return result;
@@ -158,28 +152,57 @@ public class HtmlFormService {
      * @param formProperty
      * @return
      */
-    private Map<String, Object> load(List<FormProperty> formProperty){
-        Map<String, Object> result = new HashMap<String, Object>();
-        formProperty.forEach(v->{
+    private List loadvalue(List<FormProperty> formProperty){
+        Map<String, Object> result = null;
+        List formproperties = new ArrayList();
+        for (FormProperty v : formProperty){
+            result = new HashMap<String, Object>();
             Map<String, String> values = (Map<String, String>) v.getType().getInformation("values");
             if (values != null) {
-                for (Map.Entry<String, String> enumEntry : values.entrySet()) {
-                    logger.debug("enum, key: {}, value: {}", enumEntry.getKey(), enumEntry.getValue());
+                List enums = new ArrayList();
+                Map value = null;
+                for (String key : values.keySet()){
+                    value = new HashMap();
+                    Object objvalue = values.get(key);
+                    value.put("key",key);
+                    value.put("value",objvalue);
+                    enums.add(value);
                 }
-                result.put(v.getId(), values);
+                result.put("value",enums);
+            } else {
+                result.put("value",v.getValue());
             }
-        });
-        return result;
-
+            result.put("id",v.getId());
+            result.put("name",v.getName());
+            result.put("type",v.getType().getName());
+            result.put("readable",v.isReadable());
+            result.put("required",v.isRequired());
+            result.put("writable",v.isWritable());
+            formproperties.add(result);
+        }
+        return formproperties;
     }
 
-    private <T extends FormDataImpl> Object load(T t) throws IOException {
+    /**
+     * 加载表单数据
+     * @param t
+     * @param <T>
+     * @return
+     * @throws IOException
+     */
+    private <T extends FormDataImpl> Map<String, Object> load(T t){
         Map<String, Object> result = new HashMap<String, Object>();
-        List<FormProperty> formProperties = t.getFormProperties();
-        String str = StringUtil.convertObjectToString(formProperties);
-        Map<String,Object> value = StringUtil.convertStrinToMap(str);
-        t.setFormProperties(formProperties);
-        return t;
+        result.put("formKey",t.getFormKey());
+        result.put("deploymentId",t.getDeploymentId());
+        result.put("formProperties",this.loadvalue(t.getFormProperties()));
+        if (t instanceof StartFormData) {
+            StartFormDataImpl startFormData = (StartFormDataImpl)t;
+            result.put("processDefinition",startFormData.getProcessDefinition());
+        } else {
+            TaskFormDataImpl taskFormData = (TaskFormDataImpl)t;
+            result.put("task",taskFormData.getTask());
+        }
+        return result;
     }
 
 }

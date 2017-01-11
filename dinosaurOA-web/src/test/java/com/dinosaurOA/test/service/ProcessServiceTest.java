@@ -1,11 +1,9 @@
 package com.dinosaurOA.test.service;
 
-import com.dinosaur.core.util.StringUtil;
+import com.dinosaur.module.flowable.workflow.HtmlFormService;
 import com.dinosaur.module.flowable.workflow.ProcessService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.activiti.engine.FormService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.impl.form.TaskFormDataImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
 
 /**
  * @Author Alcott Hawk
@@ -31,21 +31,19 @@ public class ProcessServiceTest {
     private TaskService taskService;
 
     @Autowired
+    private HtmlFormService htmlFormService;
+
+
+    @Autowired
     private FormService formService;
 
+    /**
+     * 表单类型转换测试
+     */
     @Test
-    public void formConvertTest(){
-        try {
-        TaskFormDataImpl taskFormData = (TaskFormDataImpl) formService.getTaskFormData("1d23bbbb-d644-11e6-be81-005056c00008");
-            String str = StringUtil.convertObjectToString(taskFormData.getFormProperties());
-            System.out.println(str);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+    public void formConvertTest() {
+            Map data = htmlFormService.getTaskForm("1d23bbbb-d644-11e6-be81-005056c00008");
+            System.out.println(data);
         }
-    }
-
-    public void beanToMapTest(){
-    }
-
 
 }

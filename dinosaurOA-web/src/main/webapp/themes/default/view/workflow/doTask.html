@@ -7,20 +7,20 @@
 					<div class="container-fluid">
 						<div class="row">
 							<div style="float: right">
-								<input type="submit" value="申请">
+								<input type="submit" value="同意申请">
 							</div>
 						</div>
 						<#list form.form.formProperties as formProperties>
-							<#if formProperties.type.name == "string">
+							<#if formProperties.type == "string">
 								<div class="row form">
 									<div class="col-md-2 info">
 										<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
 									</div>
 									<div class="col-md-2">
-										<input type="text" class="${formProperties.id}" name="${formProperties.id}" placeholder="${formProperties.name}">
+										<input type="text" class="${formProperties.id}" value="${formProperties.value!''}" name="${formProperties.id}" placeholder="${formProperties.name}">
 									</div>
 								</div>
-								<#elseif formProperties.type.name == "date">
+								<#elseif formProperties.type == "date">
 									<css>
 										<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.min.css">
 									</css>
@@ -42,15 +42,15 @@
 											<input type="text" name="${formProperties.id}" value="${formProperties.value!''}" class="datetimepicker">
 										</div>
 									</div>
-									<#elseif formProperties.type.name == "enum">
+									<#elseif formProperties.type == "enum">
 										<div class="row form">
 											<div class="col-md-2 info">
 												<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
 											</div>
 											<div class="col-md-2">
 												<select name="${formProperties.id}">
-													<#list formProperties.type.value as enum>
-														<option value="${enum.key}">${enum.value}</option>
+													<#list formProperties.value as val>
+														<option value="${val.key}">${val.value}</option>
 													</#list>
 												</select>
 											</div>
