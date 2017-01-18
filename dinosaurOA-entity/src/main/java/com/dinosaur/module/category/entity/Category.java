@@ -1,6 +1,10 @@
 package com.dinosaur.module.category.entity;
 
+import com.dinosaur.module.group.entity.Group;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 流程分类实体
@@ -16,6 +20,10 @@ public class Category {
     private String name;
     private String categoryPath;
     private int parentId;
+
+    private Group group;
+
+    private List<Category> children = new ArrayList<Category>();
 
     @Id
     public int getId() {
@@ -52,4 +60,24 @@ public class Category {
     public void setParentId(int parentId) {
         this.parentId = parentId;
     }
+
+    @Transient
+    public List<Category> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Category> children) {
+        this.children = children;
+    }
+
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH}, optional = false)
+    @JoinColumn(name = "group_id" )
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
 }

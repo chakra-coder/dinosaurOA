@@ -49,7 +49,7 @@ public class ShiroDbRealm extends AuthorizingRealm{
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         User user = userService.getUserByUserNmae(token.getUsername());
         if (user != null) {
-            ShiroUser shiroUser = new ShiroUser(user.getName(),token.getHost(),user.getId());
+            ShiroUser shiroUser = new ShiroUser(user.getNickName(),user.getName(),token.getHost(),user.getId());
             String salt = user.getSalt();
             return new SimpleAuthenticationInfo(shiroUser,user.getPassword(), ByteSource.Util.bytes(salt),getName());
         } else {

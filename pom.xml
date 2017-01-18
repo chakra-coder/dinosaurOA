@@ -280,11 +280,6 @@
 			<version>${javax-servlet-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
 		<!--javax.servlet end-->
 
 		<!--commons begin-->
@@ -355,6 +350,14 @@
 			<version>3.15</version>
 		</dependency>
 		<!-- poi end -->
+
+		<!-- javaMail begin -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.5.0-b01</version>
+		</dependency>
+		<!-- javaMail end -->
 
 		<!-- quartz begin -->
 		<dependency>

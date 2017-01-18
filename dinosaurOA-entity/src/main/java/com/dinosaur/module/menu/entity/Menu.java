@@ -5,6 +5,9 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,7 +23,10 @@ public class Menu {
     private String name;
     private int parentId;
     private String url;
-    private Set<Group> groups;
+    private String menuPath;
+    private Set<Group> groups = new HashSet<Group>();
+
+    private List<Menu> children = new ArrayList<Menu>();
 
     @Id
     public int getId() {
@@ -70,5 +76,22 @@ public class Menu {
 
     public void setGroups(Set<Group> groups) {
         this.groups = groups;
+    }
+
+    @Transient
+    public List<Menu> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Menu> children) {
+        this.children = children;
+    }
+
+    public String getMenuPath() {
+        return menuPath;
+    }
+
+    public void setMenuPath(String menuPath) {
+        this.menuPath = menuPath;
     }
 }

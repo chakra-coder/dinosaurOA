@@ -1,0 +1,31 @@
+<title>流程列表</title>
+<section class="content">
+	<div class="row">
+		<table class="table table-striped table-hover">
+			<thead>
+			<tr>
+				<th>名称</th>
+				<th>key</th>
+				<th>版本号</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<#if processDefinitions??&&processDefinitions?size gt 0>
+				<#list processDefinitions as processDefinition>
+					<tr>
+						<th>${processDefinition.name!''}</th>
+						<th>${processDefinition.key!''}</th>
+						<th>${processDefinition.version!''}</th>
+						<th><a class="startup-process" href="${ctx}/workflow/start/${processDefinition.id}">申请</a> </th>
+					</tr>
+				</#list>
+				<#else/>
+					<tr>
+						<th colspan="7"><label>没有查询到可用流程</label></th>
+					</tr>
+			</#if>
+			</tbody>
+		</table>
+	</div>
+</section>

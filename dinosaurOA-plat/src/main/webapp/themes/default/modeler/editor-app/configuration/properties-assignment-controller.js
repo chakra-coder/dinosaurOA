@@ -82,7 +82,7 @@ var KisBpmAssignmentPopupCtrl = [ '$scope', function($scope) {
         $scope.property.value.assignment = $scope.assignment;
         
         $scope.updatePropertyInModel($scope.property);
-        $scope.close();
+		$scope.close();
     };
 
     // Close button handler

@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 教师实体类
+ * 班级实体类
  * @Author Alcott Hawk
  * @Date 12/30/2016
  */
@@ -19,12 +19,12 @@ public class Classroom extends IdEntity{
 
     private String name;                              //名称
     private String createTime;                        //创建日期
-    private Set<User> users = new HashSet<User>();    //学生
+    private Set<User> students = new HashSet<User>(); //学生
     private String classTeacher;                      //班主任
     private String instructor;                        //辅导员
-    private Set<Job> jobs;
+    private Set<Job> jobs = new HashSet<Job>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "classroom", cascade = CascadeType.ALL)
     public Set<Job> getJobs() {
         return jobs;
     }
@@ -51,12 +51,12 @@ public class Classroom extends IdEntity{
     }
 
     @ManyToMany(mappedBy = "classrooms",fetch = FetchType.EAGER)
-    public Set<User> getUsers() {
-        return users;
+    public Set<User> getStudents() {
+        return students;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setStudents(Set<User> students) {
+        this.students = students;
     }
 
     @Column(nullable = false)
