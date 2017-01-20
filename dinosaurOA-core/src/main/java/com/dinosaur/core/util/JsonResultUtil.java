@@ -2,8 +2,6 @@ package com.dinosaur.core.util;
 
 import com.dinosaur.core.util.entity.JsonObject;
 
-import java.util.Objects;
-
 /**
  * json规范格式返回数据工具类
  * @Author Alcott Hawk
@@ -43,7 +41,7 @@ public class JsonResultUtil {
      * @param data 对象数据
      * @return 复合系统规范的json数据
      */
-    public static JsonObject getObjectJson(Objects data){
+    public static JsonObject getObjectJson(Object data){
         JsonObject jsonObject = new JsonObject();
         jsonObject.setState(successState);
         jsonObject.setData(data);

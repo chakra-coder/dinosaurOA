@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.List;
+
 /**
  * 分类数据访问层
  * @Author Alcott Hawk
@@ -19,6 +21,9 @@ public interface CategoryDao extends JpaSpecificationExecutor<Category>, PagingA
      */
     @Query("SELECT COUNT(*) FROM Category c WHERE c.parentId =?1")
     int countByParentId(Integer pid);
+
+    @Query("FROM Category")
+    List<Category> findAll();
 
     //int countByUseing(Integer id);
 

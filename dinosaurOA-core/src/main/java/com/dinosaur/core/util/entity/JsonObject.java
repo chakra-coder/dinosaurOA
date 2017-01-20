@@ -1,7 +1,6 @@
 package com.dinosaur.core.util.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * json格式规范返回数据类型实体
@@ -11,7 +10,7 @@ import java.util.Objects;
 public class JsonObject implements Serializable{
 
     private int state;
-    private Objects data;
+    private Object data;
     private String message;
 
     public int getState() {
@@ -22,11 +21,11 @@ public class JsonObject implements Serializable{
         this.state = state;
     }
 
-    public Objects getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(Objects data) {
+    public void setData(Object data) {
         this.data = data;
     }
 

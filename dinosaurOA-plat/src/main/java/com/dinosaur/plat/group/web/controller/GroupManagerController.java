@@ -1,5 +1,7 @@
 package com.dinosaur.plat.group.web.controller;
 
+import com.dinosaur.core.util.JsonResultUtil;
+import com.dinosaur.core.util.entity.JsonObject;
 import com.dinosaur.module.group.entity.Group;
 import com.dinosaur.module.system.construction.Construction;
 import com.dinosaur.module.user.GroupService;
@@ -11,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * 用户组管理控制器
@@ -59,6 +64,13 @@ public class GroupManagerController {
                             Model model){
         model.addAttribute("groups",groupService.getGroupByPage(pageSize,pageNo).getContent());
         return "view/group/list";
+    }
+
+    @RequestMapping(value = "/list-json", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonObject list(){
+        List<Group> groups = groupService.getAll();
+        return JsonResultUtil.getObjectJson(groups);
     }
 
 }

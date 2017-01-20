@@ -4,6 +4,7 @@ import com.dinosaur.core.util.JsonResultUtil;
 import com.dinosaur.core.util.entity.JsonObject;
 import com.dinosaur.module.category.CategoryService;
 import com.dinosaur.module.category.entity.Category;
+import com.dinosaur.module.user.GroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * 分类controller
@@ -27,20 +30,24 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private GroupService groupService;
+
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public String list(Model model){
-        model.addAttribute("list",categoryService.getAll());
+        model.addAttribute("groups",groupService.getAll());
         return "view/category/list";
     }
 
-    @RequestMapping(value = "/add",method = RequestMethod.PUT)
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
-    public JsonObject add(Category category,Integer parentId){
-        if (categoryService.create(category,parentId)){
+    public JsonObject add(String groupId, String name, String parentId){
+        if (categoryService.create(groupId, name, parentId)){
             return JsonResultUtil.getSuccessJson("添加成功");
         } else {
             return JsonResultUtil.getErrorJson("添加失败");
         }
+
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
@@ -51,6 +58,13 @@ public class CategoryController {
         } else {
             return JsonResultUtil.getErrorJson("删除失败");
         }
+    }
+
+    @RequestMapping(value = "/list-json",method = RequestMethod.GET)
+    @ResponseBody
+    public JsonObject getCategory(){
+        List<Category> categories = categoryService.getAll();
+        return JsonResultUtil.getObjectJson(categories);
     }
 
 }

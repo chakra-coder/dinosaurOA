@@ -65,7 +65,7 @@ public class Menu {
     }
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="d_menu_group",
+    @JoinTable(name="d_group_menu",
             joinColumns = @JoinColumn(name="menu_id"),
             inverseJoinColumns = @JoinColumn(name="group_id"))
     @OrderBy("id")

@@ -24,7 +24,7 @@ public class Group extends IdEntity{
     private Set<Menu> menus = new HashSet<Menu>();
     private Set<Category> categories = new HashSet<Category>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "group", cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "groups")
     public Set<Category> getCategories() {
         return categories;
     }

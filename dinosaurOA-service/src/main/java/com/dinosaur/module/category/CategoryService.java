@@ -2,14 +2,16 @@ package com.dinosaur.module.category;
 
 import com.dinosaur.module.category.dao.CategoryDao;
 import com.dinosaur.module.category.entity.Category;
+import com.dinosaur.module.group.dao.GroupDAO;
+import com.dinosaur.module.group.entity.Group;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 分类service
@@ -25,32 +27,62 @@ public class CategoryService {
     @Autowired
     private CategoryDao categoryDao;
 
-    public List<Category> getAll(){
-        List<Category> menus = (List<Category>) categoryDao.findAll();
-        List<Category> menuList = new ArrayList<Category>();
-        menus.forEach(v->{
-            if (v.getParentId() == 0){
-                List<Category> children = findChildren(menus,v.getId());
-                v.setChildren(children);
-                menuList.add(v);
+    @Autowired
+    private GroupDAO groupDAO;
+
+    public List getAll(){
+        List<Category> menus = categoryDao.findAll();
+        List<Map> menuList = new ArrayList<Map>();
+        Map categoryMap = null;
+        for (Category category : menus){
+            if (category.getParentId() == 0){
+                categoryMap = new HashMap();
+                categoryMap.put("name",category.getName());
+                categoryMap.put("id",category.getId());
+                categoryMap.put("children",findChildren(menus,category.getId()));
+                menuList.add(categoryMap);
             }
-        });
+        }
         return menuList;
     }
 
     /**
      * 保存一个分类信息
-     * @param category
+     * @param groupId
+     * @param name
      * @param pid
      * @return
      */
-    public boolean create(Category category,Integer pid){
+    public boolean create(String groupId, String name, String pid){
         if (null == pid){
             return false;
         }
-        category.setParentId(pid);
-        categoryDao.save(category);
-        return true;
+        Category category = null;
+        if (StringUtils.isNoneBlank(groupId)&&StringUtils.isNoneBlank(name)) {
+            Group group = groupDAO.findOne(groupId);
+            category = new Category();
+            category.setName(name);
+            Set<Group> groups = new HashSet<Group>();
+            groups.add(group);
+            category.setGroups(groups);
+            if (StringUtils.isBlank(pid)){
+                category.setCategoryPath("|");
+            } else {
+                Category categoryParent = categoryDao.findOne(Integer.valueOf(pid));
+                if (null != categoryParent){
+                    category.setCategoryPath(categoryParent.getCategoryPath()+categoryParent.getId()+"|");
+                    category.setParentId(categoryParent.getParentId());
+                } else {
+                    return false;
+                }
+            }
+            categoryDao.save(category);
+            groupDAO.save(group);
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     /**
@@ -94,15 +126,20 @@ public class CategoryService {
      * @param id
      * @return
      */
-    private List<Category> findChildren(List<Category> categories,int id){
-        List<Category> children = new ArrayList<Category>();
-        categories.forEach(v->{
-            if (v.getParentId() != 0 && v.getParentId() == id){
-                v.setChildren(this.findChildren(categories,v.getId()));
-                children.add(v);
+    private List findChildren(List<Category> categories,int id){
+        Map list = new HashMap();
+        Map<String,Object> children = new HashMap<String,Object>();
+        List<Map> menuList = new ArrayList<Map>();
+        for(Category category : categories){
+            if (category.getParentId() == id){
+                list = new HashMap();
+                list.put("name",category.getName());
+                list.put("id",category.getId());
+                list.put("children",this.findChildren(categories,category.getId()));
+                menuList.add(list);
             }
-        });
-        return children;
+        }
+        return menuList;
     }
 
 }

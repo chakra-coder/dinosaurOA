@@ -1,10 +1,12 @@
 package com.dinosaur.module.category.entity;
 
 import com.dinosaur.module.group.entity.Group;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 流程分类实体
@@ -21,11 +23,13 @@ public class Category {
     private String categoryPath;
     private int parentId;
 
-    private Group group;
+    private Set<Group> groups = new HashSet<Group>();
 
-    private List<Category> children = new ArrayList<Category>();
+    private Map<String,List<Category>> children = new HashMap<String,List<Category>>();
 
     @Id
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     public int getId() {
         return id;
     }
@@ -52,7 +56,6 @@ public class Category {
         this.categoryPath = categoryPath;
     }
 
-    @Column(nullable = false)
     public int getParentId() {
         return parentId;
     }
@@ -62,22 +65,26 @@ public class Category {
     }
 
     @Transient
-    public List<Category> getChildren() {
+    public Map<String,List<Category>> getChildren() {
         return children;
     }
 
-    public void setChildren(List<Category> children) {
+    public void setChildren(Map<String,List<Category>> children) {
         this.children = children;
     }
 
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH}, optional = false)
-    @JoinColumn(name = "group_id" )
-    public Group getGroup() {
-        return group;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="d_group_category",
+            joinColumns = @JoinColumn(name="category_id"),
+            inverseJoinColumns = @JoinColumn(name="group_id"))
+    @OrderBy("id")
+    @Fetch(FetchMode.JOIN)
+    public Set<Group> getGroups() {
+        return groups;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
     }
 
 }

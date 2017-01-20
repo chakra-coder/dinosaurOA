@@ -5,4 +5,8 @@ hr {height:1px;border:none;border-top:1px dashed #0066CC;}
 a{cursor: pointer}
 .border{border: 1px solid rgba(97, 144, 102, 0.41);border-radius: 2px;padding: 4px 1px 3px 1px }
 .dropMenu{position: relative;border-collapse: separate;display: table}
-.stackShow{position: absolute;z-index: 9999;background-color: rgba(22, 87, 49, 0.29);min-width: 250px;align-content: center}
+.stackShow{position: absolute;z-index: 9999;background-color: rgba(232, 232, 227, 0.89);min-width: 250px;align-content: center}
+ul{list-style: none !important}
+.list-item{color: #333;font-size: 15px;cursor: pointer;font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif}
+.list-item:hover{text-decoration: underline !important;color: #333 !important;}
+.list-item:visited{color: #333 !important;}

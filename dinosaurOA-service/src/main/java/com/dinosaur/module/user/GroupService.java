@@ -52,6 +52,12 @@ public class GroupService {
          return groupDAO.save(group);
     }
 
+    /**
+     * 查询用户组信息，并提供分类
+     * @param pageSize
+     * @param pageNo
+     * @return
+     */
     public Page<Group> getGroupByPage(int pageSize,int pageNo){
         //Sort sort = new Sort(Sort.Direction.DESC);
         Pageable page = new PageRequest(pageNo - 1,pageSize);
@@ -64,6 +70,21 @@ public class GroupService {
         };
         Page<Group> groups = groupDAO.findAll(spec,page);
         return groups;
+    }
+
+    /**
+     * 查询所有的用户组信息
+     * @return
+     */
+    public List<Group> getAll(){
+        Specification<Group> spec = new Specification<Group>() {
+            @Override
+            public Predicate toPredicate(Root<Group> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return null;
+            }
+        };
+        List<Group> groups = groupDAO.findAll(spec);
+        return  groups;
     }
 
     /**
