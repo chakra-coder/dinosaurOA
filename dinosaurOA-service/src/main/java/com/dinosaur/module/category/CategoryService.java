@@ -30,17 +30,17 @@ public class CategoryService {
     @Autowired
     private GroupDAO groupDAO;
 
+    /**
+     * 获取所有的分类信息
+     * @return
+     */
     public List getAll(){
         List<Category> menus = categoryDao.findAll();
         List<Map> menuList = new ArrayList<Map>();
-        Map categoryMap = null;
         for (Category category : menus){
             if (category.getParentId() == 0){
-                categoryMap = new HashMap();
-                categoryMap.put("name",category.getName());
-                categoryMap.put("id",category.getId());
-                categoryMap.put("children",findChildren(menus,category.getId()));
-                menuList.add(categoryMap);
+                List children = findChildren(menus,category.getId());
+                this.loadData(menuList,category, children);
             }
         }
         return menuList;
@@ -127,19 +127,31 @@ public class CategoryService {
      * @return
      */
     private List findChildren(List<Category> categories,int id){
-        Map list = new HashMap();
-        Map<String,Object> children = new HashMap<String,Object>();
         List<Map> menuList = new ArrayList<Map>();
         for(Category category : categories){
             if (category.getParentId() == id){
-                list = new HashMap();
-                list.put("name",category.getName());
-                list.put("id",category.getId());
-                list.put("children",this.findChildren(categories,category.getId()));
-                menuList.add(list);
+                List children = findChildren(categories,category.getId());
+                this.loadData(menuList,category, children);
             }
         }
         return menuList;
+    }
+
+    /**
+     * 添加分类数据到集合
+     * @param menuList 分类目标集合
+     * @param category 分类实体
+     * @param children 子分类
+     */
+    private void loadData(List<Map> menuList, Category category, List children){
+        Map map = new HashMap();
+        map.put("name",category.getName());
+        map.put("id",category.getId());
+        map.put("children",children);
+        if (children.size()>0){
+            map.put("open",true);
+        }
+        menuList.add(map);
     }
 
 }

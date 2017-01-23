@@ -110,7 +110,8 @@
 				beforeRemove: beforeRemove,
 				beforeRename: beforeRename,
 				onRemove: onRemove,
-				onRename: onRename
+				onRename: onRename,
+				onClick:zTreeOnClick
 			}
 		};
 
@@ -121,11 +122,11 @@
 			},
 			data: {
 				simpleData: {
-					enable: true
+					enable: false
 				}
 			},
 			callback: {
-				onClick:zTreeOnClick
+				onClick:zTreeChoseOnClick
 			}
 		};
 
@@ -163,10 +164,14 @@
 			showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
 		}
 
-		function zTreeOnClick(event, treeId, treeNode) {
+		function zTreeChoseOnClick(event, treeId, treeNode) {
 			$("#parentInput").val(treeNode.name);
 			$("#parentVal").val(treeNode.id);
 			$(".choseTree").hide();
+		}
+
+		function zTreeOnClick(event, treeId, treeNode) {
+			alert(treeNode);
 		}
 
 		function beforeRename(treeId, treeNode, newName, isCancel) {
