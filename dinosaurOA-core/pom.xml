@@ -19,6 +19,12 @@
 		<dependency>
 			<groupId>org.flowable</groupId>
 			<artifactId>flowable-spring</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-dbcp</artifactId>
+					<groupId>commons-dbcp</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.flowable</groupId>

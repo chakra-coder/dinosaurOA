@@ -19,12 +19,11 @@ public interface CategoryDao extends JpaSpecificationExecutor<Category>, PagingA
      * @param pid 父id
      * @return
      */
-    @Query("SELECT COUNT(*) FROM Category c WHERE c.parentId =?1")
+    @Query("SELECT COUNT(1) FROM Category c WHERE c.parentId =?1")
     int countByParentId(Integer pid);
 
     @Query("FROM Category")
     List<Category> findAll();
 
-    //int countByUseing(Integer id);
 
 }

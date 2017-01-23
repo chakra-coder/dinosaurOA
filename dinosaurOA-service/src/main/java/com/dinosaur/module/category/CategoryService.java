@@ -57,6 +57,7 @@ public class CategoryService {
         if (null == pid){
             return false;
         }
+        // TODO 分类的逻辑待商榷，主要是权限分配上
         Category category = null;
         if (StringUtils.isNoneBlank(groupId)&&StringUtils.isNoneBlank(name)) {
             Group group = groupDAO.findOne(groupId);
@@ -71,7 +72,7 @@ public class CategoryService {
                 Category categoryParent = categoryDao.findOne(Integer.valueOf(pid));
                 if (null != categoryParent){
                     category.setCategoryPath(categoryParent.getCategoryPath()+categoryParent.getId()+"|");
-                    category.setParentId(categoryParent.getParentId());
+                    category.setParentId(categoryParent.getId());
                 } else {
                     return false;
                 }

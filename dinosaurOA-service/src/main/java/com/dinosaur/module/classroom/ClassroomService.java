@@ -48,4 +48,41 @@ public class ClassroomService {
         return true;
     }
 
+    /**
+     * 激活或者挂起一个班级
+     * @param id 班级id
+     * @param isSuspend 是否是挂起状态
+     * @return
+     */
+    public boolean SuspendOrActive(String id,boolean isSuspend){
+        if (StringUtils.isNoneBlank(id)){
+            Classroom classroom = classroomDao.findOne(id);
+            if (null != classroom){
+                if (isSuspend && classroom.isSuspend()){
+                    classroomDao.active(id);
+                    return true;
+                } else if (!isSuspend && !classroom.isSuspend()){
+                    classroomDao.suspend(id);
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return  false;
+        }
+    }
+
+    /**
+     * 添加一个班级信息
+     * @param classroom
+     * @return
+     */
+    public Classroom add(Classroom classroom){
+        classroom.setCreateTime(DateUtil.getCurrentTime());
+        return classroomDao.save(classroom);
+    }
+
 }

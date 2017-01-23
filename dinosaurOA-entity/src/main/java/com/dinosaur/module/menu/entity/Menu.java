@@ -3,6 +3,7 @@ package com.dinosaur.module.menu.entity;
 import com.dinosaur.module.group.entity.Group;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,11 +25,14 @@ public class Menu {
     private int parentId;
     private String url;
     private String menuPath;
+    private String themePic;
     private Set<Group> groups = new HashSet<Group>();
 
     private List<Menu> children = new ArrayList<Menu>();
 
     @Id
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     public int getId() {
         return id;
     }
@@ -46,7 +50,7 @@ public class Menu {
         this.name = name;
     }
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "int default 0", nullable = false)
     public int getParentId() {
         return parentId;
     }
@@ -55,7 +59,7 @@ public class Menu {
         this.parentId = parentId;
     }
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 50)
     public String getUrl() {
         return url;
     }
@@ -87,11 +91,20 @@ public class Menu {
         this.children = children;
     }
 
+    @Column(nullable = false)
     public String getMenuPath() {
         return menuPath;
     }
 
     public void setMenuPath(String menuPath) {
         this.menuPath = menuPath;
+    }
+
+    public String getThemePic() {
+        return themePic;
+    }
+
+    public void setThemePic(String themePic) {
+        this.themePic = themePic;
     }
 }

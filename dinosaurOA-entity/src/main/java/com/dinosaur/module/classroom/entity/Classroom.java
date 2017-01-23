@@ -19,9 +19,13 @@ public class Classroom extends IdEntity{
 
     private String name;                              //名称
     private String createTime;                        //创建日期
+    private String endTime;                           //班级截至日期
     private Set<User> students = new HashSet<User>(); //学生
     private String classTeacher;                      //班主任
     private String instructor;                        //辅导员
+    private boolean isDelete;                         //是否删除
+    private boolean isSuspend;                        //是否挂起
+    private String themePic;                          //主题图
     private Set<Job> jobs = new HashSet<Job>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "classroom", cascade = CascadeType.ALL)
@@ -74,5 +78,37 @@ public class Classroom extends IdEntity{
 
     public void setInstructor(String instructor) {
         this.instructor = instructor;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
+    }
+
+    public boolean isSuspend() {
+        return isSuspend;
+    }
+
+    public void setSuspend(boolean suspend) {
+        isSuspend = suspend;
+    }
+
+    public String getThemePic() {
+        return themePic;
+    }
+
+    public void setThemePic(String themePic) {
+        this.themePic = themePic;
     }
 }

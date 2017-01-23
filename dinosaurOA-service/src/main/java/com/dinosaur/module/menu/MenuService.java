@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 菜单业务类
@@ -65,16 +67,15 @@ public class MenuService {
      * 获取所有分类信息
      * @return
      */
-    public List<Menu> getAll(){
-        List<Menu> menus = (List<Menu>) menuDao.findAll();
-        List<Menu> menuList = new ArrayList<Menu>();
-        menus.forEach(v->{
-            if (v.getParentId() == 0){
-                List<Menu> children = findChildren(menus,v.getId());
-                v.setChildren(children);
-                menuList.add(v);
+    public List getAll(){
+        List<Menu> menus = menuDao.findAll();
+        List<Map> menuList = new ArrayList<Map>();
+        for (Menu menu : menus){
+            if (menu.getParentId() == 0){
+                List children = findChildren(menus,menu.getId());
+                this.loadData(menuList,menu, children);
             }
-        });
+        }
         return menuList;
     }
 
@@ -84,15 +85,31 @@ public class MenuService {
      * @param id
      * @return
      */
-    private List<Menu> findChildren(List<Menu> menus,int id){
-        List<Menu> children = new ArrayList<Menu>();
-        menus.forEach(v->{
-            if (v.getParentId() != 0 && v.getParentId() == id){
-                v.setChildren(this.findChildren(menus,v.getId()));
-                children.add(v);
+    private List findChildren(List<Menu> menus,int id){
+        List<Map> menuList = new ArrayList<Map>();
+        for(Menu menu : menus){
+            if (menu.getParentId() == id){
+                List children = findChildren(menus,menu.getId());
+                this.loadData(menuList,menu, children);
             }
-        });
-        return children;
+        }
+        return menuList;
+    }
+
+    /**
+     * 添加分类数据到集合
+     * @param menuList 分类目标集合
+     * @param menu 分类实体
+     * @param children 子分类
+     */
+    private void loadData(List<Map> menuList, Menu menu, List children){
+        Map map = new HashMap();
+        map.put("name",menu.getName());
+        map.put("id",menu.getId());
+        map.put("url",menu.getUrl());
+        map.put("themePic",menu.getThemePic());
+        map.put("children",children);
+        menuList.add(map);
     }
 
 }
