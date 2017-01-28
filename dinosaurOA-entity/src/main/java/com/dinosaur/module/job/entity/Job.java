@@ -2,7 +2,6 @@ package com.dinosaur.module.job.entity;
 
 import com.dinosaur.module.base.entity.IdEntity;
 import com.dinosaur.module.user.entity.User;
-
 import javax.persistence.*;
 
 /**
