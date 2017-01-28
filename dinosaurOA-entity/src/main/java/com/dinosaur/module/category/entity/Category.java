@@ -56,6 +56,7 @@ public class Category {
         this.categoryPath = categoryPath;
     }
 
+    @Column(columnDefinition = "int default 0", nullable = false)
     public int getParentId() {
         return parentId;
     }

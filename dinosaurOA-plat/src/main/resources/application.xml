@@ -31,7 +31,7 @@
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
-		<property name="packagesToScan" value="com.dinosaur"/>
+		<property name="packagesToScan" value="com.dinosaur.module"/>
 	</bean>
 
 	<!-- Spring Data Jpa配置 -->
@@ -42,7 +42,6 @@
 	<bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 		<property name="showSql" value="true"/>
 		<property name="database" value="MYSQL"/>
-		<property name="generateDdl" value="true"/>
 		<property name="databasePlatform">
 			<bean factory-method="getDialect" class="com.dinosaur.core.util.Hibernates">
 				<constructor-arg ref="dataSource" />

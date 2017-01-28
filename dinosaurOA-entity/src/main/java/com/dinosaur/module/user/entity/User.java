@@ -1,8 +1,8 @@
 package com.dinosaur.module.user.entity;
 
 import com.dinosaur.module.base.entity.IdEntity;
-import com.dinosaur.module.classroom.entity.Classroom;
 import com.dinosaur.module.group.entity.Group;
+import com.dinosaur.module.job.entity.Job;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -28,14 +28,25 @@ public class User extends IdEntity {
     private String createDate;
     private UserExtend userExtend;
 
+    private Set<Job> jobs = new HashSet<Job>();
+
     private Set<Group> groups = new HashSet<Group>();
-    private Set<Classroom> classrooms = new HashSet<Classroom>();
 
     public User() {
     }
 
     public User(String id) {
         this.id = id;
+    }
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    public Set<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Set<Job> jobs) {
+        this.jobs = jobs;
     }
 
     @OneToOne(cascade = {CascadeType.ALL})
@@ -62,20 +73,6 @@ public class User extends IdEntity {
 
     public void setGroups(Set<Group> groups) {
         this.groups = groups;
-    }
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "d_class_student",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "class_id"))
-    @OrderBy("id")
-    @Fetch(FetchMode.JOIN)
-    public Set<Classroom> getClassrooms() {
-        return classrooms;
-    }
-
-    public void setClassrooms(Set<Classroom> classrooms) {
-        this.classrooms = classrooms;
     }
 
     public String getName() {

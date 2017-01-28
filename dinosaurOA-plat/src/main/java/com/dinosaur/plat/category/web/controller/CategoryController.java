@@ -47,7 +47,6 @@ public class CategoryController {
         } else {
             return JsonResultUtil.getErrorJson("添加失败");
         }
-
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)

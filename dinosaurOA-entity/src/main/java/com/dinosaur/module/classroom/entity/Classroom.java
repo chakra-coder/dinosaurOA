@@ -1,12 +1,7 @@
 package com.dinosaur.module.classroom.entity;
 
 import com.dinosaur.module.base.entity.IdEntity;
-import com.dinosaur.module.job.entity.Job;
-import com.dinosaur.module.user.entity.User;
-
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * 班级实体类
@@ -14,26 +9,19 @@ import java.util.Set;
  * @Date 12/30/2016
  */
 @Entity
-@Table(name = "d_classroom")
+@Table(name = "d_class")
 public class Classroom extends IdEntity{
 
     private String name;                              //名称
     private String createTime;                        //创建日期
-    private Set<User> students = new HashSet<User>(); //学生
+    private String endTime;                           //班级截至日期
     private String classTeacher;                      //班主任
     private String instructor;                        //辅导员
-    private Set<Job> jobs = new HashSet<Job>();
+    private boolean isDelete;                         //是否删除
+    private boolean isSuspend;                        //是否挂起
+    private String themePic;                          //主题图
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "classroom", cascade = CascadeType.ALL)
-    public Set<Job> getJobs() {
-        return jobs;
-    }
-
-    public void setJobs (Set<Job> jobs) {
-        this.jobs = jobs;
-    }
-
-    @Column(nullable = false,length = 20)
+    @Column(nullable = false,length = 20, name = "name")
     public String getName() {
         return name;
     }
@@ -50,16 +38,7 @@ public class Classroom extends IdEntity{
         this.createTime = createTime;
     }
 
-    @ManyToMany(mappedBy = "classrooms",fetch = FetchType.EAGER)
-    public Set<User> getStudents() {
-        return students;
-    }
-
-    public void setStudents(Set<User> students) {
-        this.students = students;
-    }
-
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     public String getClassTeacher() {
         return classTeacher;
     }
@@ -68,11 +47,46 @@ public class Classroom extends IdEntity{
         this.classTeacher = classTeacher;
     }
 
+    @Column(nullable = false, length = 50)
     public String getInstructor() {
         return instructor;
     }
 
     public void setInstructor(String instructor) {
         this.instructor = instructor;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    @Column(name = "isDelete")
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
+    }
+
+    @Column(name = "isSuspend")
+    public boolean isSuspend() {
+        return isSuspend;
+    }
+
+    public void setSuspend(boolean suspend) {
+        isSuspend = suspend;
+    }
+
+    public String getThemePic() {
+        return themePic;
+    }
+
+    public void setThemePic(String themePic) {
+        this.themePic = themePic;
     }
 }

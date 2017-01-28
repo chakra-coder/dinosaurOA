@@ -1,7 +1,6 @@
 package com.dinosaur.module.job.entity;
 
 import com.dinosaur.module.base.entity.IdEntity;
-import com.dinosaur.module.classroom.entity.Classroom;
 import com.dinosaur.module.user.entity.User;
 
 import javax.persistence.*;
@@ -23,7 +22,6 @@ public class Job extends IdEntity{
     private String endTime;           //结束时间
     private String content;           //内容
     private String author;            //作者
-    private Classroom classroom;      //班级
     private User user;
 
     @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH}, optional = false)
@@ -51,16 +49,6 @@ public class Job extends IdEntity{
 
     public void setAuthor(String authot) {
         this.author = author;
-    }
-
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH}, optional = false)
-    @JoinColumn(name = "classroom_id" )
-    public Classroom getClassroom() {
-        return classroom;
-    }
-
-    public void setClassroom(Classroom classroom) {
-        this.classroom = classroom;
     }
 
     @Column(nullable = false,length = 50)

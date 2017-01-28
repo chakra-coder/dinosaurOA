@@ -21,7 +21,7 @@ public interface JobDao extends JpaSpecificationExecutor<Job>, PagingAndSortingR
      * @param id
      * @return
      */
-    @Query("SELECT j FROM Job j JOIN j.classroom c WHERE c.id = ?1")
+    @Query("SELECT j FROM Job j WHERE j.id = ?1")
     List<Job> findByClassRoom(String id);
 
     /**
