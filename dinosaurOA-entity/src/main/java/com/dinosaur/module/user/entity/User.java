@@ -1,6 +1,7 @@
 package com.dinosaur.module.user.entity;
 
 import com.dinosaur.module.base.entity.IdEntity;
+import com.dinosaur.module.classroom.entity.Classroom;
 import com.dinosaur.module.group.entity.Group;
 import com.dinosaur.module.job.entity.Job;
 import org.hibernate.annotations.Fetch;
@@ -31,6 +32,8 @@ public class User extends IdEntity {
     private Set<Job> jobs = new HashSet<Job>();
 
     private Set<Group> groups = new HashSet<Group>();
+
+    private Set<Classroom> calssrooms = new HashSet<Classroom>();
 
     public User() {
     }
@@ -73,6 +76,20 @@ public class User extends IdEntity {
 
     public void setGroups(Set<Group> groups) {
         this.groups = groups;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="d_user_class",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="class_id"))
+    @OrderBy("id")
+    @Fetch(FetchMode.JOIN)
+    public Set<Classroom> getCalssrooms() {
+        return calssrooms;
+    }
+
+    public void setCalssrooms(Set<Classroom> calssrooms) {
+        this.calssrooms = calssrooms;
     }
 
     public String getName() {

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<title><sitemesh:write property='title' /></title>
 	<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/bootstrap/css/bootstrap-theme.min.css">
@@ -8,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/css/AdminLTE.min.css">
 	<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/css/skins/_all-skins.min.css">
 	<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/style/main.css">
+	<link rel="icon" href="favicon.png" type="image/png">
 	<sitemesh:write property='css' />
 </head>
 <body class="skin-blue sidebar-mini">
@@ -16,17 +20,26 @@
 		<#include "/layouts/aside.html" />
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>
-					<small>
-						<a href="${ctx}/index">
-							驾驶室
+				<small>
+					<a href="${ctx}/index">
+						驾驶室
+					</a>
+				</small>
+				<small>
+					>>
+				</small>
+				<small><sitemesh:write property='title' /></small>
+				<ol class="breadcrumb">
+					<li>
+						<a href="#">
+							<i class="fa fa-dashboard"></i>
+							Home
 						</a>
-					</small>
-					<small>
-						>>
-					</small>
-					<small><sitemesh:write property='title' /></small>
-				</h1>
+					</li>
+					<li class="active">
+						<sitemesh:write property='title' />
+					</li>
+				</ol>
 				<ol class="breadcrumb">
 					<li>
 						<a href="#">

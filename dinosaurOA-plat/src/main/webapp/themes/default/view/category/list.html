@@ -2,86 +2,84 @@
 <css>
 	<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/ztree/css/metroStyle/metroStyle.css">
 </css>
+<section class="content-tab">
+	<div class="row">
+		<div class="btn-group col-sm-2 col-sm-offset-1" style="padding: 0 0 5px 2px">
+			<button type="button" class="btn btn-default" onclick="addCategory()">添加分类</button>
+		</div>
+	</div>
+</section>
 <section class="content">
 	<div class="row">
-		<div class="col-md-12">
-			<div class="row">
-				<div class="btn-group col-sm-2 col-sm-offset-1" style="padding: 0 0 5px 2px">
-					<button type="button" class="btn btn-default" onclick="addCategory()">添加分类</button>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3">
-					<ul id="tree-view" class="ztree border">
+		<div class="col-md-3">
+			<ul id="tree-view" class="ztree border">
 
-					</ul>
+			</ul>
+		</div>
+		<div class="col-md-9 border" id="contentBox">
+			<code>
+				@RequestMapping(value = "/add",method = RequestMethod.PUT)
+				@ResponseBody
+				public JsonObject add(Category category,Integer parentId){
+				if (categoryService.create(category,parentId)){
+				return JsonResultUtil.getSuccessJson("添加成功");
+				} else {
+				return JsonResultUtil.getErrorJson("添加失败");
+				}
+				}
+			</code>
+		</div>
+		<div class="col-md-9 border" style="display: none" id="categoryBox">
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<label for="nameInput" class="col-sm-2 control-label">名称</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" name="name" id="nameInput">
+					</div>
 				</div>
-				<div class="col-md-9 border" id="contentBox">
-					<code>
-						@RequestMapping(value = "/add",method = RequestMethod.PUT)
-						@ResponseBody
-						public JsonObject add(Category category,Integer parentId){
-						if (categoryService.create(category,parentId)){
-						return JsonResultUtil.getSuccessJson("添加成功");
-						} else {
-						return JsonResultUtil.getErrorJson("添加失败");
-						}
-						}
-					</code>
+				<div class="form-group">
+					<label for="parentInput" class="col-sm-2 control-label">上级节点</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="parentInput" placeholder="顶级节点" readonly>
+						<input type="hidden" name="parentId" id="parentVal">
+						<div style="display: none" class="choseTree border stackShow">
+							<div class="close">
+								<p style="float: right">
+									<a href="#"><i class="fa fa-remove"></i></a>
+								</p>
+							</div>
+							<ul class="ztree" id="choseTree">
+							</ul>
+						</div>
+					</div>
 				</div>
-				<div class="col-md-9 border" style="display: none" id="categoryBox">
-					<form class="form-horizontal" role="form">
-						<div class="form-group">
-							<label for="nameInput" class="col-sm-2 control-label">名称</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" name="name" id="nameInput">
+				<div class="form-group">
+					<label for="groupInput" class="col-sm-2 control-label">所属组</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="groupInput" readonly>
+						<input type="hidden" name="group" id="groupVal">
+						<div style="display: none" class="choseGroup border stackShow">
+							<div class="close">
+								<p style="float: right">
+									<a href="#"><i class="fa fa-remove"></i></a>
+								</p>
 							</div>
+							<ul>
+								<#if groups??>
+									<#list groups as group>
+										<li><a href="#" class="list-item" name="${group.id}">${group.name!''}</a></li>
+									</#list>
+								</#if>
+							</ul>
 						</div>
-						<div class="form-group">
-							<label for="parentInput" class="col-sm-2 control-label">上级节点</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" id="parentInput" placeholder="顶级节点" readonly>
-								<input type="hidden" name="parentId" id="parentVal">
-								<div style="display: none" class="choseTree border stackShow">
-									<div class="close">
-										<p style="float: right">
-											<a href="#"><i class="fa fa-remove"></i></a>
-										</p>
-									</div>
-									<ul class="ztree" id="choseTree">
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="groupInput" class="col-sm-2 control-label">所属组</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" id="groupInput" readonly>
-								<input type="hidden" name="group" id="groupVal">
-								<div style="display: none" class="choseGroup border stackShow">
-									<div class="close">
-										<p style="float: right">
-											<a href="#"><i class="fa fa-remove"></i></a>
-										</p>
-									</div>
-									<ul>
-										<#if groups??>
-											<#list groups as group>
-												<li><a href="#" class="list-item" name="${group.id}">${group.name!''}</a></li>
-											</#list>
-										</#if>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
-								<input type="button" id="create" class="btn btn-default" value="创建">
-							</div>
-						</div>
-					</form>
+					</div>
 				</div>
-			</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="button" id="create" class="btn btn-default" value="创建">
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 </section>

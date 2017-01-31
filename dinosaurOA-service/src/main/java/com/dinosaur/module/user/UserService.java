@@ -18,12 +18,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -67,6 +68,20 @@ public class UserService {
     }
 
     /**
+     * 批量添加多个用户
+     * @param users
+     * @return
+     */
+    public boolean add(List<User> users){
+        if (users.size()>0){
+            userDAO.save(users);
+            return true;
+        } else {
+          return false;
+        }
+    }
+
+    /**
      * 删除一个用户
      * @param id
      * @return
@@ -104,6 +119,25 @@ public class UserService {
         userDAO.save(user);
         groupDAO.save(group);
         return true;
+    }
+
+    /**
+     * 批量查询目标用户id的用户信息
+     * @param targetUser
+     */
+    public List<User> getAllUser(List<String> targetUser){
+        List<User> users = userDAO.findAll((Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
+            List<Predicate> criterias = new ArrayList<Predicate>();
+            if (targetUser.size()>0){
+                List<Predicate> states = new ArrayList<Predicate>();
+                targetUser.forEach(u->{
+                    states.add(cb.equal(root.get(u).as(java.lang.String.class),u));
+                });
+                criterias.add(cb.or(states.toArray(new Predicate[]{})));
+            }
+            return cb.and(criterias.toArray(new Predicate[]{}));
+        });
+        return users;
     }
 
 }

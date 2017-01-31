@@ -1,0 +1,128 @@
+<title>班级列表</title>
+<css>
+	<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.min.css">
+</css>
+<section class="content-tab">
+	<div class="row">
+		<div style="padding: 0 5px 5px 0;float: right">
+			<button id="model" data-toggle="modal" data-target="#myModal"  type="button" class="btn btn-default">新建班级</button>
+		</div>
+	</div>
+</section>
+<section class="content">
+	<div class="row">
+		<table class="table table-striped table-hover">
+			<thead>
+			<tr>
+				<th>名称</th>
+				<th>logo</th>
+				<th>班主任</th>
+				<th>辅导员</th>
+				<th>创建日期</th>
+				<th>状态（激活/禁用）</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<#if classs??&&classs?size gt 0>
+				<#list classs as class>
+					<tr>
+						<th>${class.name!''}</th>
+						<th>${class.themePic!''}</th>
+						<th>${class.classTeacher!''}</th>
+						<th>${class.instructor!''}</th>
+						<th>${class.createTime!''}</th>
+						<#if class.suspend == false>
+							<th>启用中</th>
+							<#else/>
+							<th>不可用</th>
+						</#if>
+						<th>
+							<a href="#" onclick="editClick('${class.id}')">
+								编辑
+							</a>
+							<small>/</small>
+							<a href="#" onclick="deleteClick('${class.id}')">
+								删除
+							</a>
+						</th>
+					</tr>
+				</#list>
+				<#else/>
+				<tr>
+					<th colspan="7"><label>没有查询到班级数据</label></th>
+				</tr>
+			</#if>
+			</tbody>
+		</table>
+	</div>
+</section>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<form  method="post" action="${ctx}/classroom/create" class="form-horizontal" role="form" enctype="multipart/form-data">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="myModalLabel">添加班级</h4>
+				</div>
+				<div class="modal-body">
+					<fieldset>
+						<legend>班级基础信息</legend>
+						<table>
+							<tr>
+								<th>
+									<label for="nameInput">班级名称:</label>
+								</th>
+								<th>
+									<input type="text" name="name" id="nameInput">
+								</th>
+							</tr>
+							<tr>
+								<th>
+									<label for="logoInput">班级logo:</label>
+								</th>
+								<th>
+									<section id="choseImg">
+										<input type="file" name="file" id="logoInput" accept="image/gif,image/jpeg,image/png">
+									</section>
+									<section id="previewImg" style="display: none">
+										<img src="" width="100" height="100" alt="logo预览">
+									</section>
+
+								</th>
+							</tr>
+							<tr>
+								<th>
+									<label>持续至:</label>
+								</th>
+								<th>
+									<input type="text" name="endTime" class="datetimepicker">
+								</th>
+							</tr>
+						</table>
+					</fieldset>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary">Save changes</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<js>
+	<script type="application/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.full.min.js"></script>
+	<script>
+		function editClick(obj) {
+			alert(obj);
+		}
+		function deleteClick(obj){
+			alert(obj);
+		}
+		$('.datetimepicker').datetimepicker({
+			format: 'Y-m-d H:i:s'
+		});
+		$.datetimepicker.setLocale('zh');
+	</script>
+</js>
+

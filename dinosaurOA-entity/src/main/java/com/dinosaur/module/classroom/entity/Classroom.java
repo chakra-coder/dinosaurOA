@@ -1,7 +1,11 @@
 package com.dinosaur.module.classroom.entity;
 
 import com.dinosaur.module.base.entity.IdEntity;
+import com.dinosaur.module.user.entity.User;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 班级实体类
@@ -15,11 +19,30 @@ public class Classroom extends IdEntity{
     private String name;                              //名称
     private String createTime;                        //创建日期
     private String endTime;                           //班级截至日期
+    private Set<User> students = new HashSet<User>(); //学生
     private String classTeacher;                      //班主任
     private String instructor;                        //辅导员
-    private boolean isDelete;                         //是否删除
-    private boolean isSuspend;                        //是否挂起
+    private boolean delete;                         //是否删除
+    private boolean suspend;                        //是否挂起
     private String themePic;                          //主题图
+    private String createUser;                        //创建者
+
+    public Classroom(){
+    }
+
+    public Classroom(String id){
+        this.id = id;
+    }
+
+    @ManyToMany(mappedBy = "calssrooms", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    public Set<User> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<User> students) {
+        this.students = students;
+    }
 
     @Column(nullable = false,length = 20, name = "name")
     public String getName() {
@@ -38,7 +61,6 @@ public class Classroom extends IdEntity{
         this.createTime = createTime;
     }
 
-    @Column(nullable = false, length = 50)
     public String getClassTeacher() {
         return classTeacher;
     }
@@ -47,7 +69,6 @@ public class Classroom extends IdEntity{
         this.classTeacher = classTeacher;
     }
 
-    @Column(nullable = false, length = 50)
     public String getInstructor() {
         return instructor;
     }
@@ -66,20 +87,20 @@ public class Classroom extends IdEntity{
 
     @Column(name = "isDelete")
     public boolean isDelete() {
-        return isDelete;
+        return delete;
     }
 
     public void setDelete(boolean delete) {
-        isDelete = delete;
+        this.delete = delete;
     }
 
     @Column(name = "isSuspend")
     public boolean isSuspend() {
-        return isSuspend;
+        return suspend;
     }
 
     public void setSuspend(boolean suspend) {
-        isSuspend = suspend;
+        this.suspend = suspend;
     }
 
     public String getThemePic() {
@@ -89,4 +110,14 @@ public class Classroom extends IdEntity{
     public void setThemePic(String themePic) {
         this.themePic = themePic;
     }
+
+    @Column(length = 50, nullable = false)
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
 }
