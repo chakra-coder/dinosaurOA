@@ -1,15 +1,21 @@
 <title>启动办理</title>
+<css>
+	<link type="text/css" rel="stylesheet" href="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/css/fileinput.min.css" />
+	<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.min.css">
+</css>
+<section class="content-tab">
+	<div class="row">
+		<div style="padding: 0 5px 5px 0;float: right">
+			<button type="button" class="btn btn-default">发起申请</button>
+		</div>
+	</div>
+</section>
 <section class="content">
 	<div class="row content">
 		<#if form??>
 			<form class="submit" method="post" action="${ctx}/workflow/submit/${form.objId}" class="form-horizontal" role="form" enctype="multipart/form-data">
 				<#if form.isFormKey == false>
 					<div class="container-fluid">
-						<div class="row">
-							<div style="float: right">
-								<input class="applyBtn" type="submit" value="申请">
-							</div>
-						</div>
 						<#list form.form.formProperties as formProperties>
 							<#if formProperties.type == "string">
 								<div class="row form">
@@ -21,19 +27,6 @@
 									</div>
 								</div>
 								<#elseif formProperties.type == "date">
-									<css>
-										<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.min.css">
-									</css>
-									<js>
-										<script type="application/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.full.min.js"></script>
-										<script>
-											$.datetimepicker.setLocale('en');
-											$('.datetimepicker').datetimepicker({
-												format: 'Y-m-d H:i:s'
-											});
-											$.datetimepicker.setLocale('zh');
-										</script>
-									</js>
 									<div class="row form">
 										<div class="col-md-2 info">
 											<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
@@ -65,6 +58,14 @@
 											</div>
 							</#if>
 						</#list>
+						<div class="row">
+							<div class="col-md-2 info">
+								<label class="dinosaurOA-lable" for="attachmentInput">添加附件</label>
+							</div>
+							<div class="col-md-2">
+								<input type="file" id="attachmentInput" name="file" class="file" multiple data-min-file-count="1">
+							</div>
+						</div>
 					</div>
 					<#else/>
 					<div>
@@ -77,3 +78,29 @@
 		</#if>
 	</div>
 </section>
+<js>
+	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js"></script>
+	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/js/plugins/sortable.min.js"></script>
+	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/js/plugins/purify.min.js"></script>
+	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/js/fileinput.min.js"></script>
+	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/themes/gly/theme.js"></script>
+	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/js/locales/zh.js"></script>
+	<script type="application/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.full.min.js"></script>
+	<script>
+		$.datetimepicker.setLocale('en');
+		$('.datetimepicker').datetimepicker({
+			format: 'Y-m-d H:i:s'
+		});
+		$.datetimepicker.setLocale('zh');
+		$(document).on('ready', function () {
+			$("#attachmentInput").fileinput({
+				showUpload : true,
+				showRemove : true,
+				language : 'zh',
+				allowedPreviewTypes : [ 'image', 'html', 'text', 'video', 'audio', 'flash', 'object'],
+				allowedFileExtensions : [ 'jpg', 'png', 'gif' ],
+				maxFileSize : 2000,
+			});
+		});
+	</script>
+</js>

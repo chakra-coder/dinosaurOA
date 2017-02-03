@@ -3,7 +3,6 @@ package com.dinosaur.core.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.Validate;
-
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -100,6 +99,30 @@ public class StringUtil {
             }
         }
         return map;
+    }
 
+    /**
+     * map转javaBean
+     * @param type 目标bean类型
+     * @param map 源map对象
+     * @return
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws IntrospectionException
+     * @throws InvocationTargetException
+     */
+    public static <T extends Object> T MapToBean(Class type, Map map) throws IllegalAccessException, InstantiationException, IntrospectionException, InvocationTargetException {
+        BeanInfo beanInfo = Introspector.getBeanInfo(type);
+        Object object = type.newInstance();
+        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+        for (int i = 0; i < propertyDescriptors.length; i++){
+            PropertyDescriptor propertyDescriptor = propertyDescriptors[i];
+            String propertyName = propertyDescriptor.getName();
+            if (map.containsKey(propertyName)){
+                Object value = map.get(propertyName);
+                propertyDescriptor.getWriteMethod().invoke(object,value);
+            }
+        }
+        return (T) object;
     }
 }

@@ -1,5 +1,6 @@
 package com.dinosaur.web.workflow.web.controller;
 
+import com.dinosaur.core.util.FileUtil;
 import com.dinosaur.module.flowable.workflow.HtmlFormService;
 import com.dinosaur.module.flowable.workflow.ProcessService;
 import com.dinosaur.module.system.construction.Construction;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -88,6 +90,11 @@ public class WorkflowController {
         if (htmlFormService.submitForm(HtmlFormService.START,objId,params)){
             return "view/workflow/success";
         } else {
+            try {
+                FileUtil.readerExcel(request.getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return "view/workflow/error";
         }
     }

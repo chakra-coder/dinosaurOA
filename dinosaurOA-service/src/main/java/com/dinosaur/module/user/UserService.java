@@ -1,8 +1,6 @@
 package com.dinosaur.module.user;
 
-import com.dinosaur.core.util.DateUtil;
-import com.dinosaur.core.util.EncryptUtil;
-import com.dinosaur.core.util.HashKit;
+import com.dinosaur.core.util.*;
 import com.dinosaur.module.group.dao.GroupDAO;
 import com.dinosaur.module.group.entity.Group;
 import com.dinosaur.module.user.dao.UserDAO;
@@ -18,14 +16,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * 用户service
@@ -51,6 +51,14 @@ public class UserService {
     public User getUserByUserNmae(String username){
         User user = userDAO.findByNickName(username);
         return user;
+    }
+
+    /**
+     * 获取系统中用户数量
+     * @return
+     */
+    public int getCount(){
+        return (int) userDAO.count();
     }
 
     /**
@@ -138,6 +146,56 @@ public class UserService {
             return cb.and(criterias.toArray(new Predicate[]{}));
         });
         return users;
+    }
+
+    /**
+     * 用户批量导入
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    public boolean batchAdd(InputStream file) throws IOException {
+        try {
+            List<Map<String, Object>> data = FileUtil.readerExcel(file);
+            List<User> userList = new ArrayList<>();
+            data.forEach(n->{
+                try {
+                    User user = StringUtil.MapToBean(User.class,n);
+                    userList.add(user);
+                } catch (Exception e) {
+                    logger.error("用户批量导入失败："+e.getMessage());
+                    throw new RuntimeException(e.getMessage());
+                }
+            });
+            return this.add(userList);
+        } catch (IOException e) {
+            logger.error("用户批量导入失败："+e.getMessage());
+            throw new IOException(e.getMessage());
+        }
+    }
+
+    /**
+     * 导出用户数据到ecel文件
+     * @param userId
+     * @param response
+     * @throws IOException
+     */
+    public byte[] exportUser(List<? extends Object> userId) throws IOException {
+        List<User> userList = userDAO.findAll((Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
+            return root.get("id").in(userId);
+        });
+        List<Map<String, Object>> data = new ArrayList<>();
+        userList.forEach(u->{
+            try {
+                Map<String, Object> userMap = StringUtil.beanToMap(u);
+                data.add(userMap);
+            } catch (Exception e) {
+               throw new RuntimeException(e.getMessage());
+            }
+        });
+        ByteArrayOutputStream outputStream = FileUtil.exportExcel(data);
+        byte[] content = outputStream.toByteArray();
+        return content;
     }
 
 }

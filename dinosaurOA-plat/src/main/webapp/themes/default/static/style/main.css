@@ -11,3 +11,7 @@ ul{list-style: none !important}
 .list-item:hover{text-decoration: underline !important;color: #333 !important;}
 .list-item:visited{color: #333 !important;}
 .content-tab{padding: 15px;margin-left: auto;margin-right: auto;padding-left: 15px;padding-right: 15px;border-bottom-width: 0.8px;border-bottom-style: dashed;border-bottom-color: rgba(140, 223, 180, 0.65)}
+.table{margin:15px}
+thead{background-color: rgba(113, 161, 223, 0.65)}
+.table th{border:1px solid #b3acac}
+.pagination{margin: 7px 0 !important;}

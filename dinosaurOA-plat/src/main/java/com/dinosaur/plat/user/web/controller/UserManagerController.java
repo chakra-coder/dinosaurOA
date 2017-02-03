@@ -1,5 +1,6 @@
 package com.dinosaur.plat.user.web.controller;
 
+import com.dinosaur.core.util.DateUtil;
 import com.dinosaur.module.system.construction.Construction;
 import com.dinosaur.module.user.GroupService;
 import com.dinosaur.module.user.UserService;
@@ -13,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.Arrays;
 
 /**
  * 用户管理控制器
@@ -42,6 +48,7 @@ public class UserManagerController {
                        Model model){
         model.addAttribute("users",userService.getUserByPage(pageSize,pageNo).getContent());
         model.addAttribute("groups",groupService.getGroupByPage(pageSize,pageNo).getContent());
+        model.addAttribute("pageCount",userService.getCount());
         return "view/user/list";
     }
 
@@ -71,6 +78,33 @@ public class UserManagerController {
         }
         model.addAttribute("message","用户添加成功！");
         return "redirect:/user/manager/list";
+    }
+
+    /**
+     * 导出用户信息到excel
+     * @param userId
+     * @param response
+     */
+    public void export(String[] userId, HttpServletResponse response){
+        try {
+            byte[] content = userService.exportUser(Arrays.asList(userId));
+            InputStream is = new ByteArrayInputStream(content);
+            response.reset();
+            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            response.setHeader("Content-Disposition","attachment;filename="+new String((DateUtil.getCurrentTime()+".xlsx").getBytes(),"utf-8"));
+            ServletOutputStream servletOutputStream = response.getOutputStream();
+            BufferedInputStream bis = null;
+            BufferedOutputStream bos = null;
+            bis = new BufferedInputStream(is);
+            bos = new BufferedOutputStream(servletOutputStream);
+            byte[] buff = new byte[1024];
+            int bytesRead;
+            while (-1 != (bytesRead = bis.read(buff, 0, buff.length))){
+                bos.write(buff, 0, bytesRead);
+            }
+        } catch (IOException e) {
+            logger.error("用户信息导出失败："+e.getMessage());
+        }
     }
 
     /**
