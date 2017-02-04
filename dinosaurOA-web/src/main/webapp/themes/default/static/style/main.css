@@ -1,7 +1,18 @@
-div.content{margin: 0 auto;border:1px solid #c5bebe}
-.dinosaurOA-lable{color: rgba(57, 155, 228, 0.71) !important;font-family: "Segoe UI," !important;font-weight: 500 !important;}
-.info{text-align: center}
+.content-item{margin: 0 auto}
+.dinosaurOA-lable{color: rgba(4, 12, 19, 0.71) !important;font-family: "Segoe UI Emoji","Open Sans";font-weight: 700 !important;font-size: large;font-feature-settings: normal;font-style: normal; font-variant: common-ligatures}
+.info{text-align: center;padding-top: 10px;padding-bottom: 10px}
 .row{padding: 5px 0 5px 0}
 .form{display: block}
 .content-tab{padding: 15px;margin-left: auto;margin-right: auto;padding-left: 15px;padding-right: 15px;border-bottom-width: 0.8px;border-bottom-style: dashed;border-bottom-color: rgba(140, 223, 180, 0.65)}
-th{padding-top: 5px;padding-left: 10px}
+.table{margin:15px;border-collapse: collapse}
+thead{background-color: rgba(113, 161, 223, 0.65)}
+.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td{border: 1px solid #bfb6b6 !important;}
+td{text-align: center;text-align: -webkit-center}
+th {text-align: center !important;}
+.tip{color: #ea644b}
+.input{border-radius: 3px;border: 1px solid #d6e9c6;width: 100%;height: auto;padding-top: 10px;padding-bottom: 10px}
+.center{text-align: center;vertical-align: baseline}
+.border{border: 1px solid #c5bebe;border-radius: 4px}
+hr{border-top: 1px dotted #ad8a8a !important;}
+.row{padding: 5px !important;}
+a.option{font-family: "Segoe UI Emoji","Open Sans";font-size: medium;font-style: normal;font-kerning: normal;font-language-override: normal  }

@@ -1,83 +1,117 @@
 <title>流程办理</title>
+<css>
+	<link type="text/css" rel="stylesheet" href="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/css/fileinput.min.css" />
+	<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.min.css">
+</css>
 <section class="content">
-	<div class="row content">
+	<div class="row border content">
 		<#if form??>
 			<form class="submit" method="post" action="${ctx}/task/submit/${form.objId}" class="form-horizontal" role="form" enctype="multipart/form-data">
 				<#if form.isFormkey == false>
-					<div class="container-fluid">
-						<div class="row">
-							<div style="float: right">
-								<input type="submit" value="同意申请">
-							</div>
-						</div>
-						<#list form.form.formProperties as formProperties>
-							<#if formProperties.type == "string">
-								<div class="row form">
-									<div class="col-md-2 info">
-										<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
-									</div>
-									<div class="col-md-2">
-										<#if formProperties.writable == false>
-											<lable>${formProperties.value!''}</lable>
-											<#else/>
-											<input type="text" value="${formProperties.value!''}" name="${formProperties.id}" placeholder="${formProperties.name}">
-										</#if>
-									</div>
-								</div>
-								<#elseif formProperties.type == "date">
-									<css>
-										<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.min.css">
-									</css>
-									<js>
-										<script type="application/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.full.min.js"></script>
-										<script>
-											$.datetimepicker.setLocale('en');
-											$('.datetimepicker').datetimepicker({
-												format: 'Y-m-d H:i:s'
-											});
-											$.datetimepicker.setLocale('zh');
-										</script>
-									</js>
+					<div class="row container-fluid content-item">
+						<div class="col-md-9">
+							<#list form.form.formProperties as formProperties>
+								<#if formProperties.type == "string">
 									<div class="row form">
 										<div class="col-md-2 info">
-											<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
+											<label class="dinosaurOA-lable" for="stringInput">${formProperties.name}：</label>
 										</div>
-										<div class="col-md-2">
-											<#if formProperties.writable == false>
-												<lable>${formProperties.value!''}</lable>
-												<#else/>
-												<input type="text" name="${formProperties.id}" value="${formProperties.value!''}" class="datetimepicker">
-											</#if>
-										</div>
-									</div>
-									<#elseif formProperties.type == "enum">
-										<div class="row form">
-											<div class="col-md-2 info">
-												<label class="dinosaurOA-lable" for="${formProperties.id}">${formProperties.name}</label>
-											</div>
-											<div class="col-md-2">
-												<#if formProperties.writable == false>
-													<lable>${formProperties.value!''}</lable>
+										<div class="col-md-4">
+											<div>
+												<#if formProperties.readable == true>
+													<#if formProperties.writable == true>
+														<#if formProperties.required == true>
+															<input type="text" required="required" class="input form-control" name="${formProperties.id}" id="stringInput" value="${formProperties.value!''}" />
+															<#else/>
+															<input type="text" class="input form-control" name="${formProperties.id}" id="stringInput" value="${formProperties.value!''}" />
+														</#if>
+														<#else/>
+														<input type="text" class="input form-control" name="${formProperties.id}" id="stringInput" value="${formProperties.value!''}" />
+													</#if>
 													<#else/>
-													<select name="${formProperties.id}">
-														<#list formProperties.value as val>
-															<option value="${val.key}">${val.value}</option>
-														</#list>
-													</select>
+													<input type="text" readonly="readonly" disabled="disabled" class="input form-control" name="${formProperties.id}" value="${formProperties.value!''}" />
 												</#if>
 											</div>
 										</div>
-										<#else>
-											<div class="row from">
-												<div class="col-md-2 info">
-													<label for="${formProperties.id}">${formProperties.name}</label>
-												</div>
-												<div class="col-md-2">
-													<input type="text" class="${formProperties.id}" name="${formProperties.id}" placeholder="${formProperties.name}">
+									</div>
+									<#elseif formProperties.type == "date">
+										<div class="row form">
+											<div class="col-md-2 info">
+												<label class="dinosaurOA-lable" for="datetimepickerInput">${formProperties.name}：</label>
+											</div>
+											<div class="col-md-4">
+												<div>
+													<#if formProperties.readable == true>
+														<#if formProperties.writable == true>
+															<#if formProperties.required == true>
+																<input type="text" required="required" class="input datetimepicker form-control" name="${formProperties.id}" id="datetimepickerInput" value="${formProperties.value!''}" />
+																<#else/>
+																<input type="text" class="input datetimepicker form-control" name="${formProperties.id}" id="datetimepickerInput" value="${formProperties.value!''}" />
+															</#if>
+															<#else/>
+															<input type="text" class="input datetimepicker form-control" name="${formProperties.id}" id="datetimepickerInput" value="${formProperties.value!''}"/>
+														</#if>
+														<#else/>
+														<input type="text" readonly="readonly" disabled="disabled" class="input form-control" name="${formProperties.id}" id="datetimepickerInput" value="${formProperties.value!''}" />
+													</#if>
 												</div>
 											</div>
-							</#if>
-						</#list>
+										</div>
+										<#elseif formProperties.type == "enum">
+											<div class="row form">
+												<div class="col-md-2 info">
+													<label class="dinosaurOA-lable">${formProperties.name}:</label>
+												</div>
+												<div class="col-md-4">
+													<#if formProperties.readable == true>
+														<#if formProperties.writable == true>
+															<select name="${formProperties.id}" class="border input">
+																<#list formProperties.value as val>
+																	<option value="${val.key}" style="min-width: 100px">${val.value}</option>
+																</#list>
+															</select>
+															<#else/>
+															<input type="text" readonly="readonly" disabled="disabled" value="${formProperties.value!''}">
+														</#if>
+													</#if>
+												</div>
+											</div>
+											<#else>
+												<div class="row from">
+													<div class="col-md-2 info">
+														<label>${formProperties.name}</label>
+													</div>
+													<div class="col-md-2">
+														<input type="text" class="${formProperties.id}" name="${formProperties.id}" placeholder="${formProperties.name}">
+													</div>
+												</div>
+								</#if>
+							</#list>
+						</div>
+						<div class="col-md-3">
+							<div class="row">
+								<div class="center border">
+									<label>附件区</label>
+									<hr/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row container-fluid content-item">
+						<div class="row" style="text-align: center;margin: 0 auto">
+							<hr/>
+							<label class="tip">如果包含附件请选择添加，多个文件请一次性选择多个</label>
+							<hr/>
+						</div>
+						<div class="row">
+							<div class="col-md-2 info">
+								<label class="control-label dinosaurOA-lable" for="attachmentInput">添加附件(可选)：</label>
+							</div>
+							<div class="col-md-8">
+								<input type="file" id="attachmentInput" name="file" class="file-loading" multiple data-min-file-count="3" data-show-preview="true">
+								<div id="errorBlock" class="help-block"></div>
+							</div>
+						</div>
 					</div>
 					<#else/>
 					<div>
@@ -90,3 +124,37 @@
 		</#if>
 	</div>
 </section>
+<section class="content-tab">
+	<div class="row" style="text-align: center">
+		<button type="button" class="btn btn-default">同意申请</button>
+	</div>
+</section>
+<js>
+	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js"></script>
+	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/js/plugins/sortable.min.js"></script>
+	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/js/plugins/purify.min.js"></script>
+	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/js/fileinput.min.js"></script>
+	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/themes/gly/theme.js"></script>
+	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/js/locales/zh.js"></script>
+	<script type="application/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.full.min.js"></script>
+	<script type="text/javascript">
+		$.datetimepicker.setLocale('en');
+		$('.datetimepicker').datetimepicker({
+			format: 'Y-m-d H:i:s'
+		});
+		$.datetimepicker.setLocale('zh');
+		$(document).on('ready', function () {
+			$("#attachmentInput").fileinput({
+				showCaption: false,
+				showUpload : true,
+				showRemove : true,
+				language : 'zh',
+				allowedPreviewTypes : [ 'image', 'html', 'text', 'video', 'audio', 'flash', 'object'],
+				allowedFileExtensions : [ 'jpg', 'png', 'gif','docx' ],
+				maxFileSize : 20000,
+				uploadUrl: "http://localhost/file-upload-single/1",
+				uploadAsync: true,
+			});
+		});
+	</script>
+</js>

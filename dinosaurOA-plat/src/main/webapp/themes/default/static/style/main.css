@@ -11,7 +11,9 @@ ul{list-style: none !important}
 .list-item:hover{text-decoration: underline !important;color: #333 !important;}
 .list-item:visited{color: #333 !important;}
 .content-tab{padding: 15px;margin-left: auto;margin-right: auto;padding-left: 15px;padding-right: 15px;border-bottom-width: 0.8px;border-bottom-style: dashed;border-bottom-color: rgba(140, 223, 180, 0.65)}
-.table{margin:15px}
+.table{margin:15px;border-collapse: collapse}
 thead{background-color: rgba(113, 161, 223, 0.65)}
-.table th{border:1px solid #b3acac}
+.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td{border: 1px solid #bfb6b6 !important;}
+td{text-align: center;text-align: -webkit-center}
 .pagination{margin: 7px 0 !important;}
+a.option{font-family: "Segoe UI Emoji","Open Sans";font-size: medium;font-style: normal;font-kerning: normal;font-language-override: normal  }

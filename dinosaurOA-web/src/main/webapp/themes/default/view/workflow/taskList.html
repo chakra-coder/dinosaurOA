@@ -1,7 +1,7 @@
 <title>任务列表</title>
 <section class="content">
 	<div class="row">
-		<table class="table table-striped table-hover">
+		<table class="table table-bordered table-striped table-hover table-condensed">
 			<thead>
 			<tr>
 				<th>任务名称</th>
@@ -14,14 +14,14 @@
 			<#if tasks??&&tasks?size gt 0>
 				<#list tasks as task>
 					<tr>
-						<th>${task.name!''}</th>
-						<th>${task.createTime?string('yyyy-MM-dd HH:mm:ss')!''}</th>
-						<th>${task.revision!''}</th>
-						<th>
+						<td>${task.name!''}</td>
+						<td>${task.createTime?string('yyyy-MM-dd HH:mm:ss')!''}</td>
+						<td>${task.revision!''}</td>
+						<td>
 							<#if task.assignee??>
-								<a class="doTask" href="${ctx}/task/doTask/${task.id}">办理</a>
+								<a class="doTask option" href="${ctx}/task/doTask/${task.id}">办理</a>
 								<#else/>
-								<a class="claimTask" href="#" onclick="claim('${task.id}')">签收</a>
+								<a class="claimTask option" href="#" onclick="claim('${task.id}')">签收</a>
 								<js>
 									<script type="text/javascript">
 										function claim(obj) {
@@ -45,15 +45,32 @@
 									</script>
 								</js>
 							</#if>
-						</th>
+						</td>
 					</tr>
 				</#list>
 				<#else/>
 				<tr>
-					<th colspan="7"><label>没有查询到任务</label></th>
+					<td colspan="7"><label>没有查询到任务</label></td>
 				</tr>
 			</#if>
 			</tbody>
+			<tfoot>
+			<tr>
+				<td colspan="6">
+					<nav aria-label="...">
+						<ul class="pagination">
+							<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+							<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+						</ul>
+					</nav>
+				</td>
+			</tr>
+			</tfoot>
 		</table>
 	</div>
 </section>
