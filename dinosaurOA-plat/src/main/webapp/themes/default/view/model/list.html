@@ -1,6 +1,6 @@
 <title>流程模型列表</title>
 <section class="content">
-	<div class="row">
+	<div class="row content border">
 		<table class="table table-bordered table-striped table-hover table-condensed">
 			<thead>
 			<tr>
@@ -58,7 +58,7 @@
 <js>
 	<script>
 		$(".deploy").click(function (obj) {
-			var id = $(this).parent().parent().find("th").eq(0).html();
+			var id = $(this).parent().parent().find("td").eq(0).html();
 			$.get("${ctx}/modeler/deploy",{modelId:id},
 					function (data) {
 						alert(data.message);

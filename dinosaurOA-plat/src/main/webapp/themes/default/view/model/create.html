@@ -1,72 +1,81 @@
 <title>模型创建</title>
-<ul class="nav nav-tabs tabs" role="tablist">
-	<li tagId="0" role="presentation" class="active create"><a href="#">在线设计流程</a></li>
-	<li tagId="1" role="presentation" class="upload"><a href="#">添加外部流程</a></li>
-</ul>
-<section tagId="0" class="content" id="create" style="display: block">
-	<form id="createSubmit" method="post" target="_blank" class="form-horizontal" role="form">
-		<div class="form-group">
-			<label class="control-label col-sm-2 col-md-2" for="modelInput">model名称</label>
-			<div class="col-md-8 col-sm-8">
-				<input id="modelInput" type="text" name="name" placeholder="model名称" class="form-control">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-sm-2 col-md-2" for="modelKeyInput">model Key</label>
-			<div class="col-md-8 col-sm-8">
-				<input id="modelKeyInput" type="text" name="key" placeholder="model Key" class="form-control">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-sm-2 col-md-2" for="descriptionInput">描述</label>
-			<div class="col-md-8 col-sm-8">
-				<input id="descriptionInput" type="text" name="description" placeholder="描述" class="form-control">
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-default">Create</button>
-			</div>
-		</div>
-	</form>
+<section class="content-tab">
+	<ul class="nav nav-tabs tabs" role="tablist">
+		<li tagId="0" role="presentation" class="active create"><a href="#">在线设计流程</a></li>
+		<li tagId="1" role="presentation" class="upload"><a href="#">添加外部流程</a></li>
+	</ul>
 </section>
-<section tagId="1" class="content" id="upload" style="display:none">
-	<form action="${ctx}/modeler/upload" id="uploadSubmit" method="post" target="_self" class="form-horizontal" role="form" enctype="multipart/form-data">
-		<div class="form-group">
-			<label class="control-label col-sm-2 col-md-2" for="processNameInput">model名称</label>
-			<div class="col-md-8 col-sm-8">
-				<input id="processNameInput" type="text" name="name" placeholder="model名称" class="form-control">
+<section class="content">
+	<div tagId="0" class="row content border" id="create" style="display: block">
+		<form id="createSubmit" method="post" target="_blank" class="form-horizontal" role="form">
+			<div class="form-group">
+				<label class="control-label col-sm-2 col-md-2" for="modelInput">model名称</label>
+				<div class="col-md-8 col-sm-8">
+					<input id="modelInput" type="text" name="name" placeholder="model名称" class="form-control">
+				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-sm-2 col-md-2" for="processDescriptionInput">描述</label>
-			<div class="col-md-8 col-sm-8">
-				<input id="processDescriptionInput" type="text" name="description" placeholder="描述" class="form-control">
+			<div class="form-group">
+				<label class="control-label col-sm-2 col-md-2" for="modelKeyInput">model Key</label>
+				<div class="col-md-8 col-sm-8">
+					<input id="modelKeyInput" type="text" name="key" placeholder="model Key" class="form-control">
+				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-sm-2 col-md-2" for="fileInput">添加文件</label>
-			<div class="col-md-8 col-sm-8">
-				<input id="fileInput" type="file" name="file" placeholder="添加文件" class="form-control">
+			<div class="form-group">
+				<label class="control-label col-sm-2 col-md-2" for="descriptionInput">描述</label>
+				<div class="col-md-8 col-sm-8">
+					<input id="descriptionInput" type="text" name="description" placeholder="描述" class="form-control">
+				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-default">Create</button>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default">Create</button>
+				</div>
 			</div>
-		</div>
-	</form>
+		</form>
+	</div>
+	<div tagId="1" class="row content border" id="upload" style="display:none">
+		<form action="${ctx}/modeler/upload" id="uploadSubmit" method="post" target="_self" class="form-horizontal" role="form" enctype="multipart/form-data">
+			<div class="form-group">
+				<label class="control-label col-sm-2 col-md-2" for="processNameInput">model名称</label>
+				<div class="col-md-8 col-sm-8">
+					<input id="processNameInput" type="text" name="name" placeholder="model名称" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2 col-md-2" for="processDescriptionInput">描述</label>
+				<div class="col-md-8 col-sm-8">
+					<input id="processDescriptionInput" type="text" name="description" placeholder="描述" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2 col-md-2" for="fileInput">添加文件</label>
+				<div class="col-md-8 col-sm-8">
+					<input id="fileInput" type="file" name="file" placeholder="添加文件" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default">Create</button>
+				</div>
+			</div>
+		</form>
+	</div>
 </section>
 <js>
 	<script>
 		$(function () {
 			$("ul.tabs li").click(function () {
-				$(".content").hide();
+				$("div.content").hide();
 				var tabid = $(this).attr("tagId");
 				$("ul.tabs li").removeClass("active");
 				$(this).addClass("active");
-				$("section[tagId="+tabid+"]").show();
+				$("div[tagId="+tabid+"]").show();
 			})
 		})
+		$(function () {
+			$(".createSubmit").submit(function () {
+				history.back(-1);
+            })
+        })
 	</script>
 </js>

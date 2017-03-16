@@ -92,6 +92,7 @@ public class TaskController {
     public String doTask(@PathVariable(value = "taskId") String taskId, Model model){
         try {
             model.addAttribute("form",htmlFormService.getTaskForm(taskId));
+            model.addAttribute("attachments", htmlFormService.getAttachment(taskId));
         } catch (Exception e){
             logger.error("表单数据加载失败");
             model.addAttribute("message","表单加载失败！");
@@ -109,10 +110,11 @@ public class TaskController {
     @RequestMapping(value = "/submit/{taskId}",method = RequestMethod.POST)
     public String doTask(@PathVariable(value = "taskId") String taskId, HttpServletRequest request, Model model){
         Map<String,String[]> parameterMap = request.getParameterMap();
+        String[] attachments = request.getParameterValues("attachment");
         if (parameterMap.isEmpty()){
             return "view/workflow/error";
         }
-        if (processService.doTask(taskId,parameterMap)) {
+        if (htmlFormService.doTask(taskId, parameterMap, attachments)) {
             return "view/workflow/success";
         } else {
             return "view/workflow/error";

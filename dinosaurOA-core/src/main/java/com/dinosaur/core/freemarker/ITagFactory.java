@@ -11,8 +11,10 @@ import java.util.Map;
  * @Date 12/31/2016
  * @version 1.0
  */
-public interface ITagFactory {
+public class ITagFactory {
 
-    public Map<String,TemplateDirectiveModel> setDirective();
+    public Map<String,TemplateDirectiveModel> setDirective(){
+        return null;
+    }
 
 }

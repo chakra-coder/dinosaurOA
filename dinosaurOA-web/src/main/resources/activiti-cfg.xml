@@ -4,6 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
        default-lazy-init="false">
 
+	<!-- spring 整合flowable的配置，主要是flowable的基础配置，包括数据连接以及一些常用设置 -->
 	<bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="activityFontName" value="宋体"/>
@@ -17,10 +18,12 @@
 		<property name="jpaCloseEntityManager" value="false"/>
 	</bean>
 
+	<!-- 流程引擎工厂 -->
 	<bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
 		<property name="processEngineConfiguration" ref="processEngineConfiguration"/>
 	</bean>
 
+	<!-- flowable 的七大接口 -->
 	<bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService"/>
 	<bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService"/>
 	<bean id="formService" factory-bean="processEngine" factory-method="getFormService"/>
@@ -29,8 +32,10 @@
 	<bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService"/>
 	<bean id="managementService" factory-bean="processEngine" factory-method="getManagementService"/>
 
+	<!-- flowable 的主键生成器 -->
 	<bean id="uuidGenerator" class="org.activiti.engine.impl.persistence.StrongUuidGenerator"/>
 
+	<!-- 对象转换，主要作用于设计器中 -->
 	<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
 
 </beans>

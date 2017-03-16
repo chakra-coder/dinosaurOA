@@ -1,11 +1,19 @@
 <title>组列表</title>
-<section class="content">
+<section class="content-tab">
 	<div class="row">
+		<div style="padding: 0 5px 5px 0;float: right">
+			<button data-toggle="modal" data-target="#createModal" type="button" class="btn btn-default">新增</button>
+		</div>
+	</div>
+</section>
+<section class="content">
+	<div class="row content">
 		<table class="table table-bordered table-striped table-hover table-condensed">
 			<thead>
 			<tr>
 				<th>名称</th>
 				<th>英文名</th>
+				<th>描述</th>
 				<th>操作</th>
 			</tr>
 			</thead>
@@ -15,11 +23,13 @@
 					<tr>
 						<td>${group.name}</td>
 						<td>${group.englishName}</td>
+						<td>${group.description!'暂无描述信息'}</td>
 						<td>
-							<a class="option" id="modelDelete" type="button" data-toggle="modal" data-target="#myModal" onclick="del('${group.id}')">
+							<a class="option" type="button" onclick="del('${group.id}')">
 								删除
 							</a>
-							<a class="option" id="modelEditor" type="button" data-toggle="modal" data-target="#myModal" onclick="editor('${group.id}')">
+							<small>/</small>
+							<a class="option" type="button" onclick="editor('${group.id}')">
 								编辑
 							</a>
 						</td>
@@ -51,6 +61,58 @@
 		</table>
 	</div>
 </section>
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">添加组</h4>
+			</div>
+			<div class="modal-body content">
+				<div class="row content border">
+					<form id="addUserForm" method="post" class="form-horizontal" role="form" action="${ctx}/group/manager/add">
+						<div class="container-fluid content-item">
+							<div class="row form">
+								<div class="col-md-3 info">
+									<label class="dinosaurOA-lable" for="nameInput">组名称:</label>
+								</div>
+								<div class="col-md-9">
+									<div>
+										<input class="input form-control" name="name" id="nameInput" type="text" required placeholder="请输入组名称">
+									</div>
+								</div>
+							</div>
+							<div class="row form">
+								<div class="col-md-3 info">
+									<label class="dinosaurOA-lable" for="englishNameInput">英文名:</label>
+								</div>
+								<div class="col-md-9">
+									<div>
+										<input class="input form-control" name="englishName" id="englishNameInput" type="text" required placeholder="请输入英文名">
+									</div>
+								</div>
+							</div>
+							<div class="row form">
+								<div class="col-md-3 info">
+									<label class="dinosaurOA-lable" for="descriptionInput">描述:</label>
+								</div>
+								<div class="col-md-9">
+									<div>
+										<textarea name="description" id="descriptionInput"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button id="createGroupSubmit" type="button" class="btn btn-primary" onclick="submit()">create</button>
+				<button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 <js>
 	<script>
 		function del(obj) {

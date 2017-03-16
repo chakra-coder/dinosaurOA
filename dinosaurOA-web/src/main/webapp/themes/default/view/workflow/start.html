@@ -4,9 +4,12 @@
 	<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/datatimepicker/jquery.datetimepicker.min.css">
 </css>
 <section class="content">
-	<div class="row content">
+	<div class="row content border">
 		<#if form??>
-			<form class="submit" method="post" action="${ctx}/workflow/submit/${form.objId}" class="form-horizontal" role="form" enctype="multipart/form-data">
+			<form class="submitApply" method="post" action="${ctx}/workflow/submit/${form.objId}" class="form-horizontal" role="form" enctype="multipart/form-data">
+				<div id="attachment">
+
+				</div>
 				<#if form.isFormKey == false>
 					<div class="container-fluid content-item">
 						<#list form.form.formProperties as formProperties>
@@ -33,7 +36,7 @@
 										</div>
 									</div>
 								</div>
-								<#elseif formProperties.type == "date">
+								<#elseif formProperties.type == "date"/>
 									<div class="row form">
 										<div class="col-md-2 info">
 											<label class="dinosaurOA-lable" for="datetimepickerInput">${formProperties.name}:</label>
@@ -56,7 +59,7 @@
 											</div>
 										</div>
 									</div>
-									<#elseif formProperties.type == "enum">
+									<#elseif formProperties.type == "enum"/>
 										<div class="row form">
 											<div class="col-md-2 info">
 												<label class="dinosaurOA-lable">${formProperties.name}:</label>
@@ -68,7 +71,7 @@
 												</select>
 											</div>
 										</div>
-										<#else>
+										<#else/>
 											<div class="row from">
 												<div class="col-md-2 info">
 													<label>${formProperties.name}</label>
@@ -89,20 +92,7 @@
 											</div>
 							</#if>
 						</#list>
-						<div class="row" style="text-align: center">
-							<hr style="border-top: 1px dotted #ad8a8a"/>
-							<label class="tip">如果包含附件请选择添加，多个文件请一次性选择多个</label>
-							<hr style="border-top: 1px dotted #ad8a8a"/>
-						</div>
-						<div class="row">
-							<div class="col-md-2 info">
-								<label class="control-label dinosaurOA-lable" for="attachmentInput">添加附件（可选）:</label>
-							</div>
-							<div class="col-md-8">
-								<input type="file" id="attachmentInput" name="file" class="file-loading" multiple data-min-file-count="3" data-show-preview="true">
-								<div id="errorBlock" class="help-block"></div>
-							</div>
-						</div>
+
 					</div>
 					<#else/>
 					<div>
@@ -113,11 +103,25 @@
 			<#else/>
 			<h2>${message!'请求表单数据加载失败'}</h2>
 		</#if>
+		<div class="container-fluid content-item" style="text-align: center">
+			<hr style="border-top: 1px dotted #ad8a8a"/>
+			<label class="tip">如果包含附件请选择添加，多个文件请一次性选择多个</label>
+			<hr style="border-top: 1px dotted #ad8a8a"/>
+		</div>
+		<div class="container-fluid content-item">
+			<div class="col-md-2 info">
+				<label class="control-label dinosaurOA-lable" for="attachmentInput">添加附件（可选）:</label>
+			</div>
+			<div class="col-md-8">
+				<input type="file" id="attachmentInput" name="file" class="file-uploading" multiple>
+				<div id="errorBlock" class="help-block"></div>
+			</div>
+		</div>
 	</div>
 </section>
 <section class="content-tab">
 	<div class="row" style="text-align: center">
-		<button type="button" class="btn btn-default">发起申请</button>
+		<button type="button" id="apply" class="btn btn-default">发起申请</button>
 	</div>
 </section>
 <js>
@@ -131,21 +135,39 @@
 	<script type="text/javascript">
 		$.datetimepicker.setLocale('en');
 		$('.datetimepicker').datetimepicker({
-			format: 'Y-m-d H:i:s'
+			format: 'Y-m-d H:i:s',
+			minDate:'new Data()'
 		});
 		$.datetimepicker.setLocale('zh');
 		$(document).on('ready', function () {
 			$("#attachmentInput").fileinput({
-				showCaption: false,
+				showCaption: true,
 				showUpload : true,
-				showRemove : true,
+				showRemove : false,
 				language : 'zh',
-				allowedPreviewTypes : [ 'image', 'html', 'text', 'video', 'audio', 'flash', 'object'],
-				allowedFileExtensions : [ 'jpg', 'png', 'gif','docx' ],
 				maxFileSize : 20000,
-				uploadUrl: "http://localhost/file-upload-single/1",
+				uploadUrl: "${ctx}/uploadFactory/upload",
 				uploadAsync: true,
+				overwriteInitial: true,
+				showClose: false
+			}).on("fileuploaded",function (event, data, previewId, index) {
+				if (null != data.response && data.response.state == 1){
+					var input =  document.createElement("input");
+					input.setAttribute("type","hidden");
+					input.setAttribute("name", "attachment");
+					input.setAttribute("id", previewId);
+					input.setAttribute("value", data.response.data[0]);
+					$("#attachment").append(input);
+				} else {
+					alert("文件上传失败")
+				}
 			});
 		});
+		$("#attachmentInput").on("filepreremove",function (event, key) {
+			$("#"+key).remove();
+		});
+		$("#apply").click(function () {
+			$(".submitApply").submit();
+		})
 	</script>
 </js>

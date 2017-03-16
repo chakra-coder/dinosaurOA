@@ -17,3 +17,10 @@ thead{background-color: rgba(113, 161, 223, 0.65)}
 td{text-align: center;text-align: -webkit-center}
 .pagination{margin: 7px 0 !important;}
 a.option{font-family: "Segoe UI Emoji","Open Sans";font-size: medium;font-style: normal;font-kerning: normal;font-language-override: normal  }
+.row{padding: 5px !important;}
+.content-item{margin: 0 auto}
+.dinosaurOA-lable{color: rgba(4, 12, 19, 0.71) !important;font-family: "Segoe UI Emoji","Open Sans";font-weight: 700 !important;font-size: large;font-feature-settings: normal;font-style: normal; font-variant: common-ligatures}
+.info{text-align: center;padding-top: 10px;padding-bottom: 10px}
+.row{padding: 5px 0 5px 0}
+.form{display: block}
+caption{padding-top: 8px;padding-bottom: 8px;color: #777777; text-align: center !important;font-weight: bold}

@@ -2,13 +2,14 @@
 <section class="content-tab">
 	<div class="row">
 		<div style="padding: 0 5px 5px 0;float: right">
+			<button data-toggle="modal" data-target="#createModal" type="button" class="btn btn-default">新增</button>
 			<button data-toggle="modal" type="button" class="btn btn-default">导出选中</button>
 			<button data-toggle="modal" data-target="#inputModal"  type="button" class="btn btn-default">批量导入</button>
 		</div>
 	</div>
 </section>
 <section class="content">
-	<div class="row">
+	<div class="row content">
 		<table class="table table-bordered table-striped table-hover table-condensed">
 			<thead>
 				<tr>
@@ -32,6 +33,14 @@
 						<td>
 							<a class="option" id="model" type="button" data-toggle="modal" data-target="#addGroupModal" onclick="formClick('${user.id}')">
 								添加到组
+							</a>
+							<small>/</small>
+							<a class="option" type="button" data-toggle="modal" data-target="#editModal">
+								编辑
+							</a>
+							<small>/</small>
+							<a class="option" type="button" onclick="del(${user.id})">
+								删除
 							</a>
 						</td>
 					</tr>
@@ -62,7 +71,59 @@
 		</table>
 	</div>
 </section>
-<div class="modal fade" id="addGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">选择组</h4>
+			</div>
+			<div class="modal-body content">
+				<div class="row content border">
+					<form id="addUserForm" method="post" class="form-horizontal" role="form" action="${ctx}/user/manager/add">
+						<div class="container-fluid content-item">
+							<div class="row form">
+								<div class="col-md-3 info">
+									<label class="dinosaurOA-lable" for="nameInput">用户名:</label>
+								</div>
+								<div class="col-md-9">
+									<div>
+										<input class="input form-control" name="name" id="nameInput" type="text" required placeholder="请输入用户名">
+									</div>
+								</div>
+							</div>
+							<div class="row form">
+								<div class="col-md-3 info">
+									<label class="dinosaurOA-lable" for="phoneInput">电话号码:</label>
+								</div>
+								<div class="col-md-9">
+									<div>
+										<input class="input form-control" name="phone" id="phoneInput" type="text" required placeholder="请输入电话号码">
+									</div>
+								</div>
+							</div>
+							<div class="row form">
+								<div class="col-md-3 info">
+									<label class="dinosaurOA-lable" for="passwordInput">密码:</label>
+								</div>
+								<div class="col-md-9">
+									<div>
+										<input class="input form-control" name="password" id="passwordInput" type="text" required placeholder="请输入">
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button id="createUserSubmit" type="button" class="btn btn-primary" onclick="submit()">create</button>
+				<button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -70,44 +131,10 @@
 				<h4 class="modal-title" id="myModalLabel">选择组</h4>
 			</div>
 			<div class="modal-body">
-				<form id="relationshipForm" method="post" class="form-horizontal" role="form" action="${ctx}/user/manager/relationship">
-					<select class="form-control" name="groupId">
-						<#if groups??&&groups?size gt 0>
-							<#list groups as group>
-								<option value="${group.id}">${group.name}</option>
-							</#list>
-							<#else/>
-							<option>---</option>
-						</#if>
-					</select>
-					<table class="table">
-						<tr>
-							<td>
-								<label>未关联</label>
-								<select id="fb_list" name="fb_list" multiple="multiple"
-								        size="8" style="min-width: 100px; min-height:100px;">
-
-								</select>
-							</td>
-							<td>
-								<input type="button" id="add" name="add" value="添加>>" />
-								<br />
-								<input type="button" id="delete" name="delete" value="<<移除" />
-							</td>
-							<td>
-								<label>已关联</label>
-								<select id="select_list" name="select_list" multiple="multiple"
-								        size="8" style="min-width: 100px; min-height:100px;">
-
-								</select>
-							</td>
-						</tr>
-					</table>
-
-				</form>
+				 <p>no content</p>
 			</div>
 			<div class="modal-footer">
-				<button id="relationshipSubmit" type="button" class="btn btn-primary" onclick="submit()">Save changes</button>
+				<button id="editSubmit" type="button" class="btn btn-primary">save</button>
 				<button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
 			</div>
 		</div>
@@ -132,8 +159,48 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="addGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">选择组</h4>
+			</div>
+			<div class="modal-body">
+				<form id="relationshipForm" method="post" class="form-horizontal" role="form" action="${ctx}/user/manager/relationship">
+					<table class="table">
+						<tr>
+							<td>
+								<label>未关联</label>
+								<select id="fb_list" name="fb_list" multiple="multiple"
+								        size="8" style="min-width: 100px; min-height:100px;">
+
+								</select>
+							</td>
+							<td>
+								<input type="button" id="add" name="add" value="添加>>" />
+								<br />
+								<input type="button" id="delete" name="delete" value="<<移除" />
+							</td>
+							<td>
+								<label>已关联</label>
+								<select id="select_list" name="select_list" multiple="multiple"
+								        size="8" style="min-width: 100px; min-height:100px;">
+
+								</select>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 <js>
-	<script>
+	<script type="text/javascript">
 		function submit() {
 			$("#relationshipForm").submit(function () {
 				alert(data);
@@ -148,6 +215,11 @@
 			var state = (this).checked;
 			$(":checkbox").prop("checked",state);
 		})
+
+		function del(obj) {
+			// TODO 用户删除
+		}
+
 	</script>
 </js>
 

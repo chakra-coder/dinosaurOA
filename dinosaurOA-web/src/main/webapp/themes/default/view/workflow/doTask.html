@@ -34,7 +34,7 @@
 											</div>
 										</div>
 									</div>
-									<#elseif formProperties.type == "date">
+									<#elseif formProperties.type == "date"/>
 										<div class="row form">
 											<div class="col-md-2 info">
 												<label class="dinosaurOA-lable" for="datetimepickerInput">${formProperties.name}：</label>
@@ -57,7 +57,7 @@
 												</div>
 											</div>
 										</div>
-										<#elseif formProperties.type == "enum">
+										<#elseif formProperties.type == "enum"/>
 											<div class="row form">
 												<div class="col-md-2 info">
 													<label class="dinosaurOA-lable">${formProperties.name}:</label>
@@ -76,7 +76,7 @@
 													</#if>
 												</div>
 											</div>
-											<#else>
+											<#else/>
 												<div class="row from">
 													<div class="col-md-2 info">
 														<label>${formProperties.name}</label>
@@ -91,25 +91,22 @@
 						<div class="col-md-3">
 							<div class="row">
 								<div class="center border">
-									<label>附件区</label>
+									<div>
+										<label style="padding-top: 10px">附件区</label>
+										<div>
+											<ul class="list-group">
+												<#if attachments??>
+													<#list attachments as attachment>
+														<li class="list-group-item">
+															<a href="#" data-toggle="modal" data-target="#exampleModal" data-whatever="${ctx}${attachment.url}">${attachment.name}</a>
+														</li>
+													</#list>
+												</#if>
+											</ul>
+										</div>
+									</div>
 									<hr/>
 								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row container-fluid content-item">
-						<div class="row" style="text-align: center;margin: 0 auto">
-							<hr/>
-							<label class="tip">如果包含附件请选择添加，多个文件请一次性选择多个</label>
-							<hr/>
-						</div>
-						<div class="row">
-							<div class="col-md-2 info">
-								<label class="control-label dinosaurOA-lable" for="attachmentInput">添加附件(可选)：</label>
-							</div>
-							<div class="col-md-8">
-								<input type="file" id="attachmentInput" name="file" class="file-loading" multiple data-min-file-count="3" data-show-preview="true">
-								<div id="errorBlock" class="help-block"></div>
 							</div>
 						</div>
 					</div>
@@ -122,13 +119,43 @@
 			<#else/>
 			<h2>${message!'请求表单数据加载失败'}</h2>
 		</#if>
+		<div class="container-fluid content-item" style="text-align: center">
+			<hr style="border-top: 1px dotted #ad8a8a"/>
+			<label class="tip">如果包含附件请选择添加，多个文件请一次性选择多个</label>
+			<hr style="border-top: 1px dotted #ad8a8a"/>
+		</div>
+		<div class="container-fluid content-item">
+			<div class="col-md-2 info">
+				<label class="control-label dinosaurOA-lable" for="attachmentInput">添加附件（可选）:</label>
+			</div>
+			<div class="col-md-8">
+				<input type="file" id="attachmentInput" name="file" class="file-uploading" multiple>
+				<div id="errorBlock" class="help-block"></div>
+			</div>
+		</div>
 	</div>
 </section>
 <section class="content-tab">
 	<div class="row" style="text-align: center">
-		<button type="button" class="btn btn-default">同意申请</button>
+		<button type="button" class="btn btn-default">提交</button>
 	</div>
 </section>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="exampleModalLabel">附件预览</h4>
+			</div>
+			<div class="modal-body">
+				<embed src="" width="100%" height="100%"></embed>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 <js>
 	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js"></script>
 	<script type="text/javascript" rel="script" src="${ctx}/themes/default/static/AdminLTE-2.3.8/plugins/bootstrap-fileinput/js/plugins/sortable.min.js"></script>
@@ -145,16 +172,24 @@
 		$.datetimepicker.setLocale('zh');
 		$(document).on('ready', function () {
 			$("#attachmentInput").fileinput({
-				showCaption: false,
+				showCaption: true,
 				showUpload : true,
 				showRemove : true,
 				language : 'zh',
-				allowedPreviewTypes : [ 'image', 'html', 'text', 'video', 'audio', 'flash', 'object'],
-				allowedFileExtensions : [ 'jpg', 'png', 'gif','docx' ],
 				maxFileSize : 20000,
-				uploadUrl: "http://localhost/file-upload-single/1",
+				uploadUrl: "${ctx}/uploadFactory/upload",
 				uploadAsync: true,
 			});
 		});
+		$('#exampleModal').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget)
+			var recipient = button.data('whatever')
+			var modal = $(this)
+			modal.find('.modal-body embed').attr("src",recipient);
+		})
+		$(document).on("ready", function () {
+			var height = $(document.body).height()*0.6;
+			$(".modal-body").css("height",height);
+		})
 	</script>
 </js>

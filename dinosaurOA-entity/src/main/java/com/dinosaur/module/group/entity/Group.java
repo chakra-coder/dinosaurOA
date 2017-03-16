@@ -20,6 +20,7 @@ public class Group extends IdEntity{
 
     private String name;
     private String englishName;
+    private String description;
     private Set<User> users = new HashSet<User>();
     private Set<Menu> menus = new HashSet<Menu>();
     private Set<Category> categories = new HashSet<Category>();
@@ -67,5 +68,13 @@ public class Group extends IdEntity{
 
     public void setEnglishName(String englishName) {
         this.englishName = englishName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

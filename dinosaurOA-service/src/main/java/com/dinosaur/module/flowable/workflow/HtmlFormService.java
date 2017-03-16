@@ -8,6 +8,8 @@ import org.activiti.engine.impl.form.FormDataImpl;
 import org.activiti.engine.impl.form.StartFormDataImpl;
 import org.activiti.engine.impl.form.TaskFormDataImpl;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Attachment;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -46,6 +48,9 @@ public class HtmlFormService {
 
     @Autowired
     private RuntimeService runtimeService;
+
+    @Autowired
+    private ProcessService processService;
 
     @Autowired
     private IdentityService identityService;
@@ -91,7 +96,7 @@ public class HtmlFormService {
      * @param params
      * @return
      */
-    public boolean submitForm(String type,String objId,Map<String,String[]> params){
+    public boolean submitForm(String type,String objId,Map<String,String[]> params, String[] attachments){
         Set<Map.Entry<String,String[]>> entrySet = params.entrySet();
         Map<String,  String> formData=new HashMap<String,String>();
         for (Map.Entry<String, String[]> entry : entrySet) {
@@ -103,8 +108,15 @@ public class HtmlFormService {
         identityService.setAuthenticatedUserId(shiroUser.id);
         if (type.equals(TASK)){
             formService.submitTaskFormData(objId,formData);
+            if (attachments.length>0){
+                this.createAttachment(Arrays.asList(attachments), objId, false);
+            }
         } else if (type.equals(START)){
-            formService.submitStartFormData(objId, formData);
+            ProcessInstance processInstance = formService.submitStartFormData(objId, formData);
+            if (attachments.length>0){
+                String pid = processInstance.getProcessInstanceId();
+                this.createAttachment(Arrays.asList(attachments), pid, true);
+            }
         } else {
             return false;
         }
@@ -114,6 +126,33 @@ public class HtmlFormService {
             logger.error("流程启动失败："+e.getMessage());
             return false;
         }
+    }
+
+    /**
+     * 执行一个任务的办理
+     * @param taskId 任务id
+     * @param param 任务表单参数
+     * @param attachments 附件
+     * @return
+     */
+    public boolean doTask(String taskId, Map<String, String[]> param, String[] attachments){
+        if (processService.doTask(taskId, param)){
+            this.createAttachment(Arrays.asList(attachments), taskId, false);
+            return true;
+        } else {
+            return  false;
+        }
+    }
+
+    /**
+     * 查询任务流程附件
+     * @param id 流程实例id或者任务id
+     * @return
+     */
+    public List<Attachment> getAttachment(String id){
+        String pid = taskService.createTaskQuery().taskId(id).singleResult().getProcessInstanceId();
+        List<Attachment> attachments = taskService.getProcessInstanceAttachments(pid);
+        return  attachments;
     }
 
     /**
@@ -204,6 +243,32 @@ public class HtmlFormService {
             result.put("task",taskFormData.getTask());
         }
         return result;
+    }
+
+    /**
+     * 添加附件到流程
+     * @param sources 附件数据
+     * @param id taskid或者流程实例id
+     * @param isStart 是否是启动流程
+     * @return
+     */
+    private List<Attachment> createAttachment(List<String> sources, String id, boolean isStart){
+        List<Attachment> attachments = new ArrayList<>();
+        sources.forEach(n->{
+            String suffix = StringUtils.substringAfterLast(n, ".");
+            String name = StringUtils.substringAfterLast(n, "/");
+            String description = StringUtils.substringBefore(name, ".");
+            Attachment attachment = null;
+            if (isStart){
+                String taskId = taskService.createTaskQuery().processInstanceId(id).singleResult().getId();
+                attachment = taskService.createAttachment(suffix, taskId, id, name, description, n);
+            } else {
+                String pid = taskService.createTaskQuery().taskId(id).singleResult().getProcessInstanceId();
+                attachment = taskService.createAttachment(suffix, id, pid, name, description , n);
+            }
+            attachments.add(attachment);
+        });
+        return attachments;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.dinosaur.web.classroom.controller;
+package com.dinosaur.web.classroom.web.controller;
 
 import com.dinosaur.core.util.DateUtil;
 import com.dinosaur.core.util.FileUtil;
@@ -59,7 +59,7 @@ public class ClassroomController {
         if (null != file){
             String logoPath = null;
             try {
-                logoPath = FileUtil.uploadImg(file,"/themes/default/static/image/");
+                logoPath = FileUtil.upload(file,"/themes/default/static/image/");
                 classroom.setThemePic(logoPath);
             } catch (IOException e) {
                 // TODO 主题图上传待处理

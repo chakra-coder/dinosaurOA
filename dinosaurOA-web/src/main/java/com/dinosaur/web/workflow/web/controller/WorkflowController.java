@@ -84,10 +84,11 @@ public class WorkflowController {
     @RequestMapping(value = "/submit/{objId}",method = RequestMethod.POST)
     public String startup(@PathVariable(value = "objId") String objId, HttpServletRequest request,Model model){
         Map<String,String[]> params = request.getParameterMap();
+        String[] attachments = request.getParameterValues("attachment");
         if (params.isEmpty()){
             return "view/workflow/error";
         }
-        if (htmlFormService.submitForm(HtmlFormService.START,objId,params)){
+        if (htmlFormService.submitForm(HtmlFormService.START,objId,params, attachments)){
             return "view/workflow/success";
         } else {
             try {

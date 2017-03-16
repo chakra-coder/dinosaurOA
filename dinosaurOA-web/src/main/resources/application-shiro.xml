@@ -6,16 +6,19 @@
 
 	<description>plat shiro configuration</description>
 
+	<!-- shiro 的安全管理配置 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="shiroDbRealm"/>
 		<property name="sessionManager" ref="sessionManager"/>
 	</bean>
 
+	<!-- shiro的自定义realm，指定证书匹配器 -->
 	<bean id="shiroDbRealm" class="com.dinosaur.web.system.service.ShiroDbRealm">
 		<property name="userService" ref="userService"/>
 		<property name="credentialsMatcher" ref="credentialsMatcher"/>
 	</bean>
 
+	<!-- 会话管理配置 -->
 	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 		<property name="globalSessionTimeout" value="1800000"/>
 		<property name="deleteInvalidSessions" value="true"/>
@@ -23,19 +26,23 @@
 		<property name="sessionIdCookieEnabled" value="true"/>
 	</bean>
 
+	<!-- 证书匹配器，设定匹配算法等信息 -->
 	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
 		<property name="hashAlgorithmName" value="SHA-1"/>
 		<property name="hashIterations" value="1024"/>
 	</bean>
 
+	<!-- shiro的过滤器设置 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager"/>
 		<property name="loginUrl" value="/login" />
 		<property name="filterChainDefinitions" ref="extensibleFilterChainDefinitions"/>
 	</bean>
 
+	<!-- 保证shiro内部的lifecycle函数执行 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
+	<!-- 过滤路径及权限的加载 -->
 	<bean id="extensibleFilterChainDefinitions" class="com.dinosaur.core.shiro.ExtensibleFilterChainDefinitions">
 		<property name="locations" value="classpath*:/filter-chain.properties"/>
 	</bean>

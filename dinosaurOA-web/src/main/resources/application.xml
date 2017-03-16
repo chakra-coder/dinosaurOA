@@ -11,13 +11,16 @@
 
 	<description>application configuration</description>
 
+	<!-- 加载外部熟悉文件，并且忽略解析不到的属性 -->
 	<context:property-placeholder ignore-unresolvable="true" location="classpath*:/application.properties"/>
 
+	<!-- 组件扫描配置，排除@Controller和@ControllerAdvice注解，因为这部分的注解在spring-mvc中扫描了 -->
 	<context:component-scan base-package="com.dinosaur" >
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
 
+	<!-- 配置数据源 -->
 	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driver}"/>
 		<property name="url" value="${jdbc.url}"/>
@@ -29,6 +32,7 @@
 		<property name="defaultAutoCommit" value="false" />
 	</bean>
 
+	<!-- 配置实体管理工厂类 -->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
@@ -45,10 +49,13 @@
 		<property name="packagesToScan" value="com.dinosaur"/>
 	</bean>
 
+	<!-- JPA的仓库配置，自动扫描Dao -->
 	<jpa:repositories base-package="com.dinosaur" transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory" />
 
+	<!-- 开启基于注解的事物驱动 -->
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
+	<!-- JPA实现适配器 -->
 	<bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 		<property name="showSql" value="true"/>
 		<property name="database" value="MYSQL"/>
@@ -60,9 +67,13 @@
 		</property>
 	</bean>
 
+	<!-- 持久化供应商 -->
 	<bean id="persistenceProvider" class="org.hibernate.jpa.HibernatePersistenceProvider"/>
+
+	<!-- hibernate JPA 方言 -->
 	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
 
+	<!-- 事物管理 -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>

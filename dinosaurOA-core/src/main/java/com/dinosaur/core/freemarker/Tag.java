@@ -3,6 +3,7 @@ package com.dinosaur.core.freemarker;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -23,8 +24,8 @@ public abstract class Tag implements TemplateMethodModelEx{
     @Override
     public Object exec(List arguments) throws TemplateModelException {
         if (!arguments.isEmpty() && arguments != null){
-            String param = (String) arguments.get(0);
-            if(param!=null){
+            String param = arguments.get(0).toString();
+            if(StringUtils.isNotBlank(param)){
                 if(!param.startsWith("{")){
                     param="{"+param+"}";
                 }

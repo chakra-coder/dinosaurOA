@@ -4,30 +4,61 @@
 </css>
 <section class="content-tab">
 	<div class="row">
-		<div class="btn-group col-sm-2 col-sm-offset-1" style="padding: 0 0 5px 2px">
+		<div style="padding: 0 5px 5px 0;float: right">
 			<button type="button" class="btn btn-default" onclick="addCategory()">添加分类</button>
 		</div>
 	</div>
 </section>
 <section class="content">
-	<div class="row">
+	<div class="row border">
 		<div class="col-md-3">
 			<ul id="tree-view" class="ztree border">
 
 			</ul>
 		</div>
-		<div class="col-md-9 border" id="contentBox">
-			<code>
-				@RequestMapping(value = "/add",method = RequestMethod.PUT)
-				@ResponseBody
-				public JsonObject add(Category category,Integer parentId){
-				if (categoryService.create(category,parentId)){
-				return JsonResultUtil.getSuccessJson("添加成功");
-				} else {
-				return JsonResultUtil.getErrorJson("添加失败");
-				}
-				}
-			</code>
+		<div class="col-md-9" id="contentBox">
+			<table class="table table-bordered table-striped table-hover table-condensed">
+				<caption align="center">流程分类表</caption>
+				<thead>
+				<tr>
+					<th>名称</th>
+					<th>英文名</th>
+					<th>描述</th>
+				</tr>
+				</thead>
+				<tbody>
+					<#if groups??&&groups?size gt 0>
+						<#list groups as group>
+							<tr>
+								<td>${group.name}</td>
+								<td>${group.englishName}</td>
+								<td>${group.description!'暂无描述信息'}</td>
+							</tr>
+						</#list>
+						<#else/>
+						<tr>
+							<td colspan="7"><label>没有查询到组信息</label><td/>
+						</tr>
+					</#if>
+				</tbody>
+				<tfoot>
+				<tr>
+					<td colspan="6">
+						<nav aria-label="...">
+							<ul class="pagination">
+								<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+								<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+							</ul>
+						</nav>
+					</td>
+				</tr>
+				</tfoot>
+			</table>
 		</div>
 		<div class="col-md-9 border" style="display: none" id="categoryBox">
 			<form class="form-horizontal" role="form">

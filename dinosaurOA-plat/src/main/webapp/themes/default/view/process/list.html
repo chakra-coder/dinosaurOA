@@ -1,0 +1,147 @@
+<title>流程列表</title>
+<css>
+	<link rel="stylesheet" type="text/css" href="${ctx}/themes/default/static/ztree/css/metroStyle/metroStyle.css">
+</css>
+<section class="content-tab">
+	<div class="row">
+		<div style="padding: 0 5px 5px 0;float: right">
+			<button data-toggle="modal" data-target="#addGroupModal" type="button" class="btn btn-default">添加选中到组</button>
+		</div>
+	</div>
+</section>
+<section class="content container-fluid">
+	<div class="row border">
+		<input type="hidden" value="" id="categoryId">
+		<table class="table table-bordered table-striped table-hover table-condensed">
+			<thead>
+			<tr>
+				<th><input type="checkbox" id="selectAll"></th>
+				<th>名称</th>
+				<th>key</th>
+				<th>版本号</th>
+				<th>描述</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<#if processDefinitions??&&processDefinitions?size gt 0>
+				<#list processDefinitions as processDefinition>
+					<tr>
+						<td><input type="checkbox" value="${processDefinition.id}" name="processDefinitionId" class="processDefinitionSelect"></td>
+						<td>${processDefinition.name!'普通流程'}</td>
+						<td>${processDefinition.key!''}</td>
+						<td>${processDefinition.version!''}</td>
+						<td>${processDefinition.description!'暂无描述信息'}</td>
+						<td>
+							<#if processDefinition.suspensionState == 2>
+								<a class="startup-process option" href="#">激活</a>
+								<#else/>
+								<a class="startup-process option" href="#">挂起</a>
+							</#if>
+						</td>
+					</tr>
+				</#list>
+				<#else/>
+				<tr>
+					<td colspan="7"><label>没有查询到可用流程</label></td>
+				</tr>
+			</#if>
+			</tbody>
+			<tfoot>
+			<tr>
+				<td colspan="7">
+					<nav aria-label="...">
+						<ul class="pagination">
+							<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+							<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+						</ul>
+					</nav>
+				</td>
+			</tr>
+			</tfoot>
+		</table>
+	</div>
+</section>
+<div class="modal fade" id="addGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">选择分类节点</h4>
+			</div>
+			<div class="modal-body content">
+				<ul id="tree-view" class="ztree border">
+
+				</ul>
+				<label id="target">已经选择了：</label>
+			</div>
+			<div class="modal-footer">
+				<button id="createUserSubmit" type="button" class="btn btn-primary" onclick="addGategory()">添加</button>
+				<button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<js>
+	<script type="application/javascript" rel="script" src="${ctx}/themes/default/static/ztree/js/jquery.ztree.all.min.js"></script>
+	<script type="text/javascript">
+
+		function addGategory() {
+			$('#addGroupModal').modal('hide');
+		}
+
+		$(".deploy").click(function (obj) {
+			var id = $(this).parent().parent().find("td").eq(0).html();
+			$.get("${ctx}/modeler/deploy",{modelId:id},
+					function (data) {
+						alert(data.message);
+					}
+			)
+		})
+
+		$("#selectAll").change(function () {
+			var state = (this).checked;
+			$(":checkbox").prop("checked",state);
+		})
+
+		var zNodes =null;
+
+		var setting = {
+			view: {
+				selectedMulti: false
+			},
+			data: {
+				simpleData: {
+					enable: false
+				}
+			},
+			callback: {
+				onClick:zTreeChoseOnClick
+			}
+		};
+
+		$(document).ready(function(){
+			$.getJSON("${ctx}/category/manager/list-json",function (result) {
+				zNodes = result.data;
+				if (null != zNodes){
+					$.fn.zTree.init($("#tree-view"), setting, zNodes);
+				} else {
+					$("#contentBox").hide()
+					$("#categoryBox").show();
+				}
+			})
+		});
+
+		function zTreeChoseOnClick(event, treeId, treeNode) {
+			$("#categoryId").val(treeNode.id);
+			var val = $("#target").html();
+			$("#target").html(val+treeNode.name)
+		}
+
+	</script>
+</js>

@@ -33,7 +33,7 @@ public class FileUtil {
      * @return
      * @throws IOException
      */
-    public static String uploadImg(MultipartFile multipartFile, String subFolder) throws IOException {
+    public static String upload(MultipartFile multipartFile, String subFolder) throws IOException {
         subFolder = subFolder + multipartFile.getOriginalFilename();
         String filePath = ApplicationContextHolder.getServletContext().getRealPath("/")+subFolder;
         File file = new File(filePath);

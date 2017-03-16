@@ -36,7 +36,7 @@ public class FreemarkerConfigAspect {
         FreemarkerConfigAspect.rootMap = rootMap;
     }
 
-    @Before("execution(* com.dinosaur..*..web..*(..))")
+    @Before("execution(* com.dinosaur..*..controller..*(..))")
     public void setConfig(){
         FreeMarkerConfigurer freeMarkerConfigurer = ApplicationContextHolder.getBean("freeMarkerConfigurer");
         try {
